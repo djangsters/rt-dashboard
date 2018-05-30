@@ -30,6 +30,21 @@ def get_history_context():
     for t in tasks:
         by_func[t.func_name].append(t)
 
+    # reconstruct worker-mapping
+    for group in by_func.values():
+        workers = []
+        for task in sorted(group, key=lambda t: t.started_at):
+            workers = [
+                None if not t or t.ended_at <= task.started_at else t
+                for t in workers
+            ]
+            try:
+                task.worker = workers.index(None)
+                workers[task.worker] = task
+            except ValueError:
+                task.worker = len(workers)
+                workers.append(task)
+
     groups = sorted(
         by_func.values(),
         key=lambda group_tasks: (
@@ -41,17 +56,17 @@ def get_history_context():
         for i, group_tasks in enumerate(groups))
 
     collapsed_groups = {k for k, v in by_func.items()
-                        if len(v) / len(tasks) > 0.02}
+                        if len(v) / len(tasks) < 0.02}
 
     rows = []
     for t in tasks:
         keys = {
             'group': t.func_name,
-            # 'subgroup': t['worker'],
+            'subgroup': t.worker,
             'start': t.started_at,
             'title': task_tooltip(t),
         }
-        if (t.func_name in collapsed_groups or
+        if (t.func_name not in collapsed_groups or
                 (t.ended_at - t.started_at) > datetime.timedelta(minutes=1)):
             keys.update({
                 'end': t.ended_at,

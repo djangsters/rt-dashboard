@@ -1,4 +1,5 @@
 import pytest
+
 from redis_tasks.conf import settings as rt_settings
 
 

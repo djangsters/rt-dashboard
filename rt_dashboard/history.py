@@ -1,6 +1,9 @@
 import datetime
 from collections import defaultdict
 
+import pytz
+
+from redis_tasks.conf import settings
 from redis_tasks.registries import failed_task_registry, finished_task_registry
 from redis_tasks.utils import utcnow
 
@@ -22,6 +25,7 @@ def task_tooltip(t):
 
 
 def get_history_context():
+    tz = pytz.timezone(settings.TIMEZONE)
     tasks = finished_task_registry.get_tasks() + failed_task_registry.get_tasks()
     start = utcnow() - datetime.timedelta(days=2)
     tasks = [t for t in tasks if t.started_at > start]
@@ -29,6 +33,12 @@ def get_history_context():
 
     by_func = defaultdict(list)
     for t in tasks:
+        if t.started_at:
+            t.started_at = t.started_at.astimezone(tz)
+        if t.ended_at:
+            t.ended_at = t.ended_at.astimezone(tz)
+        if t.enqueued_at:
+            t.enqueued_at = t.enqueued_at.astimezone(tz)
         by_func[t.func_name].append(t)
 
     # reconstruct worker-mapping

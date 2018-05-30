@@ -7,12 +7,13 @@ from operator import itemgetter
 from threading import local
 
 import jinja2
+from werkzeug import Headers, Response, routing
+
 from redis_tasks import Queue
 from redis_tasks.registries import (
     failed_task_registry, finished_task_registry, worker_registry)
 from redis_tasks.task import Task
 from redis_tasks.worker import Worker
-from werkzeug import Headers, Response, routing
 
 from .history import get_history_context
 

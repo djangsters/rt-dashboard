@@ -1,4 +1,5 @@
 redis-tasks
+pytz
 jinja2
 werkzeug
 

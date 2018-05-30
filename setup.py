@@ -21,7 +21,7 @@ setup(
     zip_safe=False,
     platforms='any',
     python_requires='>=3.6',
-    install_requires=['redis_tasks', 'werkzeug', 'jinja2'],
+    install_requires=['pytz', 'redis_tasks', 'werkzeug', 'jinja2'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         # 'Development Status :: 4 - Beta',

@@ -58,28 +58,14 @@ var api = {
         // Fetch the available queues
         api.getQueues(function(queues) {
             var html = '';
-            var fqEl;
 
             $tbody.empty();
 
             if (queues.length > 0) {
                 $.each(queues, function(i, queue) {
                     var el = template({d: queue}, {variable: 'd'});
-
-                    // Special markup for the failed queue
-                    if (queue.name === '[failed]' && queue.count > 0) {
-                        fqEl = el;
-                        return;
-                    }
-
                     html += el;
                 });
-
-                // Append the failed queue at the end, since it's a special queue
-                if (fqEl !== undefined) {
-                    html += fqEl;
-                }
-
                 $tbody.append(html);
             } else {
                 $tbody.append(noQueuesHtml);

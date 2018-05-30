@@ -24,7 +24,7 @@
             </table>
 
             <script name="queue-row" type="text/template">
-                <tr data-role="queue" <% if (d.name === '[failed]' && d.count > 0) { %> class="failed"<% } %>>
+                <tr data-role="queue">
                     <td><i class="icon-inbox" style="opacity: .5;"></i> <a href="<%= d.url %>"><%= d.name %></a></td>
                     <td class="narrow"><%= d.count %></td>
                 </tr>

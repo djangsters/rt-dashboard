@@ -139,7 +139,7 @@ def pagination_window(total_items, cur_page, per_page=5, window_size=10):
     return result
 
 
-@app.route('/', defaults={'queue_name': '[failed]', 'page': '1'})
+@app.route('/', defaults={'queue_name': '[running]', 'page': '1'})
 @app.route('/<queue_name>', defaults={'page': '1'})
 @app.route('/<queue_name>/<page>')
 def overview(queue_name, page):

@@ -1,7 +1,8 @@
-from collections import defaultdict
-from redis_tasks.registries import finished_task_registry, failed_task_registry
-from redis_tasks.utils import utcnow
 import datetime
+from collections import defaultdict
+
+from redis_tasks.registries import failed_task_registry, finished_task_registry
+from redis_tasks.utils import utcnow
 
 
 def jsdate(d):

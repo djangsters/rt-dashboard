@@ -7,3 +7,4 @@ dump.rdb
 /build
 /.direnv
 ._*
+.pytest_cache

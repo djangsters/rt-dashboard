@@ -14,6 +14,8 @@ from redis_tasks.task import Task
 from redis_tasks.worker import Worker
 from werkzeug import Headers, Response, routing
 
+from .history import get_history_context
+
 
 def jsonify(f):
     @wraps(f)
@@ -153,6 +155,14 @@ def overview(queue_name, page):
         queues=Queue.all(),
         rt_url_prefix=app.url_for('overview'),
         poll_interval=2500,
+    )
+
+
+@app.route('/history')
+def history():
+    return app.render_template(
+        'rt_dashboard/history.html',
+        **get_history_context()
     )
 
 

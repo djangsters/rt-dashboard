@@ -2,6 +2,10 @@
 
 
 {% block content %}
+<ul class="nav nav-tabs" id="header-tabs">
+    <li role="presentation" class="active"><a href="#">Overview</a></li>
+    <li role="presentation"><a href="{{ url_for('history') }}">Task History</a></li>
+</ul>
 <div class="row">
     <div class="span6">
         <div class="section">

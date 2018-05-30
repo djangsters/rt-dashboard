@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>RQ dashboard</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}" type="text/javascript" defer></script>
+  <script src="{{ url_for('static', filename='js/underscore-min.js') }}" type="text/javascript" defer></script>
+  <script src="{{ url_for('static', filename='js/sugar-1.2.1.min.js') }}" type="text/javascript" defer></script>
+  <script src="{{ url_for('static', filename='js/bootstrap-tooltip.js') }}" type="text/javascript" defer></script>
+  <script type="text/javascript">
+  {% block inline_js %}{% endblock %}
+  </script>
+</head>
+
+<body style="background-color: white">
+
+<div class="container">
+
+    {% block content %}{% endblock %}
+
+</div>
+
+
+</body>
+</html>

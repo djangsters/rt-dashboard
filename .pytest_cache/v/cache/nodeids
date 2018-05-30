@@ -1,0 +1,9 @@
+[
+  "tests/test_basics.py::test_dashboard_ok",
+  "tests/test_basics.py::test_queues_list_json",
+  "tests/test_basics.py::test_workers_list_json",
+  "tests/test_basics.py::test_queue_empty",
+  "tests/test_flask.py::test_dashboard_ok",
+  "tests/test_flask.py::test_queues_list_json",
+  "tests/test_flask.py::test_workers_list_json"
+]

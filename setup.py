@@ -4,67 +4,36 @@ from setuptools import setup, find_packages
 
 def get_version():
     basedir = os.path.dirname(__file__)
-    with open(os.path.join(basedir, 'rq_dashboard/version.py')) as f:
-        locals = {}
-        exec(f.read(), locals)
-        return locals['VERSION']
+    with open(os.path.join(basedir, 'rt_dashboard/__init__.py')) as f:
+        version_line = next(l for l in f if l.startswith('VERSION'))
+        return eval(version_line.split('=')[1])
     raise RuntimeError('No version info found.')
 
 
 setup(
-    name='rq-dashboard',
+    name='rt-dashboard',
     version=get_version(),
-    url='https://github.com/eoranged/rq-dashboard',
-    license='BSD',
-    author='Vincent Driessen',
-    author_email='vincent@3rdcloud.com',
-    description='rq-dashboard is a general purpose, lightweight, web interface'
-                ' to monitor your RQ queues, jobs, and workers in realtime.',
-    long_description=__doc__,
+    description='rt-dashboard is a lightweight web interface'
+                ' to monitor your redis_tasks queues, jobs, and workers in realtime.',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     platforms='any',
-    # Be specific about versions in requirements.txt and just name packages
-    # needed during run time here.
-    # See e.g. https://caremad.io/2013/07/setup-vs-requirement/
-    install_requires=['rq>=0.3.8', 'Flask', 'redis', 'arrow'],
+    install_requires=['redis_tasks', 'werkzeug', 'jinja2'],
     entry_points={
         'console_scripts': [
-            'rq-dashboard = rq_dashboard.cli:main'
+            'rt-dashboard = rt_dashboard.__main__:cli'
         ]
     },
     classifiers=[
-        # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        #'Development Status :: 1 - Planning',
-        #'Development Status :: 2 - Pre-Alpha',
-        #'Development Status :: 3 - Alpha',
-        'Development Status :: 4 - Beta',
-        #'Development Status :: 5 - Production/Stable',
-        #'Development Status :: 6 - Mature',
-        #'Development Status :: 7 - Inactive',
-        'Intended Audience :: Developers',
-        'Intended Audience :: End Users/Desktop',
-        'Intended Audience :: Information Technology',
-        'Intended Audience :: Science/Research',
-        'Intended Audience :: System Administrators',
-        'License :: OSI Approved :: BSD License',
+        # 'Development Status :: 1 - Planning',
+        # 'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
+        # 'Development Status :: 4 - Beta',
+        # 'Development Status :: 5 - Production/Stable',
+        # 'Development Status :: 6 - Mature',
+        # 'Development Status :: 7 - Inactive',
         'Operating System :: POSIX',
-        'Operating System :: MacOS',
-        'Operating System :: Unix',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Internet',
-        'Topic :: Scientific/Engineering',
-        'Topic :: System :: Distributed Computing',
-        'Topic :: System :: Systems Administration',
-        'Topic :: System :: Monitoring',
     ]
 )

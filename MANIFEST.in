@@ -1,6 +1,0 @@
-include setup.py
-include README.rst
-include *.rst
-include LICENSE
-recursive-include rq_dashboard/templates *
-recursive-include rq_dashboard/static *

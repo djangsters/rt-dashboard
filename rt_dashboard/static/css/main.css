@@ -77,7 +77,6 @@ table#jobs div.job_id {
 }
 
 table#jobs pre.exc_info {
-    font-size: 80%;
     color: #555;
     margin-left: 24px;
     border-left: 2px solid darkorange;

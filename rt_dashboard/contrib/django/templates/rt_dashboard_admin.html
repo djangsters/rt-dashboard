@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+ 
+<iframe id='rt_iframe' src="{{ iframe_src }}"
+    style="width: 100%; height: 600px; border: 1px solid black; background-color: white; margin-bottom: 50px;">
+</iframe>
+<script>
+function resize_rt_iframe(){
+    var x = document.getElementById('rt_iframe')
+    x.style.width = (x.contentDocument.body.children[0].clientWidth + 50) + "px"
+    x.style.height = (x.contentDocument.body.offsetHeight + 40) + "px"
+}
+document.getElementById('rt_iframe').contentDocument.onload = resize_rt_iframe
+setInterval(resize_rt_iframe, 50)
+</script>
+{% endblock %}

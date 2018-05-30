@@ -1,0 +1,5 @@
+{
+  "tests/test_flask.py::test_dashboard_ok": true,
+  "tests/test_flask.py::test_queues_list_json": true,
+  "tests/test_flask.py::test_workers_list_json": true
+}

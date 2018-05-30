@@ -1,29 +1,19 @@
-{% extends "rq_dashboard/base.html" %}
+{% extends "rt_dashboard/base.html" %}
 
 
 {% block content %}
-<div class="row" id="rq-instances-row">
-    <div class="span12">
-        <div class="section">
-            <h1>RQ Instances</h1>
-            <p class="intro">Select below the RQ instance that you want to observe.</p>
-            <select id="rq-instances">
-            </select>
-        </div>
-    </div>
-</div>
 <div class="row">
     <div class="span6">
         <div class="section">
 
             <h1>Queues</h1>
-            <p class="fixed intro">This list below contains all the registered queues with the number of jobs currently in the queue.  Select a queue from above to view all jobs currently pending on the queue.</p>
+            <p class="fixed intro">This list below contains all the registered queues with the number of tasks currently in the queue.  Select a queue from above to view all tasks currently pending on the queue.</p>
 
             <table id="queues" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Queue</th>
-                        <th class="narrow">Jobs</th>
+                        <th class="narrow">Tasks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,7 +24,7 @@
             </table>
 
             <script name="queue-row" type="text/template">
-                <tr data-role="queue" <% if (d.name === 'failed' && d.count > 0) { %> class="failed"<% } %>>
+                <tr data-role="queue" <% if (d.name === '[failed]' && d.count > 0) { %> class="failed"<% } %>>
                     <td><i class="icon-inbox" style="opacity: .5;"></i> <a href="<%= d.url %>"><%= d.name %></a></td>
                     <td class="narrow"><%= d.count %></td>
                 </tr>
@@ -94,12 +84,22 @@
     <div class="span12">
         <div class="section">
 
-        <h1>Jobs on <strong{% if queue.name == 'failed' %} class="failed"{% endif %}>{{ queue.name }}</strong></h1>
+        <h1>Tasks on <strong{% if queue.name == '[failed]' %} class="failed"{% endif %}>{{ queue.name }}</strong></h1>
         <p class="intro">
-        <a href="{{ url_for('rq_dashboard.empty_queue', queue_name=queue.name) }}" id="empty-btn" class="btn btn-danger btn-small" style="float: right" data-toggle="tooltip" title="Remove all jobs from this queue (<b>destructive</b>)" data-html=true ><i class="icon-trash icon-white"></i> Empty</a>
-        <a href="{{ url_for('rq_dashboard.compact_queue', queue_name=queue.name) }}" id="compact-btn" class="btn btn-small" style="float: right; margin-right: 8px;" data-toggle="tooltip" title="Remove all stale jobs from this queue (non-destructive)" ><i class="icon-resize-small"></i> Compact</a>
-        <a href="{{ url_for('rq_dashboard.requeue_all') }}" id="requeue-all-btn" class="btn btn-small" style="float: right; margin-right: 8px;"><i class="icon-retweet"></i> Requeue All</a>
-        This list below contains all the registered jobs on queue <strong>{{ queue.name }}</strong>, sorted by age (oldest on top).</p>
+        {% if queue.count() %}
+            <a href="{{ url_for('empty_queue', queue_name=queue.name) }}"
+            id="empty-btn" class="btn btn-danger btn-small" style="float: right" data-toggle="tooltip"
+            title="Remove all tasks from this queue (<b>destructive</b>)" data-html=true >
+                <i class="icon-trash icon-white"></i> Empty
+            </a>
+        {% elif not queue.name.startswith('[') %}
+            <a href="{{ url_for('delete_queue', queue_name=queue.name) }}"
+            id="empty-btn" class="btn btn-danger btn-small" style="float: right" data-toggle="tooltip"
+            title="Delete this queue" data-html=true >
+                <i class="icon-trash icon-white"></i> Delete
+            </a>
+        {% endif %}
+        This list below contains all the registered tasks on queue <strong>{{ queue.name }}</strong>, sorted by age (oldest on top).</p>
 
         <table id="jobs" class="table table-bordered">
             <thead>
@@ -121,18 +121,27 @@
                 <td>
                     <i class="icon-file" style="opacity: .5;"></i>
                     <span class="description"><%= $('<div/>').text(d.description).html() %></span>
-                    <% if (d.exc_info) { %>
-                        <span class="origin">from <strong><%= d.origin %></strong></span>
-                    <% } %>
+                    {% if queue.name.startswith('[') %}
+                        <span class="origin">
+                            from <strong><%= d.origin %></strong>
+                            <% if (d.worker) { %>
+                                running on <strong><%= d.worker %></strong>
+                            <% } %>
+                        </span>
+                    {% endif %}
                     <div class="job_id"><%= d.id %></div>
-                    <% if (d.exc_info) { %>
+                    <% if (d.status == 'running') { %>
+                        <span class="end_date">Running since <%= d.started_at %></span>
+                    <% } else if (d.status == 'failed') { %>
                         <span class="end_date">Failed <%= d.ended_at %></span>
-                        <pre class="exc_info"><%= $('<div/>').text(d.exc_info).html() %></pre>
+                        <pre class="exc_info"><%= $('<div/>').text(d.error_message).html() %></pre>
+                    <% } else if (d.status == 'finished') { %>
+                        <span class="end_date">Finished <%= d.ended_at %></span>
                     <% } %>
                 </td>
-                <td><span class="creation_date"><%= d.created_at %></span></td>
+                <td><span class="creation_date"><%= d.enqueued_at %></span></td>
                 <td class="actions narrow">
-                    <% if (d.exc_info) { %>
+                    <% if (d.error_message) { %>
                         <a href="#" data-role="requeue-job-btn" class="btn btn-small"><i class="icon-retweet"></i> Requeue</a>
                     <% } %>
                     <a href="#" data-role="cancel-job-btn" class="btn btn-small"><i class="icon-remove"></i> Cancel</a>
@@ -142,7 +151,7 @@
 
         <script name="no-jobs-row" type="text/template">
             <tr>
-                <td colspan="3">No jobs.</td>
+                <td colspan="3">No tasks.</td>
             </tr>
         </script>
 
@@ -174,19 +183,13 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="span12">
-        <div class="section">
-            <p class="intro"><a href="/" id="home-btn" class="btn btn-small" style="float: left"><i class="icon-arrow-left"></i> Home</a></p>
-        </div>
-    </div>
-</div>
-
 
 {% endblock %}
 
 
 {% block inline_js %}
 var POLL_INTERVAL = {{ poll_interval }};
-{% include "rq_dashboard/dashboard.js" with context %}
+document.addEventListener("DOMContentLoaded", function(){
+    {% include "rt_dashboard/dashboard.js" with context %}
+});
 {% endblock %}

@@ -16,7 +16,7 @@ setup(
     version=get_version(),
     description=('rt-dashboard provides an embeddable web interface for monitoring '
                  'your redis_tasks queues, jobs, and workers in realtime.'),
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     platforms='any',

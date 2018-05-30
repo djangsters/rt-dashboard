@@ -1,23 +1,18 @@
-import os.path
-import hashlib
-import mimetypes
 import json
-from threading import local
+import mimetypes
+import os.path
 from functools import wraps
 from math import ceil
 from operator import itemgetter
-from zlib import adler32
+from threading import local
 
 import jinja2
-from werkzeug import routing, Response, Headers
-from redis import Redis, from_url
-from redis.sentinel import Sentinel
 from redis_tasks import Queue
-from redis_tasks.registries import (failed_task_registry,
-                                    finished_task_registry, worker_registry)
+from redis_tasks.registries import (
+    failed_task_registry, finished_task_registry, worker_registry)
 from redis_tasks.task import Task
 from redis_tasks.worker import Worker
-from six import string_types
+from werkzeug import Headers, Response, routing
 
 
 def jsonify(f):
@@ -165,13 +160,6 @@ def overview(queue_name, page):
 @jsonify
 def cancel_job_view(job_id):
     Task.fetch(job_id).cancel()
-    return dict(status='OK')
-
-
-@app.route('/job/<job_id>/requeue', methods=['POST'])
-@jsonify
-def requeue_job_view(job_id):
-    requeue_job(job_id)
     return dict(status='OK')
 
 

@@ -70,7 +70,7 @@ class WebApp:
             lambda e, v: self.view_functions[e](**v),
             method=method)
         if isinstance(rv, routing.RequestRedirect):
-            rv.new_url = base_path + '/'.join(rv.new_url.split('/')[3:])
+            rv.new_url = base_path + '/' + '/'.join(rv.new_url.split('/')[3:])
             return rv.get_response(None)
         else:
             return rv

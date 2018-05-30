@@ -1,4 +1,6 @@
 redis-tasks
-pytest
-werkzeug
 jinja2
+werkzeug
+
+pytest
+pytest-mock

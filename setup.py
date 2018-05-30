@@ -1,5 +1,6 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 
 def get_version():
@@ -13,21 +14,15 @@ def get_version():
 setup(
     name='rt-dashboard',
     version=get_version(),
-    description='rt-dashboard is a lightweight web interface'
-                ' to monitor your redis_tasks queues, jobs, and workers in realtime.',
-    packages=find_packages(),
+    description=('rt-dashboard provides an embeddable web interface for monitoring '
+                 'your redis_tasks queues, jobs, and workers in realtime.'),
+    packages=find_packages(exclude=['tests']),
     include_package_data=True,
     zip_safe=False,
     platforms='any',
+    python_requires='>=3.6',
     install_requires=['redis_tasks', 'werkzeug', 'jinja2'],
-    entry_points={
-        'console_scripts': [
-            'rt-dashboard = rt_dashboard.__main__:cli'
-        ]
-    },
     classifiers=[
-        # 'Development Status :: 1 - Planning',
-        # 'Development Status :: 2 - Pre-Alpha',
         'Development Status :: 3 - Alpha',
         # 'Development Status :: 4 - Beta',
         # 'Development Status :: 5 - Production/Stable',

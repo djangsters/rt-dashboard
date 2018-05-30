@@ -1,18 +1,12 @@
+sudo: false
 language: python
-python:
-  - "2.6"
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
 services:
-  - redis-server
-matrix:
-  - fast_finish: true
-# command to install dependencies
+  - redis
+python:
+  - "3.6"
 install:
-  - bash -c '[[ $(python -V) == "Python 3.4."* ]] && pip install setuptools==24.0.3 || :'
-  - pip install -r requirements.txt
-# command to run tests
+  - pip install -e .
+  - pip install pytest pytest-mock flake8 flake8-isort
 script:
-  - nosetests -s
+  - pytest
+  - flake8 .

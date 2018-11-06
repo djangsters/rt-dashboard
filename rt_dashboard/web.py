@@ -257,9 +257,7 @@ def list_jobs(queue_name, page):
         )
 
         offset = (current_page - 1) * per_page
-        jobs = sorted(
-            (serialize_job(job) for job in queue.get_tasks(offset, per_page)),
-            key=itemgetter('enqueued_at'), reverse=True)
+        jobs = [serialize_job(job) for job in queue.get_tasks(offset, per_page)]
     else:
         jobs = sorted((
             {**serialize_job(Task.fetch(tid)),

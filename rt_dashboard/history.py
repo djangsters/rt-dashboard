@@ -4,7 +4,8 @@ from collections import defaultdict
 import pytz
 
 from redis_tasks.conf import settings
-from redis_tasks.registries import failed_task_registry, finished_task_registry
+from redis_tasks.registries import (
+    failed_task_registry, finished_long_task_registry, finished_task_registry)
 from redis_tasks.utils import utcnow
 
 
@@ -26,7 +27,11 @@ def task_tooltip(t):
 
 def get_history_context():
     tz = pytz.timezone(settings.TIMEZONE)
-    tasks = finished_task_registry.get_tasks() + failed_task_registry.get_tasks()
+    if settings.USE_LONG_TASK_REGISTRY:
+        finished_tasks = finished_long_task_registry.get_tasks()
+    else:
+        finished_tasks = finished_task_registry.get_tasks()
+    tasks = finished_tasks + failed_task_registry.get_tasks()
     start = utcnow() - datetime.timedelta(days=2)
     tasks = [t for t in tasks if t.started_at > start]
     tasks.sort(key=lambda t: t.started_at)

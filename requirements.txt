@@ -8,7 +8,7 @@ atomicwrites==1.1.5       # via pytest
 attrs==18.1.0             # via pytest
 click==6.7                # via redis-tasks
 croniter==0.3.23          # via redis-tasks
-jinja2==2.10
+jinja2==2.10.1
 markupsafe==1.0           # via jinja2
 more-itertools==4.2.0     # via pytest
 pluggy==0.6.0             # via pytest

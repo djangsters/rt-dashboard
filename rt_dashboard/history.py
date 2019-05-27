@@ -5,7 +5,6 @@ import pytz
 
 from redis_tasks.conf import settings
 from redis_tasks.registries import failed_task_registry, finished_task_registry
-from redis_tasks.utils import utcnow
 
 
 def jsdate(d):
@@ -25,12 +24,21 @@ def task_tooltip(t):
 
 
 def get_history_context():
-    tz = pytz.timezone(settings.TIMEZONE)
-    tasks = finished_task_registry.get_tasks() + failed_task_registry.get_tasks()
-    start = utcnow() - datetime.timedelta(days=2)
-    tasks = [t for t in tasks if t.started_at > start]
+    max_finished_tasks = 5000
+    max_failed_tasks = 1000
+    finished_tasks = finished_task_registry.get_tasks(-max_finished_tasks, -1)
+    failed_tasks = failed_task_registry.get_tasks(-max_failed_tasks, -1)
+    if len(finished_tasks) == max_finished_tasks:
+        failed_tasks = [t for t in failed_tasks
+                        if t.ended_at >= finished_tasks[0].ended_at]
+    if len(failed_tasks) == max_failed_tasks:
+        finished_tasks = [t for t in finished_tasks
+                          if t.ended_at >= failed_tasks[0].ended_at]
+
+    tasks = failed_tasks + finished_tasks
     tasks.sort(key=lambda t: t.started_at)
 
+    tz = pytz.timezone(settings.TIMEZONE)
     by_func = defaultdict(list)
     for t in tasks:
         if t.started_at:

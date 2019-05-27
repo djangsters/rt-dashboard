@@ -222,10 +222,13 @@ def list_jobs(queue_name, page):
     if queue_name != '[running]':
         if queue_name == '[failed]':
             queue = failed_task_registry
+            reverse_order = True
         elif queue_name == '[finished]':
             queue = finished_task_registry
+            reverse_order = True
         else:
             queue = Queue(queue_name)
+            reverse_order = False
 
         current_page = int(page)
         per_page = 20
@@ -256,8 +259,14 @@ def list_jobs(queue_name, page):
             )
         )
 
-        offset = (current_page - 1) * per_page
-        jobs = [serialize_job(job) for job in queue.get_tasks(offset, per_page)]
+        if reverse_order:
+            start = -1 - (current_page - 1) * per_page
+            end = start - per_page
+            jobs = reversed(queue.get_tasks(end, start))
+        else:
+            offset = (current_page - 1) * per_page
+            jobs = queue.get_tasks(offset, per_page)
+        jobs = [serialize_job(job) for job in jobs]
     else:
         jobs = sorted((
             {**serialize_job(Task.fetch(tid)),

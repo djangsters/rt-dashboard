@@ -103,7 +103,14 @@
                 <i class="icon-trash icon-white"></i> Delete
             </a>
         {% endif %}
-        This list below contains all the registered tasks on queue <strong>{{ queue.name }}</strong>, sorted by age (oldest on top).</p>
+        This list below contains all the registered tasks on queue
+        <strong>{{ queue.name }}</strong>, sorted by age
+        {% if queue.name.startswith('[') %}
+            (newest on top).
+        {% else %}
+            (oldest on top).
+        {% endif %}
+        </p>
 
         <table id="jobs" class="table table-bordered">
             <thead>

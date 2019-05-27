@@ -135,15 +135,29 @@
                     {% endif %}
                     <div class="job_id"><%= d.id %></div>
                     <% if (d.status == 'running') { %>
-                        <span class="end_date">Running since <%= d.started_at %></span>
+                        <span class="end_date">Enqueued <%= d.enqueued_at.relative() %></span>
                     <% } else if (d.status == 'failed') { %>
-                        <span class="end_date">Failed <%= d.ended_at %></span>
+                        <span class="end_date">
+                            Enqueued <%= d.enqueued_at.relative() %>,
+                            failed <%= d.ended_at.relative() %>,
+                            ran for <%= (d.ended_at - d.started_at).duration() %>
+                        </span>
                         <pre class="exc_info"><%= $('<div/>').text(d.error_message).html() %></pre>
                     <% } else if (d.status == 'finished') { %>
-                        <span class="end_date">Finished <%= d.ended_at %></span>
+                        <span class="end_date">
+                            Enqueued <%= d.enqueued_at.relative() %>,
+                            finished <%= d.ended_at.relative() %>,
+                            ran for <%= (d.ended_at - d.started_at).duration() %>
+                        </span>
                     <% } %>
                 </td>
-                <td><span class="creation_date"><%= d.enqueued_at %></span></td>
+                <td><span class="creation_date">
+                    <% if (d.status == 'running') { %>
+                        <%= (Date.create() - d.started_at).duration() %>
+                    <% } else { %>
+                        <%= (d.ended_at ? d.ended_at : d.enqueued_at).relative() %>
+                    <% } %>
+                </span></td>
                 <td class="actions narrow">
                     <a href="#" data-role="cancel-job-btn" class="btn btn-small"><i class="icon-remove"></i> Cancel</a>
                 </td>

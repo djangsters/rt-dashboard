@@ -11,12 +11,6 @@ var url_for_jobs = function(param, page) {
     return url;
 };
 
-var toRelative = function(universal_date_string) {
-    var tzo = new Date().getTimezoneOffset();
-    var d = Date.create(universal_date_string).rewind({ minutes: tzo });
-    return d.relative();
-};
-
 var api = {
     getQueues: function(cb) {
         $.getJSON(url_for('queues'), function(data) {
@@ -189,9 +183,12 @@ var api = {
 
         if (jobs.length > 0) {
             $.each(jobs, function(i, job) {
-                job.enqueued_at = toRelative(Date.create(job.enqueued_at));
-                if (job.ended_at !== undefined) {
-                    job.ended_at = toRelative(Date.create(job.ended_at));
+                job.enqueued_at = Date.create(job.enqueued_at);
+                if (job.ended_at) {
+                    job.ended_at = Date.create(job.ended_at);
+                }
+                if (job.started_at) {
+                    job.started_at = Date.create(job.started_at);
                 }
                 html += template({d: job}, {variable: 'd'});
             });

@@ -4,7 +4,11 @@ from collections import defaultdict
 import pytz
 
 from redis_tasks.conf import settings
-from redis_tasks.registries import failed_task_registry, finished_task_registry
+from redis_tasks.registries import (
+    failed_task_registry, finished_task_registry, worker_registry)
+from redis_tasks.task import Task
+from redis_tasks.utils import utcnow
+from redis_tasks.worker import Worker
 
 
 def jsdate(d):
@@ -35,18 +39,19 @@ def get_history_context():
         finished_tasks = [t for t in finished_tasks
                           if t.ended_at >= failed_tasks[0].ended_at]
 
-    tasks = failed_tasks + finished_tasks
+    now = utcnow()
+    running_tasks = []
+    for wid, tid in worker_registry.get_running_tasks().items():
+        task = Task.fetch(tid)
+        task.ended_at = now
+        task.running_on = Worker.fetch(wid).description
+        running_tasks.append(task)
+
+    tasks = failed_tasks + finished_tasks + running_tasks
     tasks.sort(key=lambda t: t.started_at)
 
-    tz = pytz.timezone(settings.TIMEZONE)
     by_func = defaultdict(list)
     for t in tasks:
-        if t.started_at:
-            t.started_at = t.started_at.astimezone(tz)
-        if t.ended_at:
-            t.ended_at = t.ended_at.astimezone(tz)
-        if t.enqueued_at:
-            t.enqueued_at = t.enqueued_at.astimezone(tz)
         by_func[t.func_name].append(t)
 
     # reconstruct worker-mapping
@@ -77,15 +82,24 @@ def get_history_context():
     collapsed_groups = {k for k, v in by_func.items()
                         if len(v) / len(tasks) < 0.02}
 
+    tz = pytz.timezone(settings.TIMEZONE)
     rows = []
     for t in tasks:
+        t.started_at = t.started_at.astimezone(tz)
+        t.ended_at = t.ended_at.astimezone(tz)
         keys = {
             'group': t.func_name,
             'subgroup': t.worker,
             'start': t.started_at,
             'title': task_tooltip(t),
         }
-        if (t.func_name not in collapsed_groups or
+        if hasattr(t, 'running_on'):
+            keys.update({
+                'end': t.ended_at,
+                'type': 'range',
+                'content': t.running_on,
+            })
+        elif (t.func_name not in collapsed_groups or
                 (t.ended_at - t.started_at) > datetime.timedelta(minutes=1)):
             keys.update({
                 'end': t.ended_at,
@@ -98,8 +112,10 @@ def get_history_context():
                 'content': t.started_at.strftime('%H:%M:%S'),
             })
 
-        if t.status != 'finished':
+        if t.status == 'failed':
             keys['style'] = 'border-color: {0}; background-color: {0}'.format('#E69089')
+        elif t.status == 'running':
+            keys['style'] = 'border-color: {0}; background-color: {0}'.format('#D5F6D7')
 
         keys = {k: jsdate(v) if isinstance(v, datetime.datetime) else repr(v)
                 for k, v in keys.items()}

@@ -244,12 +244,12 @@ def list_jobs(queue_name, page):
         prev_page = None
         if current_page > 1:
             prev_page = dict(url=app.url_for(
-                'overview', queue_name=queue_name, page=(current_page - 1)))
+                'overview', queue_name=queue_name, page=1))
 
         next_page = None
         if current_page < last_page:
             next_page = dict(url=app.url_for(
-                'overview', queue_name=queue_name, page=(current_page + 1)))
+                'overview', queue_name=queue_name, page=last_page))
 
         pagination = remove_none_values(
             dict(

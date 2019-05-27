@@ -1,7 +1,8 @@
 from django.apps import AppConfig
 from django.http import HttpResponse, HttpResponseNotFound
-from rt_dashboard.web import app
 from django.shortcuts import render
+
+from rt_dashboard.web import app
 
 
 class Dashboard(AppConfig):

@@ -8,8 +8,8 @@ module.exports = {
     app: ['./javascript/app.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'rt_dashboard/static'),
-    filename: 'js/[name].js',
+    path: path.resolve(__dirname, 'rt_dashboard/static/js'),
+    filename: '[name].js',
     publicPath: '/assets/',
   },
   module: {

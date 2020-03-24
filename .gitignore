@@ -8,3 +8,5 @@ dump.rdb
 /.direnv
 ._*
 .pytest_cache
+**/static
+**/node_modules

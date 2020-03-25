@@ -51,7 +51,7 @@ module.exports = {
   target: 'web',
   devServer: {
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/admin': 'https://172.16.0.5/admin/'
     },
     contentBase: path.join(__dirname, 'rt_dashboard/static'),
     historyApiFallback: true,

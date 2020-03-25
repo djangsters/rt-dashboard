@@ -5,12 +5,11 @@ module.exports = {
   mode: 'production',
   context: path.resolve(__dirname, 'rt_dashboard'),
   entry: {
-    app: ['./javascript/app.js'],
+    app: ['./javascript/app.js']
   },
   output: {
     path: path.resolve(__dirname, 'rt_dashboard/static'),
-    filename: 'js/[name].js',
-    publicPath: '/assets/',
+    filename: 'js/[name].js'
   },
   module: {
     rules: [
@@ -20,17 +19,28 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env', '@babel/preset-react']
-        },
+        }
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader',
-        ],
+          'sass-loader'
+        ]
       },
-    ],
+      {
+        test: /\.(jpg|jpeg|png|gif|svg|eot|ttf|woff|woff2)$/i,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'css/fonts/',
+            publicPath: 'fonts'
+          }
+        }]
+      }
+    ]
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -47,6 +57,6 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     https: false,
-    noInfo: true,
+    noInfo: true
   }
 }

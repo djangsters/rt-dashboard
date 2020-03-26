@@ -77,3 +77,9 @@ export const getWorkers = (cb) => {
  * @returns {Promise<Response>}
  */
 export const getHistory = (init) => fetch(urlFor('history'), init)
+
+export const cancelJob = (jobId, cb) => {
+  // TODO Test!
+  $.getJSON(getApiUrl() + `job/${jobId}/cancel`, cb)
+    .fail(requestErrorHandler)
+}

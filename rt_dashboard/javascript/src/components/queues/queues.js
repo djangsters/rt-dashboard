@@ -27,6 +27,8 @@ export default class Queues extends HTMLElement {
         this.queuesLinks.push(link)
         link.addEventListener('click', this.onQueueClicked)
       })
+      const [first] = data
+      this.sendChangedEvent(first.name, first.count)
     })
   }
 
@@ -43,8 +45,9 @@ export default class Queues extends HTMLElement {
     const td = appendElement('td', row)
     appendElement('i', td, 'fas fa-inbox')
 
-    const link = appendElement('a', td, null, name)
+    const link = appendElement('a', td, 'ml-1', name)
     link.setAttribute('name', name)
+    link.setAttribute('data-count', count)
     link.setAttribute('href', url)
 
     appendElement('td', row, 'narrow', count)
@@ -52,13 +55,20 @@ export default class Queues extends HTMLElement {
 
   onQueueClicked (e) {
     const { target: selectedQueue } = e
-    this.dispatchEvent(
-      new CustomEvent('selectedQueueChange', {
-        detail: { queueName: selectedQueue.name },
-        bubbles: true,
-      }),
+    this.sendChangedEvent(
+      selectedQueue.name,
+      selectedQueue.getAttribute('data-count')
     )
     e.preventDefault()
     return false
+  }
+
+  sendChangedEvent (queueName, count) {
+    this.dispatchEvent(
+      new CustomEvent('selectedQueueChange', {
+        detail: { queueName, count },
+        bubbles: true
+      })
+    )
   }
 }

@@ -1,9 +1,10 @@
 import './styles/main.scss'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import $ from 'jquery'
-import './src/components/layout'
-import './src/components/dashboard'
+import './src/components/layout/layout'
+import './src/components/dashboard/dashboard'
 import './src/components/history'
+import './src/components/queues/queues'
 
 const DOCUMENT_SCRIPT_NAME = 'app.js'
 const API_URL_PARAM_NAME = 'apiUrl'
@@ -30,7 +31,7 @@ const getApiUrl = () => {
   return getParams(DOCUMENT_SCRIPT_NAME)[API_URL_PARAM_NAME]
 }
 
-var url_for = function (name, param) {
+var urlFor = function (name, param) {
   var url = getApiUrl()
   if (name === 'queues') {
     url += 'queues.json'
@@ -42,21 +43,21 @@ var url_for = function (name, param) {
   return url
 }
 
-var url_for_jobs = function (param, page) {
+var urlForJobs = function (param, page) {
   var url = getApiUrl() + 'jobs/' + encodeURIComponent(param) + '/' + page + '.json'
   return url
 }
 
 var api = {
   getQueues: function (cb) {
-    $.getJSON(url_for('queues'), function (data) {
+    $.getJSON(urlFor('queues'), function (data) {
       var queues = data.queues
       cb(queues)
     })
   },
 
-  getJobs: function (queue_name, page, cb) {
-    $.getJSON(url_for_jobs(queue_name, page), function (data) {
+  getJobs: function (queueName, page, cb) {
+    $.getJSON(urlForJobs(queueName, page), function (data) {
       var jobs = data.jobs
       var pagination = data.pagination
       cb(jobs, pagination)
@@ -64,7 +65,7 @@ var api = {
   },
 
   getWorkers: function (cb) {
-    $.getJSON(url_for('workers'), function (data) {
+    $.getJSON(urlFor('workers'), function (data) {
       var workers = data.workers
       cb(workers)
     })

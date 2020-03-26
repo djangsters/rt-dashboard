@@ -1,52 +1,7 @@
-const html = `
 <link href="css/app.css" rel="stylesheet" type="text/css" />
 <div class="row">
   <div class="col-6">
-    <div class="section">
-
-      <h1>Queues</h1>
-      <p class="fixed intro">This list below contains all the registered queues with the number of tasks currently
-        in the queue. Select a queue from above to view all tasks currently pending on the queue.</p>
-
-      <table id="queues" class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Queue</th>
-            <th class="narrow">Tasks</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-role="loading-placeholder">
-            <td colspan="2">Loading...</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr data-role="queue">
-            <td>
-              <i class="fas fa-inbox"></i>
-              <a href="/admin/rt_dashboard/inner/%5Bfailed%5D">[failed]</a>
-            </td>
-            <td class="narrow">0</td>
-          </tr>
-
-          <tr data-role="queue">
-            <td>
-              <i class="fas fa-inbox"></i>
-              <a href="/admin/rt_dashboard/inner/%5Bfinished%5D">[finished]</a>
-            </td>
-            <td class="narrow">0</td>
-          </tr>
-
-          <tr data-role="queue">
-            <td>
-              <i class="fas fa-inbox"></i>
-              <a href="/admin/rt_dashboard/inner/">[running]</a>
-            </td>
-            <td class="narrow">0</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <queues-component></queues-component>
   </div>
 
   <div class="col-6">
@@ -94,8 +49,8 @@ const html = `
 <div class="row">
   <div class="span12">
     <div class="section">
-
-      <h1>Tasks on <strong{% if queue.name == '[failed]' %} class="failed" {% endif %}>{{ queue.name }}</strong>
+      <!-- <strong{% if queue.name == '[failed]' %} class="failed" {% endif %} >{{ queue.name }}</strong>-->
+      <h1>Tasks on <strong>{{ queue.name }}</strong>
       </h1>
       <p class="intro">
         <!-- {% if queue.count() %} -->
@@ -168,16 +123,3 @@ const html = `
 
     </div>
   </div>
-`
-
-class Dashboard extends HTMLElement {
-  constructor () {
-    super()
-    const template = document.createElement('template')
-    template.innerHTML = html
-
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
-  }
-}
-customElements.define('dashboard-component', Dashboard)

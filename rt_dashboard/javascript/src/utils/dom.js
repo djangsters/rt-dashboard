@@ -9,3 +9,11 @@ export const appendElement = (tag, parent, classes = '', innerHtml = null) => {
   parent.appendChild(element)
   return element
 }
+
+export const loadTemplate = (element, html) => {
+  const template = document.createElement('template')
+  template.innerHTML = html
+
+  element.attachShadow({ mode: 'open' })
+  element.shadowRoot.appendChild(template.content.cloneNode(true))
+}

@@ -1,5 +1,5 @@
 import html from './queues.html'
-import { appendElement } from '../../utils/dom'
+import { appendElement, loadTemplate } from '../../utils/dom'
 
 const rowTemplate = `
 <tr data-role="queue">
@@ -14,11 +14,8 @@ const rowTemplate = `
 class Queues extends HTMLElement {
   constructor () {
     super()
-    const template = document.createElement('template')
-    template.innerHTML = html
 
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    loadTemplate(this, html)
 
     this.onQueueClicked = this.onQueueClicked.bind(this)
   }

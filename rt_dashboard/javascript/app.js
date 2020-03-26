@@ -1,10 +1,11 @@
 import './styles/main.scss'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import $ from 'jquery'
-import './src/components/layout/layout'
+import './src/components/rt-dashboard/rt-dashboard'
 import './src/components/dashboard/dashboard'
 import './src/components/history'
 import './src/components/queues/queues'
+import './src/components/workers/workers'
 
 const DOCUMENT_SCRIPT_NAME = 'app.js'
 const API_URL_PARAM_NAME = 'apiUrl'

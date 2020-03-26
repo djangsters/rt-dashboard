@@ -17,3 +17,22 @@ export const loadTemplate = (element, html) => {
   element.attachShadow({ mode: 'open' })
   element.shadowRoot.appendChild(template.content.cloneNode(true))
 }
+
+export const mapDataToElements = (table, data, itemMapper) => {
+  Array.from(table.childNodes).forEach((el) => {
+    table.removeChild(el)
+  })
+
+  data.forEach(item => itemMapper(table, item))
+}
+
+export const appendNoDataRow = (parent, text, colspan) => {
+  Array.from(parent.childNodes).forEach((el) => {
+    parent.removeChild(el)
+  })
+
+  const row = appendElement('tr', parent)
+  const td = appendElement('td', row)
+  td.innerHTML = text
+  td.setAttribute('colspan', colspan)
+}

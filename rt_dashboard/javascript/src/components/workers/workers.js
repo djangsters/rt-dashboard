@@ -7,10 +7,10 @@ import {
 } from '../../utils/dom'
 import { getWorkers } from '../../api'
 
-class Workers extends HTMLElement {
+export default class Workers extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this.attachShadow({open: true}), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
 
     this.onWorkersBtnClick = this.onWorkersBtnClick.bind(this)
   }

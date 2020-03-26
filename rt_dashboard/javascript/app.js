@@ -1,7 +1,9 @@
 import './styles/main.scss'
 import 'bootstrap/dist/js/bootstrap.min.js'
-import './src/components/rt-dashboard/rt-dashboard'
-import './src/components/dashboard/dashboard'
+
+// load web components
+import './src/components/dashboard'
 import './src/components/history'
-import './src/components/queues/queues'
-import './src/components/workers/workers'
+import './src/components/queues'
+import './src/components/rt-dashboard'
+import './src/components/workers'

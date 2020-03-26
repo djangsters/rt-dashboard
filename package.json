@@ -55,5 +55,11 @@
   },
   "devDependencies": {
     "webpack-cli": "^3.3.11"
-  }
+  },
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss",
+    "./rt_dashboard/javascript/src/app.js",
+    "./rt_dashboard/javascript/src/components/*/index.js"
+  ]
 }

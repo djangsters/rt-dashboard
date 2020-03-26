@@ -1,4 +1,4 @@
-import html from './rt-dashboard.html'
+import templateHtml from './rt-dashboard.html'
 import { loadTemplate } from '../../utils/dom'
 
 const DASHBOARD = 'dashboard-component'
@@ -7,7 +7,7 @@ const HISTORY = 'history-component'
 class RtDashboard extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this, html)
+    loadTemplate(this.attachShadow({open: true}), templateHtml)
 
     this.tabClicked = this.tabClicked.bind(this)
   }
@@ -40,4 +40,3 @@ class RtDashboard extends HTMLElement {
     this.panels.find(p => p.tagName.toLowerCase() === activeLink.name).hidden = false
   }
 }
-window.customElements.define('rt-dashboard', RtDashboard)

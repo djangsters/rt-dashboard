@@ -1,4 +1,4 @@
-import html from './workers.html'
+import templateHtml from './workers.html'
 import {
   loadTemplate,
   mapDataToElements,
@@ -10,7 +10,7 @@ import { getWorkers } from '../../api'
 class Workers extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this, html)
+    loadTemplate(this.attachShadow({open: true}), templateHtml)
 
     this.onWorkersBtnClick = this.onWorkersBtnClick.bind(this)
   }
@@ -61,4 +61,3 @@ class Workers extends HTMLElement {
     }
   }
 }
-window.customElements.define('workers-component', Workers)

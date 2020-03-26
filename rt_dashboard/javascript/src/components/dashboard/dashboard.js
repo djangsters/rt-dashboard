@@ -1,10 +1,11 @@
-import html from './dashboard.html'
+import templateHtml from './dashboard.html'
 import { loadTemplate } from '../../utils/dom'
 
 class Dashboard extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this, html)
+
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
 
     this.selectedQueueChange = this.selectedQueueChange.bind(this)
   }
@@ -23,4 +24,3 @@ class Dashboard extends HTMLElement {
     console.log(queueName)
   }
 }
-window.customElements.define('dashboard-component', Dashboard)

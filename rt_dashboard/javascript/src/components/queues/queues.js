@@ -1,4 +1,4 @@
-import html from './queues.html'
+import templateHtml from './queues.html'
 import { appendElement, loadTemplate, mapDataToElements, appendNoDataRow } from '../../utils/dom'
 import { getQueues } from '../../api'
 
@@ -6,7 +6,7 @@ class Queues extends HTMLElement {
   constructor () {
     super()
 
-    loadTemplate(this, html)
+    loadTemplate(this.attachShadow({open: true}), templateHtml)
 
     this.onQueueClicked = this.onQueueClicked.bind(this)
   }
@@ -62,4 +62,3 @@ class Queues extends HTMLElement {
     return false
   }
 }
-window.customElements.define('queues-component', Queues)

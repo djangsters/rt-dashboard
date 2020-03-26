@@ -1,13 +1,5 @@
-const html = `
-<link href="css/app.css" rel="stylesheet" type="text/css" />
-<div class="container">
-  <ul class="nav nav-tabs" id="header-tabs">
-    <li role="presentation" class="nav-item"><a class="nav-link active" name="dashboard-component" href="#">Overview</a></li>
-    <li role="presentation" class="nav-item"><a class="nav-link" href="#" name="history-component">Task History</a></li>
-  </ul>
-  <dashboard-component></dashboard-component>
-  <history-component></history-component>
-</div>`
+import html from './layout.html'
+
 const DASHBOARD = 'dashboard-component'
 const HISTORY = 'history-component'
 
@@ -37,6 +29,12 @@ class LayoutWrapper extends HTMLElement {
     })
   }
 
+  disconnectedCallback () {
+    this.navLinks.forEach(link => {
+      link.removeEventListener('click', this.tabClicked)
+    })
+  }
+
   tabClicked (e) {
     const { target: activeLink } = e
     this.navLinks.forEach(l => { l.classList.remove('active') })
@@ -45,4 +43,4 @@ class LayoutWrapper extends HTMLElement {
     this.panels.find(p => p.tagName.toLowerCase() === activeLink.name).hidden = false
   }
 }
-customElements.define('layout-wrapper', LayoutWrapper)
+window.customElements.define('layout-wrapper', LayoutWrapper)

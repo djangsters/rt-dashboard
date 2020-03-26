@@ -167,6 +167,12 @@ def history():
     )
 
 
+@app.routte('/history.json')
+@jsonify
+def history_json():
+    return get_history_context()
+
+
 @app.route('/job/<job_id>/cancel', methods=['POST'])
 @jsonify
 def cancel_job_view(job_id):

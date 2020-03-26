@@ -66,6 +66,29 @@ module.exports = {
   devtool: 'source-map',
   target: 'web',
   devServer: {
+    before: (app, server, compiler) => {
+      app.get('/admin/rt_dashboard/inner/queues.json', (req, res) => {
+        res.json({
+          queues: [
+            { name: '[test]', count: 0, url: '/admin/rt_dashboard/inner/test' },
+            { name: '[running]', count: 1, url: '/admin/rt_dashboard/inner/running' }
+          ]
+        })
+      })
+      app.get('/admin/rt_dashboard/inner/workers.json', (req, res) => {
+        res.json({
+          workers: [{
+            state: 'pause',
+            name: 'v-yf.2193',
+            queues: ['default', 'low_prio_queue']
+          }, {
+            state: 'busy',
+            name: 'v-yf.2192',
+            queues: ['empty', 'high_prio_queue']
+          }]
+        })
+      })
+    },
     proxy: {
       '/admin': 'https://172.16.0.5/admin/'
     },

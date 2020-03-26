@@ -1,13 +1,10 @@
 import html from './dashboard.html'
+import { loadTemplate } from '../../utils/dom'
 
 class Dashboard extends HTMLElement {
   constructor () {
     super()
-    const template = document.createElement('template')
-    template.innerHTML = html
-
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    loadTemplate(this, html)
 
     this.selectedQueueChange = this.selectedQueueChange.bind(this)
   }

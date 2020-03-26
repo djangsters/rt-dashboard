@@ -1,16 +1,13 @@
-import html from './layout.html'
+import html from './rt-dashboard.html'
+import { loadTemplate } from '../../utils/dom'
 
 const DASHBOARD = 'dashboard-component'
 const HISTORY = 'history-component'
 
-class LayoutWrapper extends HTMLElement {
+class RtDashboard extends HTMLElement {
   constructor () {
     super()
-    const template = document.createElement('template')
-    template.innerHTML = html
-
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    loadTemplate(this, html)
 
     this.tabClicked = this.tabClicked.bind(this)
   }
@@ -43,4 +40,4 @@ class LayoutWrapper extends HTMLElement {
     this.panels.find(p => p.tagName.toLowerCase() === activeLink.name).hidden = false
   }
 }
-window.customElements.define('layout-wrapper', LayoutWrapper)
+window.customElements.define('rt-dashboard', RtDashboard)

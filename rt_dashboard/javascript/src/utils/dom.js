@@ -10,12 +10,11 @@ export const appendElement = (tag, parent, classes = '', innerHtml = null) => {
   return element
 }
 
-export const loadTemplate = (element, html) => {
+export const loadTemplate = (parent, templateHtml) => {
   const template = document.createElement('template')
-  template.innerHTML = html
+  template.innerHTML = templateHtml
 
-  element.attachShadow({ mode: 'open' })
-  element.shadowRoot.appendChild(template.content.cloneNode(true))
+  parent.appendChild(template.content.cloneNode(true))
 }
 
 export const mapDataToElements = (table, data, itemMapper) => {

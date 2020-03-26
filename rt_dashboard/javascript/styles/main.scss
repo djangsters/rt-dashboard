@@ -62,8 +62,11 @@ table#queues {
 }
 
 table#jobs td.actions a {
-  margin-right: 8px;
-  margin-bottom: 8px;
+  font-size: 80%;
+}
+
+table#jobs td.actions {
+  width: auto;
 }
 
 table#jobs span.description {

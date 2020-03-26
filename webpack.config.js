@@ -22,6 +22,22 @@ module.exports = {
         }
       },
       {
+        test: /\.html$/i,
+        loader: 'html-loader',
+        options: {
+          attributes: {
+            list: [{
+              tag: 'link',
+              attribute: 'href',
+              type: 'src',
+              filter: (tag, attribute, attributes) => {
+                return false
+              }
+            }]
+          }
+        }
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [
           MiniCssExtractPlugin.loader,

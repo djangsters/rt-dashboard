@@ -2,11 +2,11 @@ import templateHtml from './queues.html'
 import { appendElement, loadTemplate, mapDataToElements, appendNoDataRow } from '../../utils/dom'
 import { getQueues } from '../../api'
 
-class Queues extends HTMLElement {
+export default class Queues extends HTMLElement {
   constructor () {
     super()
 
-    loadTemplate(this.attachShadow({open: true}), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
 
     this.onQueueClicked = this.onQueueClicked.bind(this)
   }

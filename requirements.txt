@@ -23,7 +23,7 @@ pyflakes==2.1.1           # via flake8
 pytest-mock==1.10.0       # via -r requirements.in
 pytest==3.6.0             # via -r requirements.in, pytest-mock
 python-dateutil==2.7.3    # via croniter
-pytz==2018.4              # via -r requirements.in, redis-tasks
+pytz==2019.3              # via -r requirements.in, redis-tasks
 redis-tasks==0.0.3        # via -r requirements.in
 redis==2.10.6             # via redis-tasks
 six==1.11.0               # via more-itertools, pytest, python-dateutil

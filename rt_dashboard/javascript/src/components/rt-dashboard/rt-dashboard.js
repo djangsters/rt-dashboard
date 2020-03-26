@@ -4,10 +4,10 @@ import { loadTemplate } from '../../utils/dom'
 const DASHBOARD = 'dashboard-component'
 const HISTORY = 'history-component'
 
-class RtDashboard extends HTMLElement {
+export default class RtDashboard extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this.attachShadow({open: true}), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
 
     this.tabClicked = this.tabClicked.bind(this)
   }

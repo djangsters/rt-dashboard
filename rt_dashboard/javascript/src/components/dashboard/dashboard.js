@@ -1,7 +1,7 @@
 import templateHtml from './dashboard.html'
 import { loadTemplate } from '../../utils/dom'
 
-class Dashboard extends HTMLElement {
+export default class Dashboard extends HTMLElement {
   constructor () {
     super()
 

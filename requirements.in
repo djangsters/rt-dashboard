@@ -5,3 +5,6 @@ werkzeug
 
 pytest
 pytest-mock
+
+flake8
+flake8-isort

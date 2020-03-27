@@ -8,10 +8,45 @@ paths:
 #  /{queue_name}:
 #  /{queue_name}/{page}:
 #  /history:
-#  /queues.json:
-  /queue/{queue_name}/delete:
+  /history.json:
+    get:
+      summary: List history entries
+      responses:
+        200:
+          description: |
+            Return object containting list of rows and groups of history entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rows:
+                    type: array
+                  groups:
+                    type: array
+  /job/{job_id}/cancel:
     post:
       summary: Cancel the job with the specified job_id
+      parameters:
+        - name: job_id
+          in: path
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        200:
+          description: Request processed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /queue/{queue_name}/empty:
+    post:
+      summary: Empty the queue with the specified queue_name
       parameters:
         - name: queue_name
           in: path
@@ -28,6 +63,105 @@ paths:
                 properties:
                   status:
                     type: string
+  /queue/{queue_name}/delete:
+    post:
+      summary: Delete the queue with the specified queue_name
+      parameters:
+        - name: queue_name
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Request processed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /queues.json:
+    get:
+      summary: List Queues and their state
+      responses:
+        200:
+          description: |
+            Return object containting list of queues and theis states
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queues:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        count:
+                          type: integer
+                        url:
+                          type: string
+                          format: url
+  /jobs/{queue_name}/{page}.json:
+    get:
+      summary: List workers and their state
+      parameters:
+        - name: queue_name
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: page
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: |
+            Return object containting list of worker states in workers property 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  jobs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        status:
+                          type: string
+                        enqueued_at:
+                          type: string
+                          format: date-time
+                        started_at:
+                          type: string
+                          format: date-time
+                        origin:
+                          type: string
+                        error_message:
+                          type: string
+                        description:
+                          type: string
+                  pagination:
+                    type: object
+                    properties:
+                      pages_in_window:
+                        type: integer
+                      next_page:
+                        type: integer
+                      prev_page:
+                        type: integer
   /workers.json:
     get:
       summary: List workers and their state
@@ -53,27 +187,3 @@ paths:
                             type: string
                         state:
                           type: string
-                
-
-#  /jobs/{queue_name}/{page}.json:
-  /job/{job_id}/cancel:
-    post:
-      summary: Cancel the job with the specified job_id
-      parameters:
-        - name: job_id
-          in: path
-          schema:
-            type: string
-            format: uuid
-          required: true
-      responses:
-        200:
-          description: Request processed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-#  /history.json:

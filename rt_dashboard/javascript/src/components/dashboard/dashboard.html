@@ -1,0 +1,88 @@
+<link href="css/app.css" rel="stylesheet" type="text/css" />
+<div class="row">
+  <div class="col-6">
+    <queues-component></queues-component>
+  </div>
+
+  <div class="col-6">
+    <workers-component></workers-component>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <div class="section">
+      <!-- <strong{% if queue.name == '[failed]' %} class="failed" {% endif %} >{{ queue.name }}</strong>-->
+      <h1>Tasks on <strong>{{ queue.name }}</strong>
+      </h1>
+      <p class="intro">
+        <!-- {% if queue.count() %} -->
+        <!-- <a href="{{ url_for('empty_queue', queue_name=queue.name) }}" id="empty-btn"
+          class="btn btn-danger btn-small" style="float: right" data-toggle="tooltip"
+          title="Remove all tasks from this queue (<b>destructive</b>)" data-html=true>
+          <i class="fas fa-trash"></i> Empty
+        </a> -->
+        <!-- {% elif not queue.name.startswith('[') %} -->
+        <a href="{{ url_for('delete_queue', queue_name=queue.name) }}" id="empty-btn"
+          class="btn btn-danger btn-small" style="float: right" data-toggle="tooltip" title="Delete this queue"
+          data-html=true>
+          <i class="fas fa-trash"></i> Delete
+        </a>
+        <!-- {% endif %} -->
+        This list below contains all the registered tasks on queue
+        <strong>{{ queue.name }}</strong>, sorted by age
+        <!-- {% if queue.name.startswith('[') %} -->
+        (newest on top).
+        <!-- {% else %} -->
+        <!-- (oldest on top).
+        {% endif %} -->
+      </p>
+
+      <table id="jobs" class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th class="narrow">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-role="loading-placeholder">
+            <td colspan="2">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <script name="no-jobs-row" type="text/template">
+          <tr>
+              <td colspan="3">No tasks.</td>
+          </tr>
+      </script>
+
+      <div id="page-selection" class="pagination pagination-centered">
+        <ul>
+        </ul>
+      </div>
+
+      <script name="no-previous-page-link" type="text/template">
+          <li class="disabled" ><a href="#" >&laquo;</a></li>
+      </script>
+
+      <script name="previous-page-link" type="text/template">
+          <li><a href="<%= url %>" >&laquo;</a></li>
+      </script>
+
+      <script name="page-link" type="text/template">
+          <li><a href="<%= url %>" ><%= number %></a></li>
+      </script>
+
+      <script name="next-page-link" type="text/template">
+          <li><a href="<%= url %>" >&raquo;</a></li>
+      </script>
+
+      <script name="no-next-page-link" type="text/template">
+          <li class="disabled" ><a href="#" >&raquo;</a></li>
+      </script>
+
+    </div>
+  </div>

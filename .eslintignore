@@ -1,3 +1,4 @@
 !.*.js
 **/*.min.js
 node_modules/**
+rt_dashboard/templates/rt_dashboard/dashboard.js

@@ -46,11 +46,20 @@ module.exports = {
       })
     }
     app.get('/admin/rt_dashboard/inner/jobs/%5Btest%5D/1.json',
-      getJobsHandler({ pages_in_window: 2, next_page: 2, prev_page: null }))
+      getJobsHandler({
+        pages_in_window: [{ number: 1 }, { number: 2 }],
+        next_page: { url: '/admin/rt_dashboard/inner/%5Btest%5D/5' }
+      }))
     app.get('/admin/rt_dashboard/inner/jobs/%5Btest%5D/2.json',
-      getJobsHandler({ pages_in_window: 2, next_page: null, prev_page: 1 }))
+      getJobsHandler({
+        pages_in_window: [{ number: 1 }, { number: 2 }],
+        prev_page: { url: '/admin/rt_dashboard/inner/%5Btest%5D/1' }
+      }))
     app.get('/admin/rt_dashboard/inner/jobs/%5Brunning%5D/1.json',
-      getJobsHandler({ pages_in_window: 2, next_page: null, prev_page: 1 }))
+      getJobsHandler({
+        pages_in_window: [{ number: 1 }, { number: 2 }],
+        next_page: { url: '/admin/rt_dashboard/inner/%5Btest%5D/5' }
+      }))
     app.get('/admin/rt_dashboard/inner/jobs/default/1.json', (req, res) => {
       res.json({
         jobs: [

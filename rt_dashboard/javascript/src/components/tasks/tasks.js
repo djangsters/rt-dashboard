@@ -5,13 +5,18 @@ import {
   appendElement,
   appendNoDataRow,
   mapDataToElements,
-  removeChildNode
+  removeChildNodes
 } from '../../utils/dom'
 import { getJobs, cancelJob, deleteQueue, emptyQueue } from '../../api'
 
 export default class Tasks extends HTMLElement {
-  static get observedAttributes () {
-    return ['queue-info']
+  get queueInfo() {
+    return this.queueInfo_
+  }
+
+  set queueInfo(val) {
+    this.queueInfo_ = val
+    this.queueInfoChanged(val)
   }
 
   constructor () {
@@ -21,6 +26,7 @@ export default class Tasks extends HTMLElement {
     this.mapToRow = this.mapToRow.bind(this)
     this.onEmptyClicked = this.onEmptyClicked.bind(this)
     this.onDeleteClicked = this.onDeleteClicked.bind(this)
+    this.selectedPageChange = this.selectedPageChange.bind(this)
   }
 
   connectedCallback () {
@@ -28,6 +34,9 @@ export default class Tasks extends HTMLElement {
     this.deleteBtn = this.shadowRoot.querySelector('p.intro #delete-btn')
     this.emptyBtn.addEventListener('click', this.onEmptyClicked)
     this.deleteBtn.addEventListener('click', this.onDeleteClicked)
+
+    const pagerComponent = this.shadowRoot.querySelector('pager-component')
+    pagerComponent.addEventListener('selectedPageChanged', this.selectedPageChange)
   }
 
   disconnectedCallback () {
@@ -35,10 +44,16 @@ export default class Tasks extends HTMLElement {
     this.removeEventListener.addEventListener('click', this.onDeleteClicked)
 
     this.removeTableClickListeners()
+
+    const pagerComponent = this.shadowRoot.querySelector('pager-component')
+    pagerComponent.removeEventListener('selectedPageChanged', this.selectedPageChange)
   }
 
-  attributeChangedCallback () {
-    const queueInfo = JSON.parse(this.getAttribute('queue-info'))
+  selectedPageChange ({ detail: { number } }) {
+    this.loadQueueTasks(this.queueInfo_.queue, number)
+  }
+
+  queueInfoChanged (queueInfo) {
     const { queue, count } = queueInfo
 
     this.queue = queue
@@ -85,14 +100,14 @@ export default class Tasks extends HTMLElement {
     }
   }
 
-  loadQueueTasks (queue) {
+  loadQueueTasks (queue, page = 1) {
     this.removeTableClickListeners()
 
     const tbody = this.shadowRoot.querySelector('tbody')
-    removeChildNode(tbody)
+    removeChildNodes(tbody)
     appendNoDataRow(tbody, 'Loading...', 3)
 
-    getJobs(queue, 1, (jobs, pagination) => {
+    getJobs(queue, page, (jobs, pagination) => {
       if (!jobs || jobs.length <= 0) {
         appendNoDataRow(tbody, 'No jobs.', 3)
         return
@@ -104,6 +119,7 @@ export default class Tasks extends HTMLElement {
         this.cancelLinks.push(link)
         link.addEventListener('click', this.onCancelClicked)
       })
+      this.updatePager(pagination)
     })
   }
 
@@ -197,5 +213,10 @@ export default class Tasks extends HTMLElement {
       appendElement('span', td, 'end_date',
         `Enqueued ${Date(enqueued).relative()}, finished ${Date(ended).relative()}, ran for ${Number(ended - started).duration()}`)
     }
+  }
+
+  updatePager (pagination) {
+    const pagerComponent = this.shadowRoot.querySelector('pager-component')
+    pagerComponent.pagination = pagination
   }
 }

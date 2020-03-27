@@ -55,8 +55,8 @@ export default class Queues extends HTMLElement {
     this.dispatchEvent(
       new CustomEvent('selectedQueueChange', {
         detail: { queueName: selectedQueue.name },
-        bubbles: true
-      })
+        bubbles: true,
+      }),
     )
     e.preventDefault()
     return false

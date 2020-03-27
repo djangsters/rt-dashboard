@@ -3,7 +3,7 @@ import {
   loadTemplate,
   mapDataToElements,
   appendElement,
-  appendNoDataRow
+  appendNoDataRow,
 } from '../../utils/dom'
 import { getWorkers } from '../../api'
 

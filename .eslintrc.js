@@ -1,16 +1,24 @@
 module.exports = {
-  "env": {
-    "es6": true
+  extends: [
+    'standard',
+  ],
+
+  parserOptions: {
+    sourceType: 'module',
   },
-  "extends": ["eslint:recommended", "standard"],
-  "parserOptions": {
-    "ecmaFeatures": {
-        "jsx": true
-    },
-    "sourceType": "module"
+
+  env: {
+    browser: true,
+    es2020: true,
   },
-  "rules": {
-    "indent": ["error", 2],
-    "linebreak-style": ["error", "unix"]
-  }
-};
+
+  rules: {
+    'comma-dangle': ['error', {
+      arrays: 'always-multiline',
+      objects: 'always-multiline',
+      imports: 'always-multiline',
+      exports: 'always-multiline',
+      functions: 'always-multiline',
+    }],
+  },
+}

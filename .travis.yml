@@ -6,9 +6,15 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+node_js:
+  - "10"
+  - "12"
+  - latest
 install:
   - pip install -r requirements.txt
   - pip install -e .
+  - yarn
 script:
   - pytest
   - flake8 .
+  - yarn lint

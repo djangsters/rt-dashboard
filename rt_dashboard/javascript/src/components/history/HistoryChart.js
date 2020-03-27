@@ -12,13 +12,30 @@ export default class HistoryChart extends HTMLElement {
 
     loadTemplate(this.shadowRoot, templateHtml)
 
-    const root = this.shadowRoot.getElementById('chart-container')
+    this._root = this.shadowRoot.getElementById('chart-container')
+  }
 
-    var eventTypes = {}
-    var eventList = [
-      ...data
+  zoomIn () {
+    this._gantt.zoomInOut('in')
+  }
+
+  zoomOut () {
+    this._gantt.zoomInOut('out')
+  }
+
+  panLeft () {
+    this._gantt.panView('left', 0.30)
+  }
+
+  panRight () {
+    this._gantt.panView('right', 0.30)
+  }
+
+  setHistoryData ({rows, groups}) {
+    const eventTypes = {}
+    const eventList = rows
         .map((item) => {
-          const key = item.task
+          const key = `${item.group}-${item.subgroup}`
           if (!(key in eventTypes)) {
             eventTypes[key] = true
           }
@@ -29,8 +46,6 @@ export default class HistoryChart extends HTMLElement {
             toolTipHTML: item.title
           }
         })
-    ];
-    eventTypes = Object.keys(eventTypes)
 
     const eventStyleClassList = [
       "blue-bar",
@@ -41,10 +56,10 @@ export default class HistoryChart extends HTMLElement {
     ]
 
     const ganttConfig = {
-      root,
+      root: this._root,
       eventSettings: {
         eventList,
-        eventTypes,
+        eventTypes: Object.keys(eventTypes),
         eventStyleClassList,
         enableToolTips: true
       },
@@ -70,22 +85,10 @@ export default class HistoryChart extends HTMLElement {
       }
     }
 
-    this._gantt = gantt(ganttConfig);
-  }
-
-  zoomIn () {
-    this._gantt.zoomInOut('in')
-  }
-
-  zoomOut () {
-    this._gantt.zoomInOut('out')
-  }
-
-  panLeft () {
-    this._gantt.panView('left', 0.30)
-  }
-
-  panRight () {
-    this._gantt.panView('right', 0.30)
+    if (this._gantt) {
+      this._gantt.redraw()
+    } else {
+      this._gantt = gantt(ganttConfig);
+    }
   }
 }

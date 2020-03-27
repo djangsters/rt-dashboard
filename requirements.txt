@@ -20,7 +20,7 @@ pluggy==0.6.0             # via pytest
 py==1.5.3                 # via pytest
 pycodestyle==2.5.0        # via flake8
 pyflakes==2.1.1           # via flake8
-pytest-mock==1.10.0       # via -r requirements.in
+pytest-mock==2.0.0        # via -r requirements.in
 pytest==3.6.0             # via -r requirements.in, pytest-mock
 python-dateutil==2.7.3    # via croniter
 pytz==2019.3              # via -r requirements.in, redis-tasks

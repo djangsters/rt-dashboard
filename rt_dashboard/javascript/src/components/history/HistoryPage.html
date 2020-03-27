@@ -1,13 +1,19 @@
-<ul class="nav">
-  <li class="nav-item">
-    <button id="zoom-in" type="button" aria-label="Zoom in">
+<link href="css/app.css" rel="stylesheet" type="text/css" />
+<style>
+  rt-history-chart { display: block }
+</style>
+
+<div class="btn-toolbar" role="toolbar" aria-label="Chart controls">
+  <div class="btn-group mx-auto" role="group" aria-label="Zoom and pan">
+    <button id="pan-left" type="button" class="btn btn-secondary" aria-label="Pan left">&lt;</button>
+    <button id="zoom-in" type="button" class="btn btn-secondary" aria-label="Zoom in">
       <i class="fas fa-search-plus"></i>
     </button>
-  </li>
-  <li class="nav-item">
-    <button id="zoom-out" type="button" aria-label="Zoom out">
+    <button id="zoom-out" type="button" class="btn btn-secondary" aria-label="Zoom out">
       <i class="fas fa-search-minus"></i>
     </button>
-  </li>
-</ul>
-<rt-history-chart></rt-history-chart>
+    <button id="pan-right" type="button" class="btn btn-secondary" aria-label="Pan right">&gt;</button>
+  </div>
+</div>
+
+<rt-history-chart id="chart"></rt-history-chart>

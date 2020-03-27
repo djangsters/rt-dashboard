@@ -1,22 +1,24 @@
 import gantt from './gantt'
 import {timeDay, timeHour} from "d3-time";
-import data from './small_sample_data'
+import data from './sample_data'
+import {loadTemplate} from "../../utils/dom";
+import templateHtml from './HistoryChart.html'
 
 export default class HistoryChart extends HTMLElement {
   constructor() {
     super()
 
-    const shadow = this.attachShadow({mode: 'open'})
+    this.attachShadow({mode: 'open'})
 
-    const root = document.createElement('div')
-    shadow.appendChild(root)
+    loadTemplate(this.shadowRoot, templateHtml)
+
+    const root = this.shadowRoot.getElementById('chart-container')
 
     var eventTypes = {}
     var eventList = [
       ...data
-        .filter(item => (item.type !== 'point') && (+item.start !== +item.end))
         .map((item) => {
-          const key = `${item.group}-${item.subgroup}`
+          const key = item.task
           if (!(key in eventTypes)) {
             eventTypes[key] = true
           }
@@ -69,5 +71,21 @@ export default class HistoryChart extends HTMLElement {
     }
 
     this._gantt = gantt(ganttConfig);
+  }
+
+  zoomIn () {
+    this._gantt.zoomInOut('in')
+  }
+
+  zoomOut () {
+    this._gantt.zoomInOut('out')
+  }
+
+  panLeft () {
+    this._gantt.panView('left', 0.30)
+  }
+
+  panRight () {
+    this._gantt.panView('right', 0.30)
   }
 }

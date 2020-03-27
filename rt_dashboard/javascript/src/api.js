@@ -79,7 +79,19 @@ export const getWorkers = (cb) => {
 export const getHistory = (init) => fetch(urlFor('history'), init)
 
 export const cancelJob = (jobId, cb) => {
-  // TODO Test!
-  $.getJSON(getApiUrl() + `job/${jobId}/cancel`, cb)
+  // TODO Test! Seems to be GET
+  $.post(getApiUrl() + `job/${jobId}/cancel`, cb)
+    .fail(requestErrorHandler)
+}
+
+export const deleteQueue = (queue, cb) => {
+  // TODO test!
+  $.post(getApiUrl() + `queue/${queue}/delete`, cb)
+    .fail(requestErrorHandler)
+}
+
+export const emptyQueue = (queue, cb) => {
+  // TODO test
+  $.post(getApiUrl() + `queue/${queue}/empty`, cb)
     .fail(requestErrorHandler)
 }

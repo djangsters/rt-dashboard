@@ -2,7 +2,7 @@ import templateHtml from './rt-dashboard.html'
 import { loadTemplate } from '../../utils/dom'
 
 const DASHBOARD = 'dashboard-component'
-const HISTORY = 'history-component'
+const HISTORY = 'rt-history'
 
 export default class RtDashboard extends HTMLElement {
   constructor () {

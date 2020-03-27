@@ -63,7 +63,7 @@ module.exports = {
     }),
   ],
   devtool: 'source-map',
-  target: "web",
+  target: 'web',
   devServer: {
     before: (app, server, compiler) => {
       app.get('/admin/rt_dashboard/inner/queues.json', (req, res) => {
@@ -92,7 +92,6 @@ module.exports = {
       '/admin': 'https://172.16.0.5/admin/',
     },
     contentBase: path.join(__dirname, 'rt_dashboard/static'),
-    index: 'index.html',
     historyApiFallback: true,
     hot: true,
     https: false,

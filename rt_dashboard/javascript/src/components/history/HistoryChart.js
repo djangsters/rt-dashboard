@@ -1,12 +1,15 @@
 import gantt from './gantt'
 import {timeDay, timeHour} from "d3-time";
-import data from './sample_data'
+import data from './small_sample_data'
 
 export default class HistoryChart extends HTMLElement {
   constructor() {
     super()
 
     const shadow = this.attachShadow({mode: 'open'})
+
+    const root = document.createElement('div')
+    shadow.appendChild(root)
 
     var eventTypes = {}
     var eventList = [
@@ -36,6 +39,7 @@ export default class HistoryChart extends HTMLElement {
     ]
 
     const ganttConfig = {
+      root,
       eventSettings: {
         eventList,
         eventTypes,

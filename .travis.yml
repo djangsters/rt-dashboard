@@ -6,13 +6,11 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-node_js:
-  - "10"
-  - "12"
-  - latest
+node_js: "12"
 install:
   - pip install -r requirements.txt
   - pip install -e .
+  - nvm install $(cat .nvmrc) && nvm use
   - yarn
 script:
   - pytest

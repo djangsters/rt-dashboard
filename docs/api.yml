@@ -4,78 +4,58 @@ info:
   version: 1.0.0
 
 paths:
-  /history.json:
-    get:
-      summary: List history entries
+#  /:
+#  /{queue_name}:
+#  /{queue_name}/{page}:
+#  /history:
+#  /queues.json:
+  /queue/{queue_name}/delete:
+    post:
+      summary: Cancel the job with the specified job_id
+      parameters:
+        - name: queue_name
+          in: path
+          schema:
+            type: string
+          required: true
       responses:
         200:
-          description: |
-            Return object containting list of rows and groups of history entries
+          description: Request processed
           content:
             application/json:
               schema:
                 type: object
-                required:
-                  - rows
-                  - groups
                 properties:
-                  rows:
+                  status:
+                    type: string
+  /workers.json:
+    get:
+      summary: List workers and their state
+      responses:
+        200:
+          description: |
+            Return object containting list of worker states in workers property 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  workers:
                     type: array
                     items:
                       type: object
-                      required:
-                        - group
-                        - subgroup
-                        - start
-                        - title
-                        - type
-                        - content
                       properties:
-                        group:
+                        name:
                           type: string
-                          description: Name of the task
-                        subgroup:
-                          type: integer
-                          description: Id of the worker
-                        start:
-                          type: integer
-                          format: timestamp
-                          description: Start time of the task in unix timestamp format
-                        end:
-                          type: integer
-                          format: timestamp
-                          description: End time of the task in unix timestamp format when `type` is range
-                        type:
+                        queues:
+                          type: array
+                          items:
+                            type: string
+                        state:
                           type: string
-                          enum: [range, point]
-                        content:
-                          type: string
-                          description: |
-                            Info about the worker the task is running on,
-                            or the time range string, or the starting time string,
-                            depending on the state
-                        title:
-                          type: string
-                          format: html
-                          description: Detailed information about the task
-                        style:
-                          type: string
-                          description: Style attribute to apply on the rendered task
-                  groups:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - id
-                        - content
-                        - order
-                      properties:
-                        id:
-                          type: string
-                        content:
-                          type: integer
-                        order:
-                          type: integer
+                
+
+#  /jobs/{queue_name}/{page}.json:
   /job/{job_id}/cancel:
     post:
       summary: Cancel the job with the specified job_id
@@ -96,215 +76,4 @@ paths:
                 properties:
                   status:
                     type: string
-  /queue/{queue_name}/empty:
-    post:
-      summary: Empty the queue with the specified queue_name
-      parameters:
-        - name: queue_name
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        200:
-          description: Request processed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-  /queue/{queue_name}/delete:
-    post:
-      summary: Delete the queue with the specified queue_name
-      parameters:
-        - name: queue_name
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        200:
-          description: Request processed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-  /queues.json:
-    get:
-      summary: List Queues and their state
-      responses:
-        200:
-          description: |
-            Return object containing a list of queues and the `[failed]`,
-            `[finished]` and `[running]` registries, the number of elements
-            in them and a URL for more details on them.
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - queues
-                properties:
-                  queues:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - name
-                        - count
-                        - url
-                      properties:
-                        name:
-                          type: string
-                        count:
-                          type: integer
-                        url:
-                          type: string
-                          format: url
-  /jobs/{queue_name}/{page}.json:
-    get:
-      summary: List workers and their state
-      parameters:
-        - name: queue_name
-          in: path
-          schema:
-            type: string
-          required: true
-        - name: page
-          in: path
-          schema:
-            type: integer
-          required: true
-      responses:
-        200:
-          description: |
-            Return object containting list of worker states in workers property
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - name
-                  - jobs
-                  - pagination
-                properties:
-                  name:
-                    type: string
-                  jobs:
-                    type: array
-                    description: |
-                      Default ordering is oldest entries first, except for the
-                      `[failed]` and `[finished]` registries, where it is newest first.
-                    items:
-                      type: object
-                      required: 
-                        - id
-                        - status
-                        - enqueued_at
-                        - started_at
-                        - ended_at
-                        - origin
-                        - error_message
-                        - description
-                      properties:
-                        id:
-                          type: string
-                          format: uuid
-                        status:
-                          type: string
-                        enqueued_at:
-                          type: string
-                          format: date-time
-                        started_at:
-                          type: string
-                          format: date-time
-                        ended_at:
-                          type: string
-                          format: date-time
-                        origin:
-                          type: string
-                        error_message:
-                          type: string
-                        description:
-                          type: string
-                        worker:
-                          type: string
-                          description: |
-                            Description of Worker that the job is being executed on.
-                            Only present for running jobs (aka in `[running]` registry)
-                  pagination:
-                    type: object
-                    required:
-                      - pages_in_window
-                      - next_page
-                      - prev_page
-                    properties:
-                      pages_in_window:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            number:
-                              type: integer
-                            url:
-                              type: string
-                              format: url
-                      next_page:
-                        type: object
-                        nullable: true
-                        description: |
-                          Despite the naming actually provides a link to the LAST page.
-                          On the last page 'null' is returned instead of an object.
-                        properties:
-                          url:
-                            type: string
-                            format: url
-                      prev_page:
-                        type: object
-                        nullable: true
-                        description: |
-                          Despite the naming actually provides a link to the FIRST page.
-                          On the first page 'null' is returned instead of an object.
-                        properties:
-                          url:
-                            type: string
-                            format: url
-  /workers.json:
-    get:
-      summary: List workers and their state
-      responses:
-        200:
-          description: |
-            Return object containting list of worker states in workers property
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - workers
-                properties:
-                  workers:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - name
-                        - queues
-                        - state
-                      properties:
-                        name:
-                          type: string
-                          description: Description of the worker
-                        queues:
-                          type: array
-                          description: List of queue names the worker consumes from
-                          items:
-                            type: string
-                        state:
-                          type: string
-                          enum: [idle, busy, dead]
+#  /history.json:

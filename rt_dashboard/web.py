@@ -167,7 +167,7 @@ def history():
     )
 
 
-@app.routte('/history.json')
+@app.route('/history.json')
 @jsonify
 def history_json():
     return get_history_context()

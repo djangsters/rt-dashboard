@@ -10,12 +10,15 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 max_line_length = 80
 
-[*.{css,scss,js,html}]
+[*.{css, scss, js, html}]
 indent_size = 2
 max_line_length = 140
 
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{yml,yaml}]
+[*.{yml, yaml}]
+indent_size = 2
+
+[*.json]
 indent_size = 2

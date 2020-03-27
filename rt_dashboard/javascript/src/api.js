@@ -38,6 +38,8 @@ export const urlFor = (name, param) => {
     url += 'workers.json'
   } else if (name === 'cancel_job') {
     url += 'job/' + encodeURIComponent(param) + '/cancel'
+  } else if (name === 'history') {
+    url += 'history.json'
   }
   return url
 }
@@ -68,3 +70,5 @@ export const getWorkers = (cb) => {
     cb(workers)
   }).fail(requestErrorHandler)
 }
+
+export const getHistory = () => fetch(urlFor('history'))

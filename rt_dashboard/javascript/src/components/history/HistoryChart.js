@@ -1,6 +1,5 @@
 import gantt from './gantt'
 import {timeDay, timeHour} from "d3-time";
-import data from './sample_data'
 import {loadTemplate} from "../../utils/dom";
 import templateHtml from './HistoryChart.html'
 

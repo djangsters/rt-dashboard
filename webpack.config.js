@@ -100,10 +100,10 @@ module.exports = {
       const getJobsHandler = (pagination) => (req, res) => {
         res.json({
           jobs: [
-            generateTask('fa02bf65-0527-40d0-acae-9f3c041f3fdd', 'General error', 'failed'),
+            generateTask('fa02bf65-0527-40d0-acae-9f3c041fAAAA', 'General error', 'failed'),
             generateTask('fa02bf65-0527-40d0-acae-9f3c041f3EEE', null, 'finished'),
-            generateTask('fa02bf65-0527-40d0-acae-9f3c041f3EEE', null, 'finished'),
-            generateTask('fa02bf65-0527-40d0-BBBB-9f3c041f3fdd', null, 'running')
+            generateTask('fa02bf65-0527-40d0-acae-9f3c041f3FFF', null, 'finished'),
+            generateTask('fa02bf65-0527-40d0-BBBB-9f3c041fBBBB', null, 'running')
           ],
           pagination
         })
@@ -112,10 +112,24 @@ module.exports = {
         getJobsHandler({ pages_in_window: 2, next_page: 2, prev_page: null }))
       app.get('/admin/rt_dashboard/inner/jobs/%5Btest%5D/2.json',
         getJobsHandler({ pages_in_window: 2, next_page: null, prev_page: 1 }))
-      app.get('admin/rt_dashboard/inner/jobs/%5Brunning%5D/1.json',
+      app.get('/admin/rt_dashboard/inner/jobs/%5Brunning%5D/1.json',
         getJobsHandler({ pages_in_window: 2, next_page: null, prev_page: 1 }))
-      app.get('admin/rt_dashboard/inner/jobs/default/1.json',
-        getJobsHandler({ pages_in_window: 1, next_page: null, prev_page: null }))
+      app.get('/admin/rt_dashboard/inner/jobs/default/1.json', (req, res) => {
+        res.json({
+          jobs: [
+          ],
+          pagination: { pages_in_window: 0, next_page: null, prev_page: null }
+        })
+      })
+      app.post('/admin/rt_dashboard/inner/queue/default/delete', (req, res) => {
+        res.json({})
+      })
+      app.post('/admin/rt_dashboard/inner/queue/[running]/empty', (req, res) => {
+        res.json({})
+      })
+      app.post('/admin/rt_dashboard/inner/job/fa02bf65-0527-40d0-BBBB-9f3c041fBBBB/cancel', (req, res) => {
+        res.json({})
+      })
     },
     proxy: {
       '/admin': 'https://172.16.0.5/admin/',

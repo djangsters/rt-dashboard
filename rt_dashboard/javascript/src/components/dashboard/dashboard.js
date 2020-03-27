@@ -22,7 +22,6 @@ export default class Dashboard extends HTMLElement {
   selectedQueueChange (event) {
     const { detail: { queueName, count } } = event
     const tasksComponent = this.shadowRoot.querySelector('tasks-component')
-    tasksComponent.setAttribute('queue', queueName)
-    tasksComponent.setAttribute('count', count)
+    tasksComponent.setAttribute('queue-info', JSON.stringify({ queue: queueName, count }))
   }
 }

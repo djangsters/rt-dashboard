@@ -1,30 +1,23 @@
 <link href="css/app.css" rel="stylesheet" type="text/css" />
 <div class="section">
-  <!-- <strong{% if queue.name == '[failed]' %} class="failed" {% endif %} >{{ queue.name }}</strong>-->
   <h1>
     Tasks on <strong></strong>
   </h1>
   <p class="intro">
-    <!-- {% if queue.count() %} -->
-    <a href="{{ url_for('empty_queue', queue_name=queue.name) }}" id="empty-btn"
-      class="btn btn-danger btn-sm" style="float: right" data-toggle="tooltip"
-      title="Remove all tasks from this queue (<b>destructive</b>)" data-html=true hidden=true>
+    <button id="empty-btn" class="btn btn-danger btn-sm float-right"
+      title="Remove all tasks from this queue (destructive)" hidden=true>
       <i class="fas fa-trash"></i> Empty
-    </a>
-    <!-- {% elif not queue.name.startswith('[') %} -->
-    <a href="{{ url_for('delete_queue', queue_name=queue.name) }}" id="delete-btn"
-      class="btn btn-danger btn-sm" style="float: right" data-toggle="tooltip" title="Delete this queue"
-      data-html=true hidden=true>
+    </button>
+
+    <button id="delete-btn" class="btn btn-danger btn-sm float-right"
+      title="Delete this queue" hidden=true>
       <i class="fas fa-trash"></i> Delete
-    </a>
-    <!-- {% endif %} -->
+    </button>
+
     This list below contains all the registered tasks on queue
     <strong>{{ queue.name }}</strong>, sorted by age
-    <!-- {% if queue.name.startswith('[') %} -->
-    (newest on top).
-    <!-- {% else %} -->
-    <!-- (oldest on top).
-    {% endif %} -->
+    <span id="newes-on-top" hidden=true>(newest on top).</span>
+    <span id="oldest-on-top" hidden=true>(oldest on top).</span>
   </p>
 
   <table id="jobs" class="table table-bordered">

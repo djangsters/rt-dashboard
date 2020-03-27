@@ -17,10 +17,14 @@ export const loadTemplate = (parent, templateHtml) => {
   parent.appendChild(template.content.cloneNode(true))
 }
 
-export const mapDataToElements = (table, data, itemMapper) => {
-  Array.from(table.childNodes).forEach((el) => {
-    table.removeChild(el)
+export const removeChildNode = (node) => {
+  Array.from(node.childNodes).forEach((el) => {
+    node.removeChild(el)
   })
+}
+
+export const mapDataToElements = (table, data, itemMapper) => {
+  removeChildNode(table)
 
   data.forEach(item => itemMapper(table, item))
 }

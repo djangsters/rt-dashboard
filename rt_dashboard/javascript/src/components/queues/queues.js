@@ -27,7 +27,8 @@ export default class Queues extends HTMLElement {
         this.queuesLinks.push(link)
         link.addEventListener('click', this.onQueueClicked)
       })
-      const [first] = data
+      let [first] = data
+      first = data.find(q => q.name.startsWith('[running')) ?? first
       this.sendChangedEvent(first.name, first.count)
     })
   }

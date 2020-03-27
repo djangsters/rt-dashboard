@@ -7,7 +7,9 @@ from operator import itemgetter
 from threading import local
 
 import jinja2
-from werkzeug import Headers, Response, routing
+from werkzeug import routing
+from werkzeug.datastructures import Headers
+from werkzeug.wrappers import Response
 
 from redis_tasks import Queue
 from redis_tasks.registries import (

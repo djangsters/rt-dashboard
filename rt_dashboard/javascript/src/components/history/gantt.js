@@ -6,12 +6,11 @@ import {event, select} from "d3-selection";
 import "d3-transition";
 
 /**
- * @author Shane Miller
+ *
+ * @param config
+ * @returns {any}
  */
-
-export default function ganttOuter(ganttConfig) {
-
-  //var inputConfig = config;
+export default function ganttOuter(config) {
 
   var eventList = [];
 
@@ -41,31 +40,31 @@ export default function ganttOuter(ganttConfig) {
 
   var tickFormat;
 
-  if (ganttConfig != null) {
-    eventList = ganttConfig.eventSettings.eventList;
-    eventTypes = ganttConfig.eventSettings.eventTypes;
-    eventStyleClasses = ganttConfig.eventSettings.eventStyleClassList;
+  if (config != null) {
+    eventList = config.eventSettings.eventList;
+    eventTypes = config.eventSettings.eventTypes;
+    eventStyleClasses = config.eventSettings.eventStyleClassList;
     eventStyleCount = eventStyleClasses.length;
 
     setMinMaxDate(eventList);
 
-    margin = ganttConfig.sizing.margin;
-    height = ganttConfig.sizing.height - margin.top - margin.bottom - 5;
-    width = ganttConfig.sizing.width - margin.right - margin.left - 5;
-    if (ganttConfig.eventSettings.eventTypes.length > 9) {
-      height = ganttConfig.eventSettings.eventTypes.length * 40;
+    margin = config.sizing.margin;
+    height = config.sizing.height - margin.top - margin.bottom - 5;
+    width = config.sizing.width - margin.right - margin.left - 5;
+    if (config.eventSettings.eventTypes.length > 9) {
+      height = config.eventSettings.eventTypes.length * 40;
     }
 
     currentViewBeginTime = timeHour.offset(minDate, -1);
     currentViewEndTime = timeHour.offset(maxDate, +1);
 
-    currentZoomLevel = ganttConfig.timeDomainSettings.startingZoomLevel;
+    currentZoomLevel = config.timeDomainSettings.startingZoomLevel;
 
-    zoomLevels = ganttConfig.timeDomainSettings.zoomLevels;
+    zoomLevels = config.timeDomainSettings.zoomLevels;
 
-    tickFormat = ganttConfig.timeDomainSettings.startingTimeFormat;
-    timeDomainString = ganttConfig.startingTimeDomainString;
-    timeDomainMode = ganttConfig.timeDomainMode;
+    tickFormat = config.timeDomainSettings.startingTimeFormat;
+    timeDomainString = config.startingTimeDomainString;
+    timeDomainMode = config.timeDomainMode;
 
     var x = scaleTime().domain([currentViewBeginTime, currentViewEndTime]).range([0, width]).clamp(true);
 
@@ -105,30 +104,30 @@ export default function ganttOuter(ganttConfig) {
     .style("opacity", 0);
 
   var drawControls = function () {
-    select('#' + ganttConfig.sizing.location).append('div')
-      .attr('id', ganttConfig.sizing.location + '-Controls')
+    select('#' + config.sizing.location).append('div')
+      .attr('id', config.sizing.location + '-Controls')
       .attr("style", "margin-left:" + width / 2 + "px; width:400px;");
-    select('#' + ganttConfig.sizing.location + '-Controls')
+    select('#' + config.sizing.location + '-Controls')
       //.append("button")
       .append('i')
       .attr('class', 'fa fa-arrow-left fa-3x nav')
       .attr('style', 'margin-left:20px; border: 2px solid; border-radius: 10px; padding:3px 5px 3px 5px')
-      .attr('onclick', ganttConfig.sizing.location + ".panView('left',.30)");
-    select('#' + ganttConfig.sizing.location + '-Controls')
+      .attr('onclick', config.sizing.location + ".panView('left',.30)");
+    select('#' + config.sizing.location + '-Controls')
       .append('i')
       .attr('class', 'fa fa-arrow-right fa-3x')
       .attr('style', 'margin-left:20px; border: 2px solid; border-radius: 10px; padding:3px 5px 3px 5px')
-      .attr('onclick', ganttConfig.sizing.location + ".panView('right',.30)");
-    select('#' + ganttConfig.sizing.location + '-Controls')
+      .attr('onclick', config.sizing.location + ".panView('right',.30)");
+    select('#' + config.sizing.location + '-Controls')
       .append('i')
       .attr('class', 'fa fa-search-plus fa-3x')
       .attr('style', 'margin-left:20px; border: 2px solid; border-radius: 10px; padding:3px 5px 3px 5px')
-      .attr('onclick', ganttConfig.sizing.location + ".zoomInOut('in')");
-    select('#' + ganttConfig.sizing.location + '-Controls')
+      .attr('onclick', config.sizing.location + ".zoomInOut('in')");
+    select('#' + config.sizing.location + '-Controls')
       .append('i')
       .attr('class', 'fa fa-search-minus fa-3x')
       .attr('style', 'margin-left:20px; border: 2px solid; border-radius: 10px; padding:3px 5px 3px 5px')
-      .attr('onclick', ganttConfig.sizing.location + ".zoomInOut('out')");
+      .attr('onclick', config.sizing.location + ".zoomInOut('out')");
   };
 
 
@@ -223,19 +222,21 @@ export default function ganttOuter(ganttConfig) {
     drawControls();
     initAxis();
 
-    var svg = select("#" + ganttConfig.sizing.location)
+    gantt._root = select(config.root)
+    gantt._svgRoot = gantt._root
       .append("svg")
       .attr("class", "chart")
-      .attr("id", ganttConfig.sizing.location + "-ChartId")
+      .attr("id", config.sizing.location + "-ChartId")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      .append("g")
+
+    gantt._svg = gantt._svgRoot.append("g")
       .attr("class", "gantt-chart")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
-    svg.selectAll(".chart")
+    gantt._svg.selectAll(".chart")
       .data(eventList, keyFunction).enter()
       .append("rect")
       .attr("rx", 5)
@@ -256,7 +257,7 @@ export default function ganttOuter(ganttConfig) {
         return (x(d.endDate) - x(d.startDate));
       })
       .on("mouseover", function (d) {
-        if (ganttConfig.eventSettings.enableToolTips && d.toolTipHTML != "") {
+        if (config.eventSettings.enableToolTips && d.toolTipHTML) {
           tooltipdiv.transition()
             .duration(200)
             .style("opacity", .9);
@@ -274,28 +275,25 @@ export default function ganttOuter(ganttConfig) {
 
       });
 
-    svg.append("g")
+    gantt._x = gantt._svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
       .transition()
       .call(xAxis);
 
-    svg.append("g")
+    gantt._y = gantt._svg.append("g")
       .transition()
       .attr("class", "y axis")
       .call(yAxis);
 
     return gantt;
-  };
+  }
 
 
   gantt.redraw = function (eventList) {
     initAxis();
 
-    var svg = select("svg");
-
-    var ganttChartGroup = svg.select(".gantt-chart");
-    var rect = ganttChartGroup.selectAll("rect").data(eventList, keyFunction);
+    var rect = this._svg.selectAll("rect").data(eventList, keyFunction);
 
     rect.enter()
       .insert("rect", ":first-child")
@@ -328,8 +326,8 @@ export default function ganttOuter(ganttConfig) {
 
     rect.exit().remove();
 
-    svg.select(".x").transition().call(xAxis);
-    svg.select(".y").transition().call(yAxis);
+    this._x.transition().call(xAxis);
+    this._y.transition().call(yAxis);
 
     return gantt;
   };
@@ -395,16 +393,12 @@ export default function ganttOuter(ganttConfig) {
     switch (scale) {
       case "day":
         return "%H:%M";
-        break;
       case "hr":
         return "%H:%M";
-        break;
       case "min":
         return "%H:%M:%S";
-        break;
       case "sec":
         return "%H:%M:%S";
-        break;
       default:
         return "%H:%M";
     }
@@ -424,7 +418,6 @@ export default function ganttOuter(ganttConfig) {
     currentViewBeginTime = newStartTime;
     currentViewEndTime = newEndTime;
     this.redraw(eventList);
-
   }
 
   return gantt(eventList);

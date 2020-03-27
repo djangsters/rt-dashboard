@@ -1,11 +1,18 @@
+import templateHtml from './HistoryPage.html'
+import {loadTemplate} from "../../utils/dom";
+
 export default class HistoryPage extends HTMLElement {
-    constructor() {
-        super()
+  constructor() {
+    super()
 
-        const shadow = this.attachShadow({mode: 'open'})
+    this.attachShadow({mode: 'open'})
 
-        const chart = document.createElement('rt-history-chart')
+    loadTemplate(this.shadowRoot, templateHtml)
 
-        shadow.appendChild(chart)
-    }
+    const chart = this.shadowRoot.getElementById('chart')
+    this.shadowRoot.getElementById('zoom-in').addEventListener('click', () => chart.zoomIn())
+    this.shadowRoot.getElementById('zoom-out').addEventListener('click', () => chart.zoomOut())
+    this.shadowRoot.getElementById('pan-left').addEventListener('click', () => chart.panLeft())
+    this.shadowRoot.getElementById('pan-right').addEventListener('click', () => chart.panRight())
+  }
 }

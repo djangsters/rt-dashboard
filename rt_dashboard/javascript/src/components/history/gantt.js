@@ -219,7 +219,6 @@ export default function ganttOuter(config) {
 //--------------------------------------------------------------------------------------------------------------------------
 
   function gantt(eventList) {
-    drawControls();
     initAxis();
 
     gantt._root = select(config.root)
@@ -278,12 +277,16 @@ export default function ganttOuter(config) {
     gantt._x = gantt._svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
+
+    gantt._x
       .transition()
       .call(xAxis);
 
     gantt._y = gantt._svg.append("g")
-      .transition()
       .attr("class", "y axis")
+
+    gantt._y
+      .transition()
       .call(yAxis);
 
     return gantt;

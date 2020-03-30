@@ -119,7 +119,8 @@ export default class Tasks extends HTMLElement {
         this.cancelLinks.push(link)
         link.addEventListener('click', this.onCancelClicked)
       })
-      this.updatePager(pagination)
+
+      this.updatePager(pagination, page)
     })
   }
 
@@ -215,8 +216,11 @@ export default class Tasks extends HTMLElement {
     }
   }
 
-  updatePager (pagination) {
+  updatePager (pagination, currentPage = 1) {
     const pagerComponent = this.shadowRoot.querySelector('pager-component')
-    pagerComponent.pagination = pagination
+    pagerComponent.pagination = {
+      ...pagination,
+      currentPage
+    }
   }
 }

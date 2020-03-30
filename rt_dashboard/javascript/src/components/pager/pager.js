@@ -45,7 +45,8 @@ export default class Pager extends HTMLElement {
   mapPaging ({
     pages_in_window: pagesArray,
     next_page: nextPage,
-    prev_page: prevPage
+    prev_page: prevPage,
+    currentPage
   }) {
     let nextPageNum = null
     let prevPageNum = null
@@ -54,6 +55,10 @@ export default class Pager extends HTMLElement {
     }
     if (nextPage) {
       nextPageNum = nextPage.url.split('/').pop()
+    }
+
+    if (currentPage) {
+      this.current = currentPage
     }
 
     return [
@@ -85,10 +90,12 @@ export default class Pager extends HTMLElement {
 
   mapToPageLinks (parent, page) {
     const disabledClass = page.number ? '' : 'disabled'
-    const li = appendElement('li', parent, `page-item ${disabledClass}`)
+    // Attributes are string. Disabling error for == comparison
+    // eslint-disable-next-line eqeqeq
+    const activeClass = this.current == page.number ? 'active' : ''
+    const li = appendElement('li', parent, `page-item ${disabledClass} ${activeClass}`)
 
-    const activeClass = this.current === page.number ? 'active' : ''
-    const link = appendElement('a', li, `page-link ${activeClass}`, page.text)
+    const link = appendElement('a', li, 'page-link', page.text)
     if (page.number) {
       link.setAttribute('href', `#${page.number}`)
       link.setAttribute('data-page', page.number)

@@ -71,6 +71,6 @@ module.exports = {
     hot: true,
     https: false,
     noInfo: true,
-    ...devServerConfig
-  }
+    ...devServerConfig,
+  },
 }

@@ -34,8 +34,8 @@ export default class Pager extends HTMLElement {
     this.dispatchEvent(
       new CustomEvent('selectedPageChanged', {
         detail: { number },
-        bubbles: true
-      })
+        bubbles: true,
+      }),
     )
 
     e.preventDefault()
@@ -46,7 +46,7 @@ export default class Pager extends HTMLElement {
     pages_in_window: pagesArray,
     next_page: nextPage,
     prev_page: prevPage,
-    currentPage
+    currentPage,
   }) {
     let nextPageNum = null
     let prevPageNum = null
@@ -64,7 +64,7 @@ export default class Pager extends HTMLElement {
     return [
       { text: '&laquo;', number: prevPageNum },
       ...pagesArray.map(({ number }) => ({ text: number, number })),
-      { text: '&raquo;', number: nextPageNum }
+      { text: '&raquo;', number: nextPageNum },
     ]
   }
 

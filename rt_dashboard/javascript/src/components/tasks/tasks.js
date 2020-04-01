@@ -5,16 +5,16 @@ import {
   appendElement,
   appendNoDataRow,
   mapDataToElements,
-  removeChildNodes
+  removeChildNodes,
 } from '../../utils/dom'
 import { getJobs, cancelJob, deleteQueue, emptyQueue } from '../../api'
 
 export default class Tasks extends HTMLElement {
-  get queueInfo() {
+  get queueInfo () {
     return this.queueInfo_
   }
 
-  set queueInfo(val) {
+  set queueInfo (val) {
     this.queueInfo_ = val
     this.queueInfoChanged(val)
   }
@@ -148,7 +148,7 @@ export default class Tasks extends HTMLElement {
     error_message: error,
     enqueued_at: enqueued,
     started_at: started,
-    ended_at: ended
+    ended_at: ended,
   }) {
     const row = appendElement('tr', parent)
     row.setAttribute('data-role', 'job')
@@ -163,7 +163,7 @@ export default class Tasks extends HTMLElement {
       error,
       enqueued,
       started,
-      ended
+      ended,
     })
 
     const col2 = appendElement('td', row)
@@ -188,7 +188,7 @@ export default class Tasks extends HTMLElement {
     error,
     enqueued,
     started,
-    ended
+    ended,
   }) {
     const td = appendElement('td', row)
     appendElement('i', td, 'fas fa-file')
@@ -220,7 +220,7 @@ export default class Tasks extends HTMLElement {
     const pagerComponent = this.shadowRoot.querySelector('pager-component')
     pagerComponent.pagination = {
       ...pagination,
-      currentPage
+      currentPage,
     }
   }
 }

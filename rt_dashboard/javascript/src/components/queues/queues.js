@@ -58,7 +58,7 @@ export default class Queues extends HTMLElement {
     const { target: selectedQueue } = e
     this.sendChangedEvent(
       selectedQueue.name,
-      selectedQueue.getAttribute('data-count')
+      selectedQueue.getAttribute('data-count'),
     )
     e.preventDefault()
     return false
@@ -68,8 +68,8 @@ export default class Queues extends HTMLElement {
     this.dispatchEvent(
       new CustomEvent('selectedQueueChange', {
         detail: { queueName, count },
-        bubbles: true
-      })
+        bubbles: true,
+      }),
     )
   }
 }

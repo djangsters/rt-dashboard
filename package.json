@@ -28,6 +28,7 @@
   "homepage": "https://github.com/djangsters/rt-dashboard#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
+    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.4.1",
     "command-line-args": "^5.1.1",
     "css-loader": "^3.4.2",

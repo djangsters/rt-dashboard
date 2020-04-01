@@ -10,6 +10,7 @@ croniter==0.3.23          # via redis-tasks
 entrypoints==0.3          # via flake8
 flake8-isort==2.9.1       # via -r requirements.in
 flake8==3.7.9             # via -r requirements.in, flake8-isort
+importlib-metadata==1.6.0  # via pluggy, pytest
 isort[pyproject]==4.3.21  # via flake8-isort
 jinja2==2.11.1            # via -r requirements.in
 markupsafe==1.0           # via jinja2
@@ -32,3 +33,4 @@ testfixtures==6.14.0      # via flake8-isort
 toml==0.10.0              # via isort
 wcwidth==0.1.9            # via pytest
 werkzeug==1.0.0           # via -r requirements.in
+zipp==3.1.0               # via importlib-metadata

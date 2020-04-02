@@ -33,5 +33,5 @@ six==1.11.0               # via more-itertools, packaging, pip-tools, python-dat
 testfixtures==6.14.0      # via flake8-isort
 toml==0.10.0              # via isort
 wcwidth==0.1.9            # via pytest
-werkzeug==1.0.0           # via -r requirements.in
+werkzeug==1.0.1           # via -r requirements.in
 zipp==3.1.0               # via importlib-metadata

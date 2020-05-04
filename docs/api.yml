@@ -4,10 +4,6 @@ info:
   version: 1.0.0
 
 paths:
-#  /:
-#  /{queue_name}:
-#  /{queue_name}/{page}:
-#  /history:
   /history.json:
     get:
       summary: List history entries

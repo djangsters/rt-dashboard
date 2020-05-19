@@ -1,12 +1,12 @@
 import templateHtml from './HistoryPage.html'
-import {loadTemplate} from "../../utils/dom";
-import {getHistory} from "../../api";
+import { loadTemplate } from '../../utils/dom'
+import { getHistory } from '../../api'
 
 export default class HistoryPage extends HTMLElement {
-  constructor() {
+  constructor () {
     super()
 
-    this.attachShadow({mode: 'open'})
+    this.attachShadow({ mode: 'open' })
 
     loadTemplate(this.shadowRoot, templateHtml)
 
@@ -21,9 +21,14 @@ export default class HistoryPage extends HTMLElement {
   }
 
   async connectedCallback () {
-    const response = await getHistory({signal: this._controller.signal})
-    if (response.ok) {
-      this._chart.setHistoryData(await response.json())
+    if (process.env.NODE_ENV === 'production') {
+      const response = await getHistory({ signal: this._controller.signal })
+      if (response.ok) {
+        this._chart.setHistoryData(await response.json())
+      }
+    } else {
+      const data = await require('./history')
+      return this._chart.setHistoryData(data.default || data)
     }
   }
 

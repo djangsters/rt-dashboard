@@ -9,7 +9,7 @@ export default class Pager extends HTMLElement {
   /**
    * Sets current paggination settings
    * @param {object} value New paggination settings
-   * @param {number[]} value.pages_in_window Array of page numbers
+   * @param {{ number: number, url: string }[]} value.pages_in_window Array of page numbers
    * @param {string} value.next_page Url to the next page data
    * @param {string} value.prev_page Url to the previous page data
    * @param {number} value.currentPage Current page number

@@ -114,8 +114,7 @@ export default class Tasks extends HTMLElement {
       const tbodyTemplate = createElement('tbody')
       mapDataToElements(tbodyTemplate, jobs, this.mapToRow)
       const table = this.shadowRoot.querySelector('table')
-      table.appendChild(tbodyTemplate)
-      table.removeChild(tbody)
+      tbody.innerHTML = tbodyTemplate.innerHTML
 
       Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
         this.cancelLinks.push(link)

@@ -1,4 +1,3 @@
-import { Date, Number } from 'sugar'
 import html from './tasks.html'
 import {
   loadTemplate,
@@ -8,6 +7,7 @@ import {
   removeChildNodes,
 } from '../../utils/dom'
 import { getJobs, cancelJob, deleteQueue, emptyQueue } from '../../api'
+import { duration, relative } from '../../utils/utils'
 
 export default class Tasks extends HTMLElement {
   get queueInfo () {
@@ -168,9 +168,9 @@ export default class Tasks extends HTMLElement {
 
     const col2 = appendElement('td', row)
     if (status === 'running') {
-      appendElement('span', col2, 'creation_date', `${Number(new Date().getTime() - started).duration()}`)
+      appendElement('span', col2, 'creation_date', `${duration(started, new Date().getTime())}`)
     } else {
-      appendElement('span', col2, 'creation_date', `${Date(ended ?? enqueued).relative()}`)
+      appendElement('span', col2, 'creation_date', `${relative(ended ?? enqueued)}`)
     }
 
     const col3 = appendElement('td', row, 'actions narrow')
@@ -205,14 +205,14 @@ export default class Tasks extends HTMLElement {
     appendElement('div', td, 'job_id d-block', id)
 
     if (status === 'running') {
-      appendElement('span', td, 'end_date', `Enqueued ${Date(enqueued).relative()}`)
+      appendElement('span', td, 'end_date', `Enqueued ${relative(enqueued)}`)
     } else if (status === 'failed') {
       appendElement('span', td, 'end_date',
-        `Enqueued ${Date(enqueued).relative()}, failed ${Date(ended).relative()}, ran for ${Number(ended - started).duration()}`)
+        `Enqueued ${relative(enqueued)}, failed ${relative(ended)}, ran for ${duration(started, ended)}`)
       appendElement('pre', td, 'exc_info', `<div>${error}</div>`)
     } else if (status === 'finished') {
       appendElement('span', td, 'end_date',
-        `Enqueued ${Date(enqueued).relative()}, finished ${Date(ended).relative()}, ran for ${Number(ended - started).duration()}`)
+        `Enqueued ${relative(enqueued)}, finished ${relative(ended)}, ran for ${duration(started, ended)}`)
     }
   }
 

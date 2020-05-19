@@ -71,4 +71,9 @@ export const getWorkers = (cb) => {
   }).fail(requestErrorHandler)
 }
 
-export const getHistory = () => fetch(urlFor('history'))
+/**
+ *
+ * @param {RequestInit?} init
+ * @returns {Promise<Response>}
+ */
+export const getHistory = (init) => fetch(urlFor('history'), init)

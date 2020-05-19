@@ -26,7 +26,7 @@ pyparsing==2.4.6          # via packaging
 pytest-mock==3.0.0        # via -r requirements.in
 pytest==5.4.1             # via -r requirements.in, pytest-mock
 python-dateutil==2.7.3    # via croniter
-pytz==2019.3              # via -r requirements.in, redis-tasks
+pytz==2020.1              # via -r requirements.in, redis-tasks
 redis-tasks==0.0.8        # via -r requirements.in
 redis==2.10.6             # via redis-tasks
 six==1.11.0               # via more-itertools, packaging, pip-tools, python-dateutil

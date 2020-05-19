@@ -36,7 +36,7 @@ export default class Tasks extends HTMLElement {
     this.deleteBtn.addEventListener('click', this.onDeleteClicked)
 
     const pagerComponent = this.shadowRoot.querySelector('pager-component')
-    pagerComponent.addEventListener('selectedPageChanged', this.selectedPageChange)
+    pagerComponent.addEventListener('change', this.selectedPageChange)
   }
 
   disconnectedCallback () {

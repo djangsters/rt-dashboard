@@ -6,6 +6,7 @@ import {
   appendNoDataRow,
   mapDataToElements,
   removeChildNodes,
+  createElement,
 } from '../../utils/dom'
 import { getJobs, cancelJob, deleteQueue, emptyQueue } from '../../api'
 import { duration, relative } from '../../utils/utils'
@@ -94,13 +95,8 @@ export default class Tasks extends HTMLElement {
   toggleEmptyBtns (queue, count) {
     const emptyBtn = this.shadowRoot.querySelector('p.intro #empty-btn')
     const deleteBtn = this.shadowRoot.querySelector('p.intro #delete-btn')
-    emptyBtn.hidden = true
-    deleteBtn.hidden = true
-    if (count > 0) {
-      emptyBtn.hidden = false
-    } else if (!queue.startsWith('[')) {
-      deleteBtn.hidden = false
-    }
+    emptyBtn.hidden = count <= 0
+    deleteBtn.hidden = count >= 0 || (!queue.startsWith('['))
   }
 
   loadQueueTasks (queue, page = 1) {
@@ -115,8 +111,11 @@ export default class Tasks extends HTMLElement {
         appendNoDataRow(tbody, 'No jobs.', 3)
         return
       }
-
-      mapDataToElements(tbody, jobs, this.mapToRow)
+      const tbodyTemplate = createElement('tbody')
+      mapDataToElements(tbodyTemplate, jobs, this.mapToRow)
+      const table = this.shadowRoot.querySelector('table')
+      table.appendChild(tbodyTemplate)
+      table.removeChild(tbody)
 
       Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
         this.cancelLinks.push(link)
@@ -153,7 +152,7 @@ export default class Tasks extends HTMLElement {
     started_at: started,
     ended_at: ended,
   }) {
-    const row = appendElement('tr', parent)
+    const row = createElement('tr')
     row.setAttribute('data-role', 'job')
     row.setAttribute('data-job-id', id)
 
@@ -180,6 +179,8 @@ export default class Tasks extends HTMLElement {
     const actionLink = appendElement('a', col3, 'btn btn-outline-secondary btn-sm mx-auto', '<i class="fas fa-ban"></i> Cancel')
     actionLink.setAttribute('data-role', 'cancel-job-btn')
     actionLink.setAttribute('data-jobid', id)
+
+    parent.appendChild(row)
   }
 
   mapFirstColumn (row, {

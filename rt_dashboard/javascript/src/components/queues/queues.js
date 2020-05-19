@@ -9,11 +9,26 @@ export default class Queues extends HTMLElement {
 
     loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
+    this.queuesLinks = []
+
     this.onQueueClicked = this.onQueueClicked.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
+    this.refreshQueues = this.refreshQueues.bind(this)
+    this.removeQueueClickHandlers = this.removeQueueClickHandlers.bind(this)
   }
 
   connectedCallback () {
-    this.queuesLinks = []
+    document.addEventListener('refreshIntervalElapsed', this.onRefresh)
+    this.refreshQueues()
+  }
+
+  disconnectedCallback () {
+    document.removeEventListener('refreshIntervalElapsed', this.onRefresh)
+    this.removeQueueClickHandlers()
+  }
+
+  refreshQueues () {
+    this.removeQueueClickHandlers()
 
     getQueues((data) => {
       const tbody = this.shadowRoot.querySelector('tbody')
@@ -34,10 +49,15 @@ export default class Queues extends HTMLElement {
     })
   }
 
-  disconnectedCallback () {
+  onRefresh () {
+    this.refreshQueues()
+  }
+
+  removeQueueClickHandlers () {
     this.queuesLinks.forEach(link => {
       link.removeEventListener('click', this.onQueueClicked)
     })
+    this.queuesLinks = []
   }
 
   fillRow (parent, { name, url, count }) {
@@ -57,6 +77,7 @@ export default class Queues extends HTMLElement {
 
   onQueueClicked (e) {
     const { target: selectedQueue } = e
+    this.selectedQueue = selectedQueue.name
     this.sendChangedEvent(
       selectedQueue.name,
       selectedQueue.getAttribute('data-count'),

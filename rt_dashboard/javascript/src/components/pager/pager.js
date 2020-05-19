@@ -6,9 +6,17 @@ export default class Pager extends HTMLElement {
     return this.paging
   }
 
+  /**
+   * Sets current paggination settings
+   * @param {object} value New paggination settings
+   * @param {number[]} value.pages_in_window Array of page numbers
+   * @param {string} value.next_page Url to the next page data
+   * @param {string} value.prev_page Url to the previous page data
+   * @param {number} value.currentPage Current page number
+   */
   set pagination (value) {
     this.paging = value
-    this.updatePager(this.mapPaging(value))
+    this.update(value)
   }
 
   constructor () {
@@ -28,11 +36,11 @@ export default class Pager extends HTMLElement {
 
   onPageClicked (e) {
     const { target: pageLink } = e
-    const number = pageLink.getAttribute('data-page')
+    const number = pageLink.page
     this.current = number
 
     this.dispatchEvent(
-      new CustomEvent('selectedPageChanged', {
+      new CustomEvent('change', {
         detail: { number },
         bubbles: true,
       }),
@@ -42,7 +50,7 @@ export default class Pager extends HTMLElement {
     return false
   }
 
-  mapPaging ({
+  update ({
     pages_in_window: pagesArray,
     next_page: nextPage,
     prev_page: prevPage,
@@ -56,29 +64,20 @@ export default class Pager extends HTMLElement {
     if (nextPage) {
       nextPageNum = nextPage.url.split('/').pop()
     }
-
     if (currentPage) {
       this.current = currentPage
     }
 
-    return [
+    const pages = [
       { text: '&laquo;', number: prevPageNum },
       ...pagesArray.map(({ number }) => ({ text: number, number })),
       { text: '&raquo;', number: nextPageNum },
     ]
-  }
-
-  updatePager (pages) {
     this.pageLinks = []
     this.removeEventListeners()
 
     const pagesList = this.shadowRoot.querySelector('ul.pagination')
     mapDataToElements(pagesList, pages, this.mapToPageLinks)
-
-    Array.from(this.shadowRoot.querySelectorAll('li a')).forEach(link => {
-      this.pageLinks.push(link)
-      link.addEventListener('click', this.onPageClicked)
-    })
   }
 
   removeEventListeners () {
@@ -90,15 +89,15 @@ export default class Pager extends HTMLElement {
 
   mapToPageLinks (parent, page) {
     const disabledClass = page.number ? '' : 'disabled'
-    // Attributes are string. Disabling error for == comparison
-    // eslint-disable-next-line eqeqeq
-    const activeClass = this.current == page.number ? 'active' : ''
+    const activeClass = `${this.current}` === `${page.number}` ? 'active' : ''
     const li = appendElement('li', parent, `page-item ${disabledClass} ${activeClass}`)
 
     const link = appendElement('a', li, 'page-link', page.text)
     if (page.number) {
       link.setAttribute('href', `#${page.number}`)
-      link.setAttribute('data-page', page.number)
+      link.page = page.number
+      link.addEventListener('click', this.onPageClicked)
+      this.pageLinks.push(link)
     }
   }
 }

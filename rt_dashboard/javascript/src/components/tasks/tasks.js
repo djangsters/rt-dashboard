@@ -103,8 +103,10 @@ export default class Tasks extends HTMLElement {
     this.removeTableClickListeners()
 
     const tbody = this.shadowRoot.querySelector('tbody')
-    removeChildNodes(tbody)
-    appendNoDataRow(tbody, 'Loading...', 3)
+    if (tbody.childNodes.length === 0) {
+      removeChildNodes(tbody)
+      appendNoDataRow(tbody, 'Loading...', 3)
+    }
 
     getJobs(queue, page, (jobs, pagination) => {
       if (!jobs || jobs.length <= 0) {
@@ -113,7 +115,6 @@ export default class Tasks extends HTMLElement {
       }
       const tbodyTemplate = createElement('tbody')
       mapDataToElements(tbodyTemplate, jobs, this.mapToRow)
-      const table = this.shadowRoot.querySelector('table')
       tbody.innerHTML = tbodyTemplate.innerHTML
 
       Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {

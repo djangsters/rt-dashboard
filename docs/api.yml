@@ -18,8 +18,22 @@ paths:
                 properties:
                   rows:
                     type: array
-                  groups:
-                    type: array
+                    items:
+                      type: object
+                      properties:
+                        group:
+                          type: string
+                        subgroup:
+                          type: number
+                        start:
+                          type: number
+                        end:
+                          type: number
+                        type:
+                          type: string
+                          enum: [range, point]
+                        content:
+                          type: string
   /job/{job_id}/cancel:
     post:
       summary: Cancel the job with the specified job_id
@@ -119,7 +133,7 @@ paths:
       responses:
         200:
           description: |
-            Return object containting list of worker states in workers property 
+            Return object containting list of worker states in workers property
           content:
             application/json:
               schema:
@@ -164,7 +178,7 @@ paths:
       responses:
         200:
           description: |
-            Return object containting list of worker states in workers property 
+            Return object containting list of worker states in workers property
           content:
             application/json:
               schema:

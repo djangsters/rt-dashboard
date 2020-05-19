@@ -2,7 +2,6 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-  mode: 'production',
   context: path.resolve(__dirname, 'rt_dashboard'),
   entry: {
     app: ['./javascript/app.js'],
@@ -17,9 +16,6 @@ module.exports = {
         test: /\.js?$/,
         exclude: /node_modules\//,
         loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-        },
       },
       {
         test: /\.html$/i,

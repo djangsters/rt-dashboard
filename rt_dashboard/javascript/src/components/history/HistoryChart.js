@@ -96,8 +96,6 @@ export default class HistoryChart extends HTMLElement {
       },
     }
 
-    console.log(ganttConfig)
-
     if (this._gantt) {
       this._gantt.redraw()
     } else {

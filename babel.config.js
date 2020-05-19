@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    test: {
+    production: {
       presets: [
         [
           '@babel/preset-env',
@@ -10,5 +10,20 @@ module.exports = {
         ],
       ],
     },
+    test: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              node: 'current',
+            },
+          },
+        ],
+      ],
+    },
   },
+  plugins: [
+    '@babel/plugin-proposal-nullish-coalescing-operator',
+  ],
 }

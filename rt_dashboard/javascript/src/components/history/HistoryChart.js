@@ -1,13 +1,13 @@
 import gantt from './gantt'
-import {timeDay, timeHour} from "d3-time";
-import {loadTemplate} from "../../utils/dom";
+import { timeDay, timeHour } from 'd3-time'
+import { loadTemplate } from '../../utils/dom'
 import templateHtml from './HistoryChart.html'
 
 export default class HistoryChart extends HTMLElement {
-  constructor() {
+  constructor () {
     super()
 
-    this.attachShadow({mode: 'open'})
+    this.attachShadow({ mode: 'open' })
 
     loadTemplate(this.shadowRoot, templateHtml)
 
@@ -30,28 +30,40 @@ export default class HistoryChart extends HTMLElement {
     this._gantt.panView('right', 0.30)
   }
 
-  setHistoryData ({rows, groups}) {
+  setHistoryData ({ rows }) {
     const eventTypes = {}
     const eventList = rows
-        .map((item) => {
-          const key = `${item.group}-${item.subgroup}`
-          if (!(key in eventTypes)) {
-            eventTypes[key] = true
-          }
-          return {
-            startDate: item.start,
-            endDate: item.end,
-            taskName: key,
-            toolTipHTML: item.title
-          }
-        })
+      .map((item) => {
+        const key = `${item.group}-${item.subgroup}`
+        if (!(key in eventTypes)) {
+          eventTypes[key] = true
+        }
+        switch (item.type) {
+          case 'range':
+            return {
+              startDate: +item.start,
+              endDate: +item.end,
+              taskName: key,
+              toolTipHTML: item.title
+            }
+          case 'point':
+            return {
+              startDate: +item.start,
+              endDate: (+item.start) + 1,
+              taskName: key,
+              toolTipHTML: item.title
+            }
+          default:
+            throw new Error(`Unsupported item type ${item.type}`)
+        }
+      })
 
     const eventStyleClassList = [
-      "blue-bar",
-      "purple-bar",
-      "red-bar",
-      "green-bar",
-      "orange-bar"
+      'blue-bar',
+      'purple-bar',
+      'red-bar',
+      'green-bar',
+      'orange-bar'
     ]
 
     const ganttConfig = {
@@ -70,24 +82,26 @@ export default class HistoryChart extends HTMLElement {
           bottom: 20,
           left: 120
         },
-        height: "400",
+        height: '400',
         width: window.innerWidth
       },
       timeDomainSettings: {
-        zoomLevels: ["5:sec", "15:sec", "1:min", "5:min", "15:min", "1:hr", "3:hr", "6:hr", "1:day"],
+        zoomLevels: ['5:sec', '15:sec', '1:min', '5:min', '15:min', '1:hr', '3:hr', '6:hr', '1:day'],
         timeDomainStart: timeDay.offset(new Date(), -3),
         timeDomainEnd: timeHour.offset(new Date(), +3),
-        startingTimeFormat: "%H:%M",
-        startingTimeDomainString: "1day",
+        startingTimeFormat: '%H:%M',
+        startingTimeDomainString: '1day',
         startingZoomLevel: 8,
-        timeDomainMode: "fixed"
+        timeDomainMode: 'fixed'
       }
     }
+
+    console.log(ganttConfig)
 
     if (this._gantt) {
       this._gantt.redraw()
     } else {
-      this._gantt = gantt(ganttConfig);
+      this._gantt = gantt(ganttConfig)
     }
   }
 }

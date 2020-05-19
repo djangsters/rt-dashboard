@@ -44,14 +44,14 @@ export default class HistoryChart extends HTMLElement {
               startDate: +item.start,
               endDate: +item.end,
               taskName: key,
-              toolTipHTML: item.title
+              toolTipHTML: item.title,
             }
           case 'point':
             return {
               startDate: +item.start,
               endDate: (+item.start) + 1,
               taskName: key,
-              toolTipHTML: item.title
+              toolTipHTML: item.title,
             }
           default:
             throw new Error(`Unsupported item type ${item.type}`)
@@ -63,7 +63,7 @@ export default class HistoryChart extends HTMLElement {
       'purple-bar',
       'red-bar',
       'green-bar',
-      'orange-bar'
+      'orange-bar',
     ]
 
     const ganttConfig = {
@@ -72,7 +72,7 @@ export default class HistoryChart extends HTMLElement {
         eventList,
         eventTypes: Object.keys(eventTypes),
         eventStyleClassList,
-        enableToolTips: true
+        enableToolTips: true,
       },
       sizing: {
         location: 'GanttChart',
@@ -80,10 +80,10 @@ export default class HistoryChart extends HTMLElement {
           top: 60,
           right: 40,
           bottom: 20,
-          left: 120
+          left: 120,
         },
         height: '400',
-        width: window.innerWidth
+        width: window.innerWidth,
       },
       timeDomainSettings: {
         zoomLevels: ['5:sec', '15:sec', '1:min', '5:min', '15:min', '1:hr', '3:hr', '6:hr', '1:day'],
@@ -92,8 +92,8 @@ export default class HistoryChart extends HTMLElement {
         startingTimeFormat: '%H:%M',
         startingTimeDomainString: '1day',
         startingZoomLevel: 8,
-        timeDomainMode: 'fixed'
-      }
+        timeDomainMode: 'fixed',
+      },
     }
 
     console.log(ganttConfig)

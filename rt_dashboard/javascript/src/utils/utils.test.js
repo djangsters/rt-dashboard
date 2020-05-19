@@ -14,7 +14,7 @@ describe('duration', () => {
     const start = new Date()
     const end = new Date()
 
-    expect(duration(start, end)).toBe('0 milliseconds')
+    expect(duration(start, end)).toBe('0 seconds')
   })
 })
 
@@ -29,12 +29,12 @@ describe('relative', () => {
   test('handles Date arg', () => {
     const start = new Date()
 
-    expect(relative(start)).toBe('1 second ago')
+    expect(relative(start)).toBe('0 seconds ago')
   })
 
   test('handles ISO string arg', () => {
     const start = new Date().toISOString()
 
-    expect(relative(start)).toBe('1 second ago')
+    expect(relative(start)).toBe('0 seconds ago')
   })
 })

@@ -1,9 +1,13 @@
-import { Date, Number } from 'sugar'
+import { formatDistanceStrict, parseISO } from 'date-fns'
 
 export const duration = (start, end) => {
-  return `${Number(end - start).duration()}`
+  return `${formatDistanceStrict(start, end)}`
 }
 
-export const relative = (start) => {
-  return `${Date(start).relative().toString()}`
+export const relative = (startDate) => {
+  let start = startDate
+  if (typeof startDate === 'string') {
+    start = parseISO(startDate)
+  }
+  return `${formatDistanceStrict(start, new Date(), { addSuffix: true })}`
 }

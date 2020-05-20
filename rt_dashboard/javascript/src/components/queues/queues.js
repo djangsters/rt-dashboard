@@ -27,27 +27,30 @@ export default class Queues extends HTMLElement {
     this.removeQueueClickHandlers()
   }
 
-  refreshQueues () {
-    getQueues((data) => {
-      this.removeQueueClickHandlers()
-      const tbody = this.shadowRoot.querySelector('tbody')
+  async refreshQueues () {
+    const data = await getQueues()
+    if (!data) {
+      return
+    }
+    const { queues } = data
+    const tbody = this.shadowRoot.querySelector('tbody')
+    this.removeQueueClickHandlers()
 
-      if (!data || data.length <= 0) {
-        appendNoDataRow(tbody, 'No queues.', 2)
-        return
-      }
+    if (!queues || queues.length <= 0) {
+      appendNoDataRow(tbody, 'No queues.', 2)
+      return
+    }
 
-      mapDataToElements(tbody, data, this.fillRow)
-      Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
-        this.queuesLinks.push(link)
-        link.addEventListener('click', this.onQueueClicked)
-      })
-
-      let [first] = data
-      first = data.find(q => q.name.startsWith('[running')) ?? first
-      const newQueueInfo = this.selectedQueue ? data.find(q => q.name === this.selectedQueue.name) : first
-      this.sendChangedEvent(newQueueInfo)
+    mapDataToElements(tbody, queues, this.fillRow)
+    Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
+      this.queuesLinks.push(link)
+      link.addEventListener('click', this.onQueueClicked)
     })
+
+    let [first] = queues
+    first = queues.find(q => q.name.startsWith('[running')) ?? first
+    this.selectedQueue = this.selectedQueue ? queues.find(q => q.name === this.selectedQueue.name) : first
+    this.sendChangedEvent(this.selectedQueue)
   }
 
   onRefresh () {

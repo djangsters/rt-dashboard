@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 def get_version():
     basedir = os.path.dirname(__file__)
     with open(os.path.join(basedir, 'rt_dashboard/__init__.py')) as f:
-        version_line = next(l for l in f if l.startswith('__version__'))
+        version_line = next(line for line in f if line.startswith('__version__'))
         return eval(version_line.split('=')[1])
     raise RuntimeError('No version info found.')
 

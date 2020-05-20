@@ -1,6 +1,14 @@
 import { formatDistanceStrict, parseISO } from 'date-fns'
 
-export const duration = (start, end) => {
+export const duration = (startDate, endDate) => {
+  let start = startDate
+  let end = endDate
+  if (typeof startDate === 'string') {
+    start = parseISO(startDate)
+  }
+  if (typeof endDate === 'string') {
+    end = parseISO(endDate)
+  }
   return `${formatDistanceStrict(start, end)}`
 }
 

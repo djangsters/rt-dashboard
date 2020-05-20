@@ -167,7 +167,15 @@ paths:
                     type: object
                     properties:
                       pages_in_window:
-                        type: integer
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                number:
+                                    type: integer
+                                url:
+                                    type: string
+                                    format: url
                       next_page:
                         type: integer
                       prev_page:

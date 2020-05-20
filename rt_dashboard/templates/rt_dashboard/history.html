@@ -23,8 +23,8 @@
 <script type="text/javascript">
 window.addEventListener('load', function() {
     var container = document.getElementById('visualization');
-    var items = new vis.DataSet(JSON.parse(JSON.stringify({{rows}})));
-    var groups = JSON.parse(JSON.stringify({{groups}}));
+    var items = new vis.DataSet({{rows}});
+    var groups = {{groups}};
     var options = {
         stack: false,
         stackSubgroups: false,

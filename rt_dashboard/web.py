@@ -143,6 +143,7 @@ def pagination_window(total_items, cur_page, per_page=5, window_size=10):
         result = all_pages[pages_window_start:pages_window_end]
     return result
 
+
 @app.route('/app')
 def serve_app():
     return app.render_template(

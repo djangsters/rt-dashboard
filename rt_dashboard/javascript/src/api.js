@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 const DOCUMENT_SCRIPT_NAME = 'app.js'
 const API_URL_PARAM_NAME = 'apiUrl'
 const POLL_PARAM_NAME = 'poll'

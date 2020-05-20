@@ -9,6 +9,23 @@ const requestErrorHandler = error => {
   alert('Error with network request')
 }
 
+/**
+ *
+ * @param {Promise<Response>?} requestPromise
+ * @returns {Promise<any>|null}
+ */
+const executeRequest = async (requestPromise) => {
+  try {
+    const response = await requestPromise
+    if (response.ok) {
+      return response.json()
+    }
+    requestErrorHandler(response.statusText)
+  } catch (error) {
+    requestErrorHandler(error)
+  }
+}
+
 export const getParams = (scriptName) => {
   var scripts = document.getElementsByTagName('script')
 
@@ -58,49 +75,21 @@ export const urlForJobs = (param, page) => {
   return url
 }
 
-export const getQueues = (cb) => {
-  $.getJSON(urlFor('queues'), (data) => {
-    var queues = data.queues
-    cb(queues)
-  }).fail(requestErrorHandler)
-}
+export const getQueues = () => executeRequest(fetch(urlFor('queues')))
 
-export const getJobs = (queueName, page, cb) => {
-  $.getJSON(urlForJobs(queueName, page), (data) => {
-    var jobs = data.jobs
-    var pagination = data.pagination
-    cb(jobs, pagination)
-  }).fail(requestErrorHandler)
-}
+export const getJobs = (queueName, page) => executeRequest(fetch(urlForJobs(queueName, page)))
 
-export const getWorkers = (cb) => {
-  $.getJSON(urlFor('workers'), (data) => {
-    var workers = data.workers
-    cb(workers)
-  }).fail(requestErrorHandler)
-}
+export const getWorkers = async () => executeRequest(fetch(urlFor('workers')))
 
 /**
  *
  * @param {RequestInit?} init
  * @returns {Promise<Response>}
  */
-export const getHistory = (init) => fetch(urlFor('history'), init)
+export const getHistory = (init) => executeRequest(fetch(urlFor('history'), init))
 
-export const cancelJob = (jobId, cb) => {
-  // TODO Test! Seems to be GET
-  $.post(getApiUrl() + `job/${jobId}/cancel`, cb)
-    .fail(requestErrorHandler)
-}
+export const cancelJob = (jobId) => executeRequest(fetch(getApiUrl() + `job/${jobId}/cancel`, { method: 'POST' }))
 
-export const deleteQueue = (queue, cb) => {
-  // TODO test!
-  $.post(getApiUrl() + `queue/${queue}/delete`, cb)
-    .fail(requestErrorHandler)
-}
+export const deleteQueue = (queue) => executeRequest(fetch(getApiUrl() + `queue/${queue}/delete`, { method: 'POST' }))
 
-export const emptyQueue = (queue, cb) => {
-  // TODO test
-  $.post(getApiUrl() + `queue/${queue}/empty`, cb)
-    .fail(requestErrorHandler)
-}
+export const emptyQueue = (queue) => executeRequest(fetch(getApiUrl() + `queue/${queue}/empty`, { method: 'POST' }))

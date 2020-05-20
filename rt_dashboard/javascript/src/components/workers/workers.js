@@ -45,20 +45,23 @@ export default class Workers extends HTMLElement {
     appendElement('td', row, null, queues.join(','))
   }
 
-  refreshWorkers () {
-    getWorkers((data) => {
-      const tbody = this.shadowRoot.querySelector('tbody')
-      const workersCount = this.shadowRoot.querySelector('#workers-count span')
+  async refreshWorkers () {
+    const data = await getWorkers()
+    if (!data) {
+      return
+    }
+    const { workers } = data
+    const tbody = this.shadowRoot.querySelector('tbody')
+    const workersCount = this.shadowRoot.querySelector('#workers-count span')
 
-      if (!data || data.length <= 0) {
-        workersCount.innerHTML = 'No workers registered!'
-        appendNoDataRow(tbody, 'No workers.', 3)
-        return
-      }
+    if (!workers || workers.length <= 0) {
+      workersCount.innerHTML = 'No workers registered!'
+      appendNoDataRow(tbody, 'No workers.', 3)
+      return
+    }
 
-      mapDataToElements(tbody, data, this.mapToRow)
-      workersCount.innerHTML = data.length + ' workers registered'
-    })
+    mapDataToElements(tbody, workers, this.mapToRow)
+    workersCount.innerHTML = workers.length + ' workers registered'
   }
 
   onRefresh () {

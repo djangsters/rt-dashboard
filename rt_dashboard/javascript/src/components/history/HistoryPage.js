@@ -23,9 +23,9 @@ export default class HistoryPage extends HTMLElement {
 
   async connectedCallback () {
     if (process.env.NODE_ENV === 'production') {
-      const response = await getHistory({ signal: this._controller.signal })
-      if (response.ok) {
-        this._chart.setHistoryData(await response.json())
+      const data = await getHistory({ signal: this._controller.signal })
+      if (data) {
+        this._chart.setHistoryData(data)
       }
     } else {
       const data = await require('./history')

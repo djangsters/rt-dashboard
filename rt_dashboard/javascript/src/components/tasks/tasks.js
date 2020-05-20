@@ -99,7 +99,7 @@ export default class Tasks extends HTMLElement {
     deleteBtn.hidden = count > 0 || (queue.startsWith('['))
   }
 
-  loadQueueTasks (queue, page = 1) {
+  async loadQueueTasks (queue, page = 1) {
     this.removeTableClickListeners()
 
     const tbody = this.shadowRoot.querySelector('tbody')
@@ -108,20 +108,23 @@ export default class Tasks extends HTMLElement {
       appendNoDataRow(tbody, 'Loading...', 3)
     }
 
-    getJobs(queue, page, (jobs, pagination) => {
-      if (!jobs || jobs.length <= 0) {
-        appendNoDataRow(tbody, 'No jobs.', 3)
-        return
-      }
-      mapDataToElements(tbody, jobs, this.mapToRow)
+    const data = await getJobs(queue, page)
+    if (!data) {
+      return
+    }
+    const { jobs, pagination } = data
+    if (!jobs || jobs.length <= 0) {
+      appendNoDataRow(tbody, 'No jobs.', 3)
+      return
+    }
+    mapDataToElements(tbody, jobs, this.mapToRow)
 
-      Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
-        this.cancelLinks.push(link)
-        link.addEventListener('click', this.onCancelClicked)
-      })
-
-      this.updatePager(pagination, page)
+    Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
+      this.cancelLinks.push(link)
+      link.addEventListener('click', this.onCancelClicked)
     })
+
+    this.updatePager(pagination, page)
   }
 
   removeTableClickListeners () {

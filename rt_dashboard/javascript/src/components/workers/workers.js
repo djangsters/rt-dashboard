@@ -1,4 +1,5 @@
 import templateHtml from './workers.html'
+import styles from '../../../styles/main.scss'
 import {
   loadTemplate,
   mapDataToElements,
@@ -10,7 +11,7 @@ import { getWorkers } from '../../api'
 export default class Workers extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.onWorkersBtnClick = this.onWorkersBtnClick.bind(this)
   }

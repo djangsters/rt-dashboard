@@ -1,4 +1,5 @@
 import templateHtml from './pager.html'
+import styles from '../../../styles/main.scss'
 import { loadTemplate, mapDataToElements, appendElement } from '../../utils/dom'
 
 export default class Pager extends HTMLElement {
@@ -22,7 +23,7 @@ export default class Pager extends HTMLElement {
   constructor () {
     super()
 
-    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.mapToPageLinks = this.mapToPageLinks.bind(this)
     this.onPageClicked = this.onPageClicked.bind(this)

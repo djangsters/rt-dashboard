@@ -10,9 +10,9 @@ export const appendElement = (tag, parent, classes = '', innerHtml = null) => {
   return element
 }
 
-export const loadTemplate = (parent, templateHtml) => {
+export const loadTemplate = (parent, templateHtml, styles) => {
   const template = document.createElement('template')
-  template.innerHTML = templateHtml
+  template.innerHTML = `${styles != null ? `<style>${styles}</style>` : ''}${templateHtml}`
 
   parent.appendChild(template.content.cloneNode(true))
 }

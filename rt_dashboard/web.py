@@ -17,7 +17,7 @@ from redis_tasks.registries import (
 from redis_tasks.task import Task
 from redis_tasks.worker import Worker
 
-from .history import get_history, get_history_context
+from .history import get_history
 
 
 def jsonify(f):
@@ -165,7 +165,7 @@ def overview(queue_name, page):
 def history():
     return app.render_template(
         'rt_dashboard/history.html',
-        **get_history_context()
+        **get_history()
     )
 
 

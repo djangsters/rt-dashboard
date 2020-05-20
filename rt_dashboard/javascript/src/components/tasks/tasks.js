@@ -77,6 +77,8 @@ export default class Tasks extends HTMLElement {
     queueName.innerHTML = queue
     if (queue === '[failed]') {
       queueName.classList.add('failed')
+    } else {
+      queueName.classList.remove('failed')
     }
 
     const queueNameSubTitle = this.shadowRoot.querySelector('p.intro strong')

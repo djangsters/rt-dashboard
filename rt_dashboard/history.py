@@ -107,7 +107,7 @@ def get_history():
         elif t.status == 'running':
             keys['style'] = 'border-color: {0}; background-color: {0}'.format('#D5F6D7')
 
-        keys = {k: v.isoformat() if isinstance(v, datetime.datetime) else v
+        keys = {k: v.timestamp() if isinstance(v, datetime.datetime) else v
                 for k, v in keys.items()}
         rows.append(keys)
 

@@ -10,6 +10,14 @@ describe('duration', () => {
     expect(duration(start, end)).toBe('5 seconds')
   })
 
+  test('handles ISO string arg', () => {
+    const interval = 5 * 1000
+    const start = new Date(new Date().getTime() - interval).toISOString()
+    const end = new Date().toISOString()
+
+    expect(duration(start, end)).toBe('5 seconds')
+  })
+
   test('handles Date args ', () => {
     const start = new Date()
     const end = new Date()

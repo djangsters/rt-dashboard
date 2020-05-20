@@ -1,11 +1,12 @@
 import templateHtml from './dashboard.html'
+import styles from '../../../styles/main.scss'
 import { loadTemplate } from '../../utils/dom'
 
 export default class Dashboard extends HTMLElement {
   constructor () {
     super()
 
-    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.selectedQueueChange = this.selectedQueueChange.bind(this)
   }

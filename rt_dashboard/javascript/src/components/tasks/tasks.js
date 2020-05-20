@@ -1,4 +1,5 @@
 import html from './tasks.html'
+import styles from '../../../styles/main.scss'
 import {
   loadTemplate,
   appendElement,
@@ -21,7 +22,7 @@ export default class Tasks extends HTMLElement {
 
   constructor () {
     super()
-    loadTemplate(this.attachShadow({ mode: 'open' }), html)
+    loadTemplate(this.attachShadow({ mode: 'open' }), html, styles)
 
     this.mapToRow = this.mapToRow.bind(this)
     this.onEmptyClicked = this.onEmptyClicked.bind(this)

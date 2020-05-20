@@ -1,4 +1,5 @@
 import templateHtml from './queues.html'
+import styles from '../../../styles/main.scss'
 import { appendElement, loadTemplate, mapDataToElements, appendNoDataRow } from '../../utils/dom'
 import { getQueues } from '../../api'
 
@@ -6,7 +7,7 @@ export default class Queues extends HTMLElement {
   constructor () {
     super()
 
-    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.onQueueClicked = this.onQueueClicked.bind(this)
   }

@@ -96,7 +96,7 @@ export default class Tasks extends HTMLElement {
     const emptyBtn = this.shadowRoot.querySelector('p.intro #empty-btn')
     const deleteBtn = this.shadowRoot.querySelector('p.intro #delete-btn')
     emptyBtn.hidden = count <= 0
-    deleteBtn.hidden = count >= 0 || (!queue.startsWith('['))
+    deleteBtn.hidden = count > 0 || (queue.startsWith('['))
   }
 
   loadQueueTasks (queue, page = 1) {
@@ -113,9 +113,7 @@ export default class Tasks extends HTMLElement {
         appendNoDataRow(tbody, 'No jobs.', 3)
         return
       }
-      const tbodyTemplate = createElement('tbody')
-      mapDataToElements(tbodyTemplate, jobs, this.mapToRow)
-      tbody.innerHTML = tbodyTemplate.innerHTML
+      mapDataToElements(tbody, jobs, this.mapToRow)
 
       Array.from(this.shadowRoot.querySelectorAll('td a')).forEach(link => {
         this.cancelLinks.push(link)

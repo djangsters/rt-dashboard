@@ -14,25 +14,22 @@ export default class Workers extends HTMLElement {
     loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.onWorkersBtnClick = this.onWorkersBtnClick.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
+    this.refreshWorkers = this.refreshWorkers.bind(this)
   }
 
   connectedCallback () {
     const btn = this.shadowRoot.querySelector('button#workers-btn')
     btn.addEventListener('click', this.onWorkersBtnClick)
 
-    getWorkers((data) => {
-      const tbody = this.shadowRoot.querySelector('tbody')
-      const workersCount = this.shadowRoot.querySelector('#workers-count span')
+    document.addEventListener('refreshIntervalElapsed', this.onRefresh)
 
-      if (!data || data.length <= 0) {
-        workersCount.innerHTML = 'No workers registered!'
-        appendNoDataRow(tbody, 'No workers.', 3)
-        return
-      }
+    this.refreshWorkers()
+  }
 
-      mapDataToElements(tbody, data, this.mapToRow)
-      workersCount.innerHTML = data.length + ' workers registered'
-    })
+  disconnectedCallback () {
+    this.removeEventListener('click', this.onWorkersBtnClick)
+    document.removeEventListener('refreshIntervalElapsed', this.onRefresh)
   }
 
   mapToRow (parent, { name, state, queues }) {
@@ -48,8 +45,24 @@ export default class Workers extends HTMLElement {
     appendElement('td', row, null, queues.join(','))
   }
 
-  disconnectedCallback () {
-    this.removeEventListener('click', this.onWorkersBtnClick)
+  refreshWorkers () {
+    getWorkers((data) => {
+      const tbody = this.shadowRoot.querySelector('tbody')
+      const workersCount = this.shadowRoot.querySelector('#workers-count span')
+
+      if (!data || data.length <= 0) {
+        workersCount.innerHTML = 'No workers registered!'
+        appendNoDataRow(tbody, 'No workers.', 3)
+        return
+      }
+
+      mapDataToElements(tbody, data, this.mapToRow)
+      workersCount.innerHTML = data.length + ' workers registered'
+    })
+  }
+
+  onRefresh () {
+    this.refreshWorkers()
   }
 
   onWorkersBtnClick (event) {

@@ -11,13 +11,6 @@ from redis_tasks.utils import utcnow
 from redis_tasks.worker import Worker
 
 
-def jsdate(d):
-    t = list(d.timetuple()[:6])
-    # In js, January is 0
-    t[1] -= 1
-    return 'new Date{}'.format(tuple(t))
-
-
 def task_tooltip(t):
     return f'''
     <b>{t.description}</b><br>
@@ -114,7 +107,7 @@ def get_history():
         elif t.status == 'running':
             keys['style'] = 'border-color: {0}; background-color: {0}'.format('#D5F6D7')
 
-        keys = {k: jsdate(v) if isinstance(v, datetime.datetime) else v
+        keys = {k: v.isoformat() if isinstance(v, datetime.datetime) else v
                 for k, v in keys.items()}
         rows.append(keys)
 

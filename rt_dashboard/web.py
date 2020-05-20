@@ -143,6 +143,13 @@ def pagination_window(total_items, cur_page, per_page=5, window_size=10):
         result = all_pages[pages_window_start:pages_window_end]
     return result
 
+@app.route('/app')
+def app():
+    return app.render_template(
+        'rt_dashboard/app.html',
+        rt_url_prefix=app.url_for('app'),
+        poll_interval=2500,
+    )
 
 @app.route('/', defaults={'queue_name': '[running]', 'page': '1'})
 @app.route('/<queue_name>', defaults={'page': '1'})

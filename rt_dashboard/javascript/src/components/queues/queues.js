@@ -9,13 +9,27 @@ export default class Queues extends HTMLElement {
 
     loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
+    this.queuesLinks = []
+
     this.onQueueClicked = this.onQueueClicked.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
+    this.refreshQueues = this.refreshQueues.bind(this)
+    this.removeQueueClickHandlers = this.removeQueueClickHandlers.bind(this)
   }
 
   connectedCallback () {
-    this.queuesLinks = []
+    document.addEventListener('refresh', this.onRefresh)
+    this.refreshQueues()
+  }
 
+  disconnectedCallback () {
+    document.removeEventListener('refresh', this.onRefresh)
+    this.removeQueueClickHandlers()
+  }
+
+  refreshQueues () {
     getQueues((data) => {
+      this.removeQueueClickHandlers()
       const tbody = this.shadowRoot.querySelector('tbody')
 
       if (!data || data.length <= 0) {
@@ -28,16 +42,23 @@ export default class Queues extends HTMLElement {
         this.queuesLinks.push(link)
         link.addEventListener('click', this.onQueueClicked)
       })
+
       let [first] = data
       first = data.find(q => q.name.startsWith('[running')) ?? first
-      this.sendChangedEvent(first.name, first.count)
+      const newQueueInfo = this.selectedQueue ? data.find(q => q.name === this.selectedQueue.name) : first
+      this.sendChangedEvent(newQueueInfo)
     })
   }
 
-  disconnectedCallback () {
+  onRefresh () {
+    this.refreshQueues()
+  }
+
+  removeQueueClickHandlers () {
     this.queuesLinks.forEach(link => {
       link.removeEventListener('click', this.onQueueClicked)
     })
+    this.queuesLinks = []
   }
 
   fillRow (parent, { name, url, count }) {
@@ -57,20 +78,26 @@ export default class Queues extends HTMLElement {
 
   onQueueClicked (e) {
     const { target: selectedQueue } = e
-    this.sendChangedEvent(
-      selectedQueue.name,
-      selectedQueue.getAttribute('data-count'),
-    )
+
+    this.sendChangedEvent(selectedQueue)
     e.preventDefault()
     return false
   }
 
-  sendChangedEvent (queueName, count) {
+  sendChangedEvent ({ name: queueName, count }) {
+    if (this.selectedQueue && this.selectedQueue.name === queueName && this.selectedQueue.count === count) {
+      return
+    }
+
     this.dispatchEvent(
       new CustomEvent('selectedQueueChange', {
         detail: { queueName, count },
         bubbles: true,
       }),
     )
+    this.selectedQueue = {
+      name: queueName,
+      count,
+    }
   }
 }

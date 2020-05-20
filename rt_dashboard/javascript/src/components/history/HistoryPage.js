@@ -1,4 +1,5 @@
 import templateHtml from './HistoryPage.html'
+import styles from '../../../styles/main.scss'
 import { loadTemplate } from '../../utils/dom'
 import { getHistory } from '../../api'
 
@@ -8,7 +9,7 @@ export default class HistoryPage extends HTMLElement {
 
     this.attachShadow({ mode: 'open' })
 
-    loadTemplate(this.shadowRoot, templateHtml)
+    loadTemplate(this.shadowRoot, templateHtml, styles)
 
     this._chart = this.shadowRoot.getElementById('chart')
 

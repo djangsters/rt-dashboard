@@ -1,4 +1,5 @@
 import templateHtml from './rt-dashboard.html'
+import styles from '../../../styles/main.scss'
 import { loadTemplate } from '../../utils/dom'
 
 const DASHBOARD = 'dashboard-component'
@@ -7,7 +8,7 @@ const HISTORY = 'rt-history'
 export default class RtDashboard extends HTMLElement {
   constructor () {
     super()
-    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml)
+    loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.tabClicked = this.tabClicked.bind(this)
   }

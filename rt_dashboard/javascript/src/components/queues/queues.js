@@ -18,19 +18,18 @@ export default class Queues extends HTMLElement {
   }
 
   connectedCallback () {
-    document.addEventListener('refreshIntervalElapsed', this.onRefresh)
+    document.addEventListener('refresh', this.onRefresh)
     this.refreshQueues()
   }
 
   disconnectedCallback () {
-    document.removeEventListener('refreshIntervalElapsed', this.onRefresh)
+    document.removeEventListener('refresh', this.onRefresh)
     this.removeQueueClickHandlers()
   }
 
   refreshQueues () {
-    this.removeQueueClickHandlers()
-
     getQueues((data) => {
+      this.removeQueueClickHandlers()
       const tbody = this.shadowRoot.querySelector('tbody')
 
       if (!data || data.length <= 0) {
@@ -46,8 +45,8 @@ export default class Queues extends HTMLElement {
 
       let [first] = data
       first = data.find(q => q.name.startsWith('[running')) ?? first
-      this.selectedQueue = this.selectedQueue ? data.find(q => q.name === this.selectedQueue.name) : first
-      this.sendChangedEvent(this.selectedQueue)
+      const newQueueInfo = this.selectedQueue ? data.find(q => q.name === this.selectedQueue.name) : first
+      this.sendChangedEvent(newQueueInfo)
     })
   }
 
@@ -79,21 +78,26 @@ export default class Queues extends HTMLElement {
 
   onQueueClicked (e) {
     const { target: selectedQueue } = e
-    this.selectedQueue = {
-      name: selectedQueue.name,
-      count: selectedQueue.getAttribute('data-count'),
-    }
+
     this.sendChangedEvent(selectedQueue)
     e.preventDefault()
     return false
   }
 
   sendChangedEvent ({ name: queueName, count }) {
+    if (this.selectedQueue && this.selectedQueue.name === queueName && this.selectedQueue.count === count) {
+      return
+    }
+
     this.dispatchEvent(
       new CustomEvent('selectedQueueChange', {
         detail: { queueName, count },
         bubbles: true,
       }),
     )
+    this.selectedQueue = {
+      name: queueName,
+      count,
+    }
   }
 }

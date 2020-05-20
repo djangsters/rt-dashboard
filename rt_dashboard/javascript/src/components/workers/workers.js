@@ -22,14 +22,14 @@ export default class Workers extends HTMLElement {
     const btn = this.shadowRoot.querySelector('button#workers-btn')
     btn.addEventListener('click', this.onWorkersBtnClick)
 
-    document.addEventListener('refreshIntervalElapsed', this.onRefresh)
+    document.addEventListener('refresh', this.onRefresh)
 
     this.refreshWorkers()
   }
 
   disconnectedCallback () {
     this.removeEventListener('click', this.onWorkersBtnClick)
-    document.removeEventListener('refreshIntervalElapsed', this.onRefresh)
+    document.removeEventListener('refresh', this.onRefresh)
   }
 
   mapToRow (parent, { name, state, queues }) {

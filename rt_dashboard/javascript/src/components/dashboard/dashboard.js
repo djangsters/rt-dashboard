@@ -1,8 +1,9 @@
 import templateHtml from './dashboard.html'
 import styles from '../../../styles/main.scss'
 import { loadTemplate } from '../../utils/dom'
+import { getPollInterval } from '../../api'
 
-const REFRESH_INTERVAL = 3000
+const REFRESH_INTERVAL = getPollInterval() || 3000
 
 export default class Dashboard extends HTMLElement {
   constructor () {
@@ -11,17 +12,19 @@ export default class Dashboard extends HTMLElement {
     loadTemplate(this.attachShadow({ mode: 'open' }), templateHtml, styles)
 
     this.selectedQueueChange = this.selectedQueueChange.bind(this)
-
-    setInterval(this.refreshInterval.bind(this), REFRESH_INTERVAL)
   }
 
   connectedCallback () {
     const queuesComponent = this.shadowRoot.querySelector('queues-component')
     queuesComponent.addEventListener('selectedQueueChange', this.selectedQueueChange)
+
+    this.intervalId = setInterval(this.refreshInterval.bind(this), REFRESH_INTERVAL)
   }
 
   disconnectedCallback () {
     this.removeEventListener('selectedQueueChange', this.selectedQueueChange)
+
+    clearInterval(this.intervalId)
   }
 
   selectedQueueChange (event) {
@@ -32,7 +35,7 @@ export default class Dashboard extends HTMLElement {
 
   refreshInterval () {
     document.dispatchEvent(
-      new CustomEvent('refreshIntervalElapsed'),
+      new CustomEvent('refresh'),
     )
   }
 }

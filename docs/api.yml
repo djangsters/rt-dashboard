@@ -177,9 +177,17 @@ paths:
                                     type: string
                                     format: url
                       next_page:
-                        type: integer
+                        type: object
+                        properties:
+                            url:
+                                type: string
+                                format: url
                       prev_page:
-                        type: integer
+                        type: object
+                        properties:
+                            url:
+                                type: string
+                                format: url
   /workers.json:
     get:
       summary: List workers and their state

@@ -101,7 +101,7 @@ def get_history():
             keys.update({
                 'end': t.ended_at,
                 'type': 'range',
-                'content': [str(t.ended_at - t.started_at)],
+                'content': f'[{t.ended_at - t.started_at}]',
             })
         else:
             keys.update({

@@ -219,6 +219,7 @@ export default class Tasks extends HTMLElement {
   updatePager (pagination, currentPage = 1) {
     const pagerComponent = this.shadowRoot.querySelector('pager-component')
     pagerComponent.pagination = {
+      pages_in_window: [{ number: 1 }],
       ...pagination,
       currentPage,
     }

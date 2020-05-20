@@ -64,13 +64,17 @@ module.exports = {
   target: 'web',
   devServer: {
     proxy: {
-      '/admin': 'https://172.16.0.5/admin/',
+      '**': {
+        target: 'https://dev.yourfirm.de/',
+        secure: false,
+        changeOrigin: true,
+      },
     },
     contentBase: path.join(__dirname, 'rt_dashboard/static'),
     historyApiFallback: true,
     hot: true,
     https: false,
     noInfo: true,
-    ...devServerConfig,
+    // ...devServerConfig,
   },
 }

@@ -49,8 +49,8 @@ export default class Queues extends HTMLElement {
 
     let [first] = queues
     first = queues.find(q => q.name.startsWith('[running')) ?? first
-    this.selectedQueue = this.selectedQueue ? queues.find(q => q.name === this.selectedQueue.name) : first
-    this.sendChangedEvent(this.selectedQueue)
+    const selectedQueue = this.selectedQueue ? queues.find(q => q.name === this.selectedQueue.name) : first
+    this.sendChangedEvent(selectedQueue)
   }
 
   onRefresh () {
@@ -98,6 +98,7 @@ export default class Queues extends HTMLElement {
         bubbles: true,
       }),
     )
+
     this.selectedQueue = {
       name: queueName,
       count,

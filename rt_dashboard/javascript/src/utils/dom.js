@@ -28,10 +28,12 @@ export const removeChildNodes = (node) => {
   })
 }
 
-export const mapDataToElements = (table, data, itemMapper) => {
-  removeChildNodes(table)
+export const mapDataToElements = (parent, data, itemMapper) => {
+  const parentTemplate = createElement(parent.tagName)
 
-  data.forEach(item => itemMapper(table, item))
+  data.forEach(item => itemMapper(parentTemplate, item))
+
+  parent.innerHTML = parentTemplate.innerHTML
 }
 
 export const appendNoDataRow = (parent, text, colspan) => {

@@ -42,9 +42,11 @@ export default class Queues extends HTMLElement {
         this.queuesLinks.push(link)
         link.addEventListener('click', this.onQueueClicked)
       })
+
       let [first] = data
       first = data.find(q => q.name.startsWith('[running')) ?? first
-      this.sendChangedEvent(first.name, first.count)
+      this.selectedQueue = this.selectedQueue ? data.find(q => q.name === this.selectedQueue.name) : first
+      this.sendChangedEvent(this.selectedQueue)
     })
   }
 
@@ -76,16 +78,16 @@ export default class Queues extends HTMLElement {
 
   onQueueClicked (e) {
     const { target: selectedQueue } = e
-    this.selectedQueue = selectedQueue.name
-    this.sendChangedEvent(
-      selectedQueue.name,
-      selectedQueue.getAttribute('data-count'),
-    )
+    this.selectedQueue = {
+      name: selectedQueue.name,
+      count: selectedQueue.getAttribute('data-count'),
+    }
+    this.sendChangedEvent(selectedQueue)
     e.preventDefault()
     return false
   }
 
-  sendChangedEvent (queueName, count) {
+  sendChangedEvent ({ name: queueName, count }) {
     this.dispatchEvent(
       new CustomEvent('selectedQueueChange', {
         detail: { queueName, count },

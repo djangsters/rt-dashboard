@@ -11,13 +11,6 @@ from redis_tasks.utils import utcnow
 from redis_tasks.worker import Worker
 
 
-def jsdate(d):
-    t = list(d.timetuple()[:6])
-    # In js, January is 0
-    t[1] -= 1
-    return 'new Date{}'.format(tuple(t))
-
-
 def task_tooltip(t):
     return f'''
     <b>{t.description}</b><br>
@@ -101,7 +94,7 @@ def get_history():
             keys.update({
                 'end': t.ended_at,
                 'type': 'range',
-                'content': '[{}]'.format(t.ended_at - t.started_at),
+                'content': f'[{t.ended_at - t.started_at}]',
             })
         else:
             keys.update({
@@ -114,17 +107,12 @@ def get_history():
         elif t.status == 'running':
             keys['style'] = 'border-color: {0}; background-color: {0}'.format('#D5F6D7')
 
-        keys = {k: jsdate(v) if isinstance(v, datetime.datetime) else repr(v)
+        keys = {k: v.timestamp() if isinstance(v, datetime.datetime) else v
                 for k, v in keys.items()}
-        rows.append('{' + ','.join('{}: {}'.format(k, v) for k, v in keys.items()) + '}')
+        rows.append(keys)
 
-    return {"rows": rows, "groups": groups}
-
-
-def get_history_context():
-    history = get_history()
-    rendered_groups = ",\n".join(
-        "{{id: '{0}', content: '{0}', order: {1}}}".format(group_tasks[0].func_name, i)
-        for i, group_tasks in enumerate(history["groups"]))
-    rendered_rows = ",\n".join(history["rows"])
-    return {"rows": rendered_rows, "groups": rendered_groups}
+    return {
+        "rows": rows,
+        "groups": [{'id': group[0].func_name, 'content': group[0].func_name, 'order': i}
+                   for i, group in enumerate(groups)],
+    }

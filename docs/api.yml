@@ -34,6 +34,17 @@ paths:
                           enum: [range, point]
                         content:
                           type: string
+                  groups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: number
+                        order:
+                          type: number
   /job/{job_id}/cancel:
     post:
       summary: Cancel the job with the specified job_id

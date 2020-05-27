@@ -25,7 +25,7 @@ def get_admin_view(base_path):
         else:
             return render(request, 'rt_dashboard_admin.html', {
                 'title': 'RT Dashboard',
-                'iframe_src': base_path + '/inner/app/',
+                'iframe_src': base_path + '/inner/app',
             })
 
     return view

@@ -137,11 +137,17 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - queues
                 properties:
                   queues:
                     type: array
                     items:
                       type: object
+                      required:
+                        - name
+                        - count
+                        - url
                       properties:
                         name:
                           type: string

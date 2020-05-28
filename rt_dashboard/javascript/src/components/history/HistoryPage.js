@@ -21,19 +21,18 @@ export default class HistoryPage extends HTMLElement {
     this.shadowRoot.getElementById('pan-right').addEventListener('click', () => this._chart.panRight())
   }
 
-  async connectedCallback () {
+  async fetchData () {
     if (process.env.NODE_ENV === 'production') {
-      const data = Promise.all([
-        await getHistory({ signal: this._controller.signal }),
-        await whenUpgraded(this._chart)
-      ])
-      if (data) {
-        this._chart.setHistoryData(data)
-      }
-    } else {
+      return getHistory({ signal: this._controller.signal })
+    }
+    return require('./history').then((data) => data.default || data)
+  }
+
+  async connectedCallback () {
+    const data = await this.fetchData()
+    if (data) {
       await whenUpgraded(this._chart)
-      const data = await require('./history')
-      return this._chart.setHistoryData(data.default || data)
+      this._chart.setHistoryData(data)
     }
   }
 

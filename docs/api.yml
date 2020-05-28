@@ -195,6 +195,9 @@ paths:
                         started_at:
                           type: string
                           format: date-time
+                        ended_at:
+                          type: string
+                          format: date-time
                         origin:
                           type: string
                         error_message:

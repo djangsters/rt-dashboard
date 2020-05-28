@@ -275,11 +275,17 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - workers
                 properties:
                   workers:
                     type: array
                     items:
                       type: object
+                      required:
+                        - name
+                        - queues
+                        - state
                       properties:
                         name:
                           type: string

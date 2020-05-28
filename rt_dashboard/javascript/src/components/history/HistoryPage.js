@@ -22,6 +22,7 @@ export default class HistoryPage extends HTMLElement {
   }
 
   async connectedCallback () {
+    await customElements.whenDefined('rt-history-chart')
     if (process.env.NODE_ENV === 'production') {
       const data = await getHistory({ signal: this._controller.signal })
       if (data) {
@@ -29,7 +30,11 @@ export default class HistoryPage extends HTMLElement {
       }
     } else {
       const data = await require('./history')
-      return this._chart.setHistoryData(data.default || data)
+      if (this._chart.setHistoryData) {
+        return this._chart.setHistoryData(data.default || data)
+      } else {
+        this._chart.addEventListener('upgrade', () => this._chart.setHistoryData(data.default || data))
+      }
     }
   }
 

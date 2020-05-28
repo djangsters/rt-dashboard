@@ -1,8 +1,75 @@
+<style>
+  .toast {
+    position: absolute;
+    left: calc(50% - 175px);
+    top: 10px;
+    z-index: 1000;
+
+    max-width: 350px;
+    overflow: hidden;
+    font-size: 0.875rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    border-radius: 0.25rem;
+  }
+  .toast.hide {
+    display: none;
+  }
+  .toast.show {
+    opacity: 1;
+    display: block;
+  }
+
+  .toast-header {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    color: #6c757d;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-clip: padding-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .mr-auto {
+    margin-right: auto;
+  }
+
+  .close {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    appearance: none;
+
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+
+    margin-left: 0.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .toast-body {
+    padding: 0.75rem;
+  }
+
+  .d-none {
+    display: none;
+  }
+
+</style>
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
   <div class="toast-header">
     <strong class="mr-auto" id="title"></strong>
-    <small id="time"></small>
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+    <small id="time" class="d-none"></small>
+    <button type="button" class="close" data-dismiss="toast" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

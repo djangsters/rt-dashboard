@@ -1,39 +1,55 @@
 import html from './toast.html'
-import styles from '../../../styles/main.scss'
 import { loadTemplate } from '../../utils/dom'
 
-import $ from 'jquery'
-
-const TOAST_TIMEOUT = 5 * 1000
+const TOAST_TIMEOUT = 10 * 1000
 
 export default class Toast extends HTMLElement {
   constructor () {
     super()
 
-    loadTemplate(this.attachShadow({ mode: 'open' }), html, styles)
+    loadTemplate(this.attachShadow({ mode: 'open' }), html)
 
     this.showToast = this.showToast.bind(this)
+    this.onClose = this.onClose.bind(this)
   }
 
   connectedCallback () {
     document.addEventListener('toast', this.showToast)
-    const toast = this.shadowRoot.querySelector('.toast')
-    this.toast = $(toast).toast({
-      delay: TOAST_TIMEOUT,
-    })
+    this.toast = this.shadowRoot.querySelector('.toast')
+    const closeBtn = this.shadowRoot.querySelector('button.close')
+    closeBtn.addEventListener('click', this.onClose)
   }
 
   disconnectedCallback () {
     document.removeEventListener('toast', this.showToast)
   }
 
+  onClose (event) {
+    this.toast.classList.add('hide')
+    this.toast.classList.remove('show')
+  }
+
   showToast (event) {
     const { detail: { title, message } } = event
-    this.toast.toast('hide')
+    const timestamp = new Date().getTime()
+    this.toast.classList.add('hide')
+    this.toast.classList.remove('show')
     const toastTitle = this.shadowRoot.querySelector('#title')
     const toastMessage = this.shadowRoot.querySelector('#message')
+    const toastTimestamp = this.shadowRoot.querySelector('#time')
     toastTitle.innerHTML = title
     toastMessage.innerHTML = message
-    this.toast.toast('show')
+    toastTimestamp.innerHTML = timestamp
+    this.toast.classList.add('show')
+    this.toast.classList.remove('hide')
+
+    setTimeout(() => {
+      const toastTimestamp = this.shadowRoot.querySelector('#time').innerHTML
+      const currentTimeStamp = parseInt(toastTimestamp)
+      if (currentTimeStamp === timestamp) {
+        this.toast.classList.add('hide')
+        this.toast.classList.remove('show')
+      }
+    }, TOAST_TIMEOUT)
   }
 }

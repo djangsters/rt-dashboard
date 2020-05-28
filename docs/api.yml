@@ -15,6 +15,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - rows
+                  - groups
                 properties:
                   rows:
                     type: array
@@ -59,6 +62,10 @@ paths:
                     type: array
                     items:
                       type: object
+                      required:
+                        - id
+                        - content
+                        - order
                       properties:
                         id:
                           type: string

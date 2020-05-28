@@ -1,6 +1,5 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const devServerConfig = require('./webpack.devserver.config')
 
 module.exports = {
   context: path.resolve(__dirname, 'rt_dashboard'),

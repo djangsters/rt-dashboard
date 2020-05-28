@@ -20,20 +20,38 @@ paths:
                     type: array
                     items:
                       type: object
+                      required:
+                        - group
+                        - subgroup
+                        - start
+                        - title
                       properties:
                         group:
                           type: string
+                          description: Name of the task
                         subgroup:
-                          type: number
+                          type: integer
+                          description: Id of the worker
                         start:
-                          type: number
+                          type: integer
+                          format: timestamp
+                          description: Start time of the task in unix timestamp format
                         end:
-                          type: number
+                          type: integer
+                          format: timestamp
+                          description: End time of the task in unix timestamp format when `type` is range
                         type:
                           type: string
                           enum: [range, point]
                         content:
                           type: string
+                          description: Short info about the task
+                        title:
+                          type: string
+                          description: Detailed information about the task
+                        style:
+                          type: string
+                          description: Style attribute to apply on the rendered task
                   groups:
                     type: array
                     items:
@@ -42,9 +60,9 @@ paths:
                         id:
                           type: string
                         content:
-                          type: number
+                          type: integer
                         order:
-                          type: number
+                          type: integer
   /job/{job_id}/cancel:
     post:
       summary: Cancel the job with the specified job_id
@@ -180,25 +198,25 @@ paths:
                       pages_in_window:
                         type: array
                         items:
-                            type: object
-                            properties:
-                                number:
-                                    type: integer
-                                url:
-                                    type: string
-                                    format: url
+                          type: object
+                          properties:
+                            number:
+                              type: integer
+                            url:
+                              type: string
+                              format: url
                       next_page:
                         type: object
                         properties:
-                            url:
-                                type: string
-                                format: url
+                          url:
+                            type: string
+                            format: url
                       prev_page:
                         type: object
                         properties:
-                            url:
-                                type: string
-                                format: url
+                          url:
+                            type: string
+                            format: url
   /workers.json:
     get:
       summary: List workers and their state

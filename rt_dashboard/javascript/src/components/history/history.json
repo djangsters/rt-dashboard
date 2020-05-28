@@ -1,0 +1,78 @@
+{
+  "rows": [
+    {
+      "group": "maintenance.feature",
+      "subgroup": 0,
+      "start": 1585200000,
+      "end": 1585300000,
+      "title": "Maintenance of feature 1",
+      "type": "range"
+    },
+    {
+      "group": "maintenance.feature",
+      "subgroup": 1,
+      "start": 1585220000,
+      "end": 1585400000,
+      "title": "Maintenance of feature 2",
+      "type": "range"
+    },
+    {
+      "group": "accident.feature",
+      "subgroup": 0,
+      "start": 1585500000,
+      "end": 1585550000,
+      "title": "Accident of feature 1",
+      "type": "range"
+    },
+    {
+      "group": "maintenance.feature",
+      "subgroup": 0,
+      "start": 1585600000,
+      "end": 1585650000,
+      "title": "Maintenance of feature 1",
+      "type": "range"
+    },
+    {
+      "group": "point.run",
+      "subgroup": 0,
+      "start": "1585210000",
+      "title": "Run 1",
+      "type": "point"
+    },
+    {
+      "group": "point.run",
+      "subgroup": 0,
+      "start": "1585220000",
+      "title": "Run 2",
+      "type": "point"
+    },
+    {
+      "group": "point.run",
+      "subgroup": 0,
+      "start": "1585230000",
+      "title": "Run 3",
+      "type": "point"
+    },
+    {
+      "group": "point.run",
+      "subgroup": 1,
+      "start": "1585215000",
+      "title": "Run 1",
+      "type": "point"
+    },
+    {
+      "group": "point.run",
+      "subgroup": 1,
+      "start": "1585225000",
+      "title": "Run 2",
+      "type": "point"
+    },
+    {
+      "group": "point.run",
+      "subgroup": 1,
+      "start": "1585235000",
+      "title": "Run 3",
+      "type": "point"
+    }
+  ]
+}

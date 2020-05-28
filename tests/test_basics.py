@@ -4,7 +4,7 @@ import json
 def test_dashboard_ok(app):
     response = app.get_response('localhost', '/')
     assert response.status_code == 200
-    assert b"RQ dashboard" in response.data
+    assert b"RT dashboard" in response.data
 
 
 def test_queues_list_json(app):

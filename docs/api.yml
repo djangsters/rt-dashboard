@@ -183,6 +183,15 @@ paths:
                     
                     items:
                       type: object
+                      required: 
+                        - id
+                        - status
+                        - enqueued_at
+                        - started_at
+                        - ended_at
+                        - origin
+                        - error_message
+                        - description
                       properties:
                         id:
                           type: string

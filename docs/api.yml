@@ -130,7 +130,9 @@ paths:
       responses:
         200:
           description: |
-            Return object containting list of queues and theis states
+            Return object containing a list of queues and the `[failed]`,
+            `[finished]` and `[running]` registries, the number of elements
+            in them and an url for more details on them.
           content:
             application/json:
               schema:

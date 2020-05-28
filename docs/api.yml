@@ -25,6 +25,8 @@ paths:
                         - subgroup
                         - start
                         - title
+                        - type
+                        - content
                       properties:
                         group:
                           type: string

@@ -177,6 +177,10 @@ paths:
                     type: string
                   jobs:
                     type: array
+                    description: |
+                      Default ordering is oldest entries first, except for the
+                      `[failed]` and `[finished]` registries, where it is newest first.
+                    
                     items:
                       type: object
                       properties:

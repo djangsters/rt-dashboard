@@ -23,5 +23,5 @@ def test_workers_list_json(app):
 
 
 def test_queue_empty(app):
-    response = app.get_response('localhost', '/queue/dashboardtestqueue/empty', method='POST')
+    response = app.get_response('localhost', '/queue/dashboardtestqueue/empty')
     assert response.status_code == 200

@@ -62,6 +62,13 @@ module.exports = {
   devtool: 'source-map',
   target: 'web',
   devServer: {
+    proxy: {
+      '**': {
+        target: 'https://dev.yourfirm.de/',
+        secure: false,
+        changeOrigin: true,
+      },
+    },
     contentBase: path.join(__dirname, 'rt_dashboard/static'),
     historyApiFallback: true,
     hot: true,

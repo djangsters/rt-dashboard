@@ -178,6 +178,10 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - name
+                  - jobs
+                  - pagination
                 properties:
                   name:
                     type: string
@@ -225,6 +229,10 @@ paths:
                             Only present for running jobs (aka in `[running]` registry)
                   pagination:
                     type: object
+                    required:
+                      - pages_in_window
+                      - next_page
+                      - prev_page
                     properties:
                       pages_in_window:
                         type: array

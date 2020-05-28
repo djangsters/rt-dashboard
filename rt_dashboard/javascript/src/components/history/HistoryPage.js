@@ -22,7 +22,9 @@ export default class HistoryPage extends HTMLElement {
   }
 
   async connectedCallback () {
+    this._chart.data = 'alabala'
     await customElements.whenDefined('rt-history-chart')
+    await customElements.whenDefined(this._chart)
     if (process.env.NODE_ENV === 'production') {
       const data = await getHistory({ signal: this._controller.signal })
       if (data) {
@@ -33,6 +35,7 @@ export default class HistoryPage extends HTMLElement {
       if (this._chart.setHistoryData) {
         return this._chart.setHistoryData(data.default || data)
       } else {
+        console.log('chart not upgraded yet, falling back to upgrade event')
         this._chart.addEventListener('upgrade', () => this._chart.setHistoryData(data.default || data))
       }
     }

@@ -46,3 +46,8 @@ export const appendNoDataRow = (parent, text, colspan) => {
   td.innerHTML = text
   td.setAttribute('colspan', colspan)
 }
+
+export const whenUpgraded = async (node) => {
+  await customElements.whenDefined(node.localName)
+  customElements.upgrade(node)
+}

@@ -233,12 +233,20 @@ paths:
                               format: url
                       next_page:
                         type: object
+                        nullable: true
+                        description: |
+                          Despite the naming actually provides a link to the LAST page.
+                          On the last page 'null' is used instead of an object.
                         properties:
                           url:
                             type: string
                             format: url
                       prev_page:
                         type: object
+                        nullable: true
+                        description: |
+                          Despite the naming actually provides a link to the FIRST page.
+                          On the first page 'null' is used instead of an object.
                         properties:
                           url:
                             type: string

@@ -213,6 +213,11 @@ paths:
                           type: string
                         description:
                           type: string
+                        worker:
+                          type: string
+                          description: |
+                            Description of Worker that the job is being executed on.
+                            Only present for running jobs (aka in `[running]` registry)
                   pagination:
                     type: object
                     properties:

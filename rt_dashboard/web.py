@@ -184,14 +184,14 @@ def history_json():
     return get_history()
 
 
-@app.route('/job/<job_id>/cancel', methods=['POST'])
+@app.route('/job/<job_id>/cancel', methods=['GET'])
 @jsonify
 def cancel_job_view(job_id):
     Task.fetch(job_id).cancel()
     return dict(status='OK')
 
 
-@app.route('/queue/<queue_name>/empty', methods=['POST'])
+@app.route('/queue/<queue_name>/empty', methods=['GET'])
 @jsonify
 def empty_queue(queue_name):
     if queue_name == '[failed]':
@@ -204,7 +204,7 @@ def empty_queue(queue_name):
     return dict(status='OK')
 
 
-@app.route('/queue/<queue_name>/delete', methods=['POST'])
+@app.route('/queue/<queue_name>/delete', methods=['GET'])
 @jsonify
 def delete_queue(queue_name):
     queue = Queue(queue_name)

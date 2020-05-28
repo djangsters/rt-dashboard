@@ -14,10 +14,6 @@ export default class HistoryChart extends HTMLElement {
     this._root = this.shadowRoot.getElementById('chart-container')
   }
 
-  connectedCallback () {
-    this.dispatchEvent(new CustomEvent('upgrade', { bubbles: false }))
-  }
-
   zoomIn () {
     this._gantt.zoomInOut('in')
   }

@@ -37,7 +37,7 @@ export default class Pager extends HTMLElement {
 
   onPageClicked (e) {
     const { target: pageLink } = e
-    const number = pageLink.page
+    const number = parseInt(pageLink.getAttribute('data-page'))
     this.current = number
 
     this.dispatchEvent(
@@ -79,6 +79,11 @@ export default class Pager extends HTMLElement {
 
     const pagesList = this.shadowRoot.querySelector('ul.pagination')
     mapDataToElements(pagesList, pages, this.mapToPageLinks)
+
+    Array.from(this.shadowRoot.querySelectorAll('li a')).forEach((link) => {
+      link.addEventListener('click', this.onPageClicked)
+      this.pageLinks.push(link)
+    })
   }
 
   removeEventListeners () {
@@ -96,9 +101,7 @@ export default class Pager extends HTMLElement {
     const link = appendElement('a', li, 'page-link', page.text)
     if (page.number) {
       link.setAttribute('href', `#${page.number}`)
-      link.page = page.number
-      link.addEventListener('click', this.onPageClicked)
-      this.pageLinks.push(link)
+      link.setAttribute('data-page', page.number)
     }
   }
 }

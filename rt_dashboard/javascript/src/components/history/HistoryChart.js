@@ -12,16 +12,10 @@ export default class HistoryChart extends HTMLElement {
     loadTemplate(this.shadowRoot, templateHtml)
 
     this._root = this.shadowRoot.getElementById('chart-container')
-    console.log('chart constructor data', this.data)
   }
 
   connectedCallback () {
     this.dispatchEvent(new CustomEvent('upgrade', { bubbles: false }))
-    console.log('chart connected data', this.data)
-  }
-
-  set data (val) {
-    console.log('chart set data', val)
   }
 
   zoomIn () {

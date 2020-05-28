@@ -1,6 +1,6 @@
 import templateHtml from './HistoryPage.html'
 import styles from '../../../styles/main.scss'
-import { loadTemplate } from '../../utils/dom'
+import { loadTemplate, whenUpgraded } from '../../utils/dom'
 import { getHistory } from '../../api'
 
 export default class HistoryPage extends HTMLElement {
@@ -22,22 +22,18 @@ export default class HistoryPage extends HTMLElement {
   }
 
   async connectedCallback () {
-    this._chart.data = 'alabala'
-    await customElements.whenDefined('rt-history-chart')
-    await customElements.whenDefined(this._chart)
     if (process.env.NODE_ENV === 'production') {
-      const data = await getHistory({ signal: this._controller.signal })
+      const data = Promise.all([
+        await getHistory({ signal: this._controller.signal }),
+        await whenUpgraded(this._chart)
+      ])
       if (data) {
         this._chart.setHistoryData(data)
       }
     } else {
+      await whenUpgraded(this._chart)
       const data = await require('./history')
-      if (this._chart.setHistoryData) {
-        return this._chart.setHistoryData(data.default || data)
-      } else {
-        console.log('chart not upgraded yet, falling back to upgrade event')
-        this._chart.addEventListener('upgrade', () => this._chart.setHistoryData(data.default || data))
-      }
+      return this._chart.setHistoryData(data.default || data)
     }
   }
 

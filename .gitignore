@@ -8,3 +8,4 @@ dump.rdb
 /.direnv
 ._*
 .pytest_cache
+/docs/build

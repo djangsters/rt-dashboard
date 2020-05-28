@@ -48,6 +48,7 @@ paths:
                           description: Short info about the task
                         title:
                           type: string
+                          format: html
                           description: Detailed information about the task
                         style:
                           type: string

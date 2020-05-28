@@ -11,13 +11,6 @@ from redis_tasks.utils import utcnow
 from redis_tasks.worker import Worker
 
 
-def jsdate(d):
-    t = list(d.timetuple()[:6])
-    # In js, January is 0
-    t[1] -= 1
-    return 'new Date{}'.format(tuple(t))
-
-
 def task_tooltip(t):
     return f'''
     <b>{t.description}</b><br>
@@ -27,7 +20,7 @@ def task_tooltip(t):
     '''
 
 
-def get_history_context():
+def get_history():
     max_finished_tasks = 5000
     max_failed_tasks = 1000
     finished_tasks = finished_task_registry.get_tasks(-max_finished_tasks, -1)
@@ -73,11 +66,8 @@ def get_history_context():
         by_func.values(),
         key=lambda group_tasks: (
             min(t.started_at.timetuple()[3:] for t in group_tasks),
-            max(t.ended_at - t.started_at for t in group_tasks)
+            max(t.ended_at - t.started_at for t in group_tasks),
         ))
-    groups = ",\n".join(
-        "{{id: '{0}', content: '{0}', order: {1}}}".format(group_tasks[0].func_name, i)
-        for i, group_tasks in enumerate(groups))
 
     collapsed_groups = {k for k, v in by_func.items()
                         if len(v) / len(tasks) < 0.02}
@@ -104,7 +94,7 @@ def get_history_context():
             keys.update({
                 'end': t.ended_at,
                 'type': 'range',
-                'content': '[{}]'.format(t.ended_at - t.started_at),
+                'content': f'[{t.ended_at - t.started_at}]',
             })
         else:
             keys.update({
@@ -117,9 +107,12 @@ def get_history_context():
         elif t.status == 'running':
             keys['style'] = 'border-color: {0}; background-color: {0}'.format('#D5F6D7')
 
-        keys = {k: jsdate(v) if isinstance(v, datetime.datetime) else repr(v)
+        keys = {k: v.timestamp() if isinstance(v, datetime.datetime) else v
                 for k, v in keys.items()}
-        rows.append('{' + ','.join('{}: {}'.format(k, v) for k, v in keys.items()) + '}')
-    rowtext = ",\n".join(rows)
+        rows.append(keys)
 
-    return dict(rows=rowtext, groups=groups)
+    return {
+        "rows": rows,
+        "groups": [{'id': group[0].func_name, 'content': group[0].func_name, 'order': i}
+                   for i, group in enumerate(groups)],
+    }

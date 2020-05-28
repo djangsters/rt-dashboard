@@ -289,9 +289,12 @@ paths:
                       properties:
                         name:
                           type: string
+                          description: Description of the worker
                         queues:
                           type: array
+                          description: List of queue names the worker consumes from
                           items:
                             type: string
                         state:
                           type: string
+                          enum: [idle, busy, dead]

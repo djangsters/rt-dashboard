@@ -1,0 +1,32 @@
+<div class="section">
+
+  <h1>Workers</h1>
+
+
+  <p id="workers-count" class="fixed intro">
+    <button id="workers-btn" type="button" class="btn btn-info">Toggle workers list</button>
+    <span>No workers registered!</span>
+  </p>
+
+  <table id="workers" class="table table-bordered">
+    <thead>
+      <tr>
+        <th style="width:48px">State</th>
+        <th>Worker</th>
+        <th>Queues</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-role="loading-placeholder">
+        <td colspan="3">Loading...</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script name="no-workers-row" type="text/template">
+      <tr>
+          <td colspan="3">No workers.</td>
+      </tr>
+  </script>
+
+</div>

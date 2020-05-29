@@ -25,7 +25,7 @@ export default class HistoryPage extends HTMLElement {
     if (process.env.NODE_ENV === 'production') {
       return getHistory({ signal: this._controller.signal })
     }
-    return require('./history').then((data) => data.default || data)
+    return import('./history').then((data) => data.default || data)
   }
 
   async connectedCallback () {

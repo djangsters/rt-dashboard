@@ -256,7 +256,7 @@ paths:
                         nullable: true
                         description: |
                           Despite the naming actually provides a link to the LAST page.
-                          On the last page 'null' is used instead of an object.
+                          On the last page 'null' is returned instead of an object.
                         properties:
                           url:
                             type: string
@@ -266,7 +266,7 @@ paths:
                         nullable: true
                         description: |
                           Despite the naming actually provides a link to the FIRST page.
-                          On the first page 'null' is used instead of an object.
+                          On the first page 'null' is returned instead of an object.
                         properties:
                           url:
                             type: string

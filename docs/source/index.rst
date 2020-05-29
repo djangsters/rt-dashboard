@@ -12,7 +12,7 @@ Welcome to rt-dashboard's documentation!
    :maxdepth: 2
 
    api
-   modules
+   rt_dashboard
 
 Indices and tables
 ==================

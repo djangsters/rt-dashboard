@@ -43,10 +43,8 @@ export default class Toast extends HTMLElement {
     this.toast.classList.add('show')
     this.toast.classList.remove('hide')
 
-    setTimeout(() => {
-      const toastTimestamp = this.shadowRoot.querySelector('#time').innerHTML
-      const currentTimeStamp = parseInt(toastTimestamp)
-      if (currentTimeStamp === timestamp) {
+    cancelTimeout(this.timeout)
+    this.timeout = setTimeout(() => {
         this.toast.classList.add('hide')
         this.toast.classList.remove('show')
       }

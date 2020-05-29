@@ -86,8 +86,8 @@ export const getWorkers = async () => executeRequest(fetch(urlFor('workers')))
  */
 export const getHistory = (init) => executeRequest(fetch(urlFor('history'), init))
 
-export const cancelJob = (jobId) => executeRequest(fetch(getApiUrl() + `job/${jobId}/cancel`, { method: 'POST' }))
+export const cancelJob = (jobId) => executeRequest(fetch(getApiUrl() + `job/${jobId}/cancel`))
 
-export const deleteQueue = (queue) => executeRequest(fetch(getApiUrl() + `queue/${queue}/delete`, { method: 'POST' }))
+export const deleteQueue = (queue) => executeRequest(fetch(getApiUrl() + `queue/${queue}/delete`))
 
-export const emptyQueue = (queue) => executeRequest(fetch(getApiUrl() + `queue/${queue}/empty`, { method: 'POST' }))
+export const emptyQueue = (queue) => executeRequest(fetch(getApiUrl() + `queue/${queue}/empty`))

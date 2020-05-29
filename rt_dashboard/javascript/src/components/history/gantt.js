@@ -47,9 +47,7 @@ export default function ganttOuter (config) {
     margin = config.sizing.margin
     height = config.sizing.height - margin.top - margin.bottom - 5
     width = config.sizing.width - margin.right - margin.left - 5
-    if (config.eventSettings.eventTypes.length > 9) {
-      height = config.eventSettings.eventTypes.length * 40
-    }
+    height = Math.max(height, config.eventSettings.eventTypes.length * 40)
 
     currentViewBeginTime = timeHour.offset(minDate, -1)
     currentViewEndTime = timeHour.offset(maxDate, +1)
@@ -204,14 +202,36 @@ export default function ganttOuter (config) {
       .append('svg')
       .attr('class', 'chart')
       .attr('id', config.sizing.location + '-ChartId')
-      .attr('width', width + margin.left + margin.right)
+      .attr('width', config.sizing.width)
       .attr('height', height + margin.top + margin.bottom)
+
+    gantt._x = gantt._svgRoot.append('g')
+      .attr('class', 'x axis')
+      .call(xAxis)
+
+    gantt._y = gantt._svgRoot.append('g')
+      .attr('class', 'y axis')
+      .call(yAxis)
+
+    // measure axis sizes and adjust margins accordingly
+    gantt._x.selectAll('text').each(function () {
+      if (this.getBBox().height > margin.bottom) margin.bottom = this.getBBox().height
+    })
+    gantt._y.selectAll('text').each(function () {
+      if (this.getBBox().width > margin.left) margin.left = this.getBBox().width
+    })
+    width = config.sizing.width - margin.right - margin.left - 5
+
+    gantt._x
+      .attr('transform', `translate(${margin.left}, ${height - margin.bottom})`)
+    gantt._y
+      .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
     gantt._svg = gantt._svgRoot.append('g')
       .attr('class', 'gantt-chart')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
-      .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
     gantt._svg.selectAll('.chart')
       .data(eventList, keyFunction).enter()
@@ -254,21 +274,6 @@ export default function ganttOuter (config) {
       .on('click', function (d) {
 
       })
-
-    gantt._x = gantt._svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-
-    gantt._x
-      .transition()
-      .call(xAxis)
-
-    gantt._y = gantt._svg.append('g')
-      .attr('class', 'y axis')
-
-    gantt._y
-      .transition()
-      .call(yAxis)
 
     return gantt
   }

@@ -1,6 +1,6 @@
 import templateHtml from './HistoryPage.html'
 import styles from '../../../styles/main.scss'
-import { loadTemplate } from '../../utils/dom'
+import { loadTemplate, whenUpgraded } from '../../utils/dom'
 import { getHistory } from '../../api'
 
 export default class HistoryPage extends HTMLElement {
@@ -21,15 +21,18 @@ export default class HistoryPage extends HTMLElement {
     this.shadowRoot.getElementById('pan-right').addEventListener('click', () => this._chart.panRight())
   }
 
-  async connectedCallback () {
+  async fetchData () {
     if (process.env.NODE_ENV === 'production') {
-      const data = await getHistory({ signal: this._controller.signal })
-      if (data) {
-        this._chart.setHistoryData(data)
-      }
-    } else {
-      const data = await require('./history')
-      return this._chart.setHistoryData(data.default || data)
+      return getHistory({ signal: this._controller.signal })
+    }
+    return require('./history').then((data) => data.default || data)
+  }
+
+  async connectedCallback () {
+    const data = await this.fetchData()
+    if (data) {
+      await whenUpgraded(this._chart)
+      this._chart.setHistoryData(data)
     }
   }
 

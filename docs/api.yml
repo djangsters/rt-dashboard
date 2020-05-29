@@ -139,7 +139,7 @@ paths:
           description: |
             Return object containing a list of queues and the `[failed]`,
             `[finished]` and `[running]` registries, the number of elements
-            in them and an url for more details on them.
+            in them and a URL for more details on them.
           content:
             application/json:
               schema:

@@ -8,3 +8,5 @@ rt-dashboard
 `rt-dashboard` allows you to monitor your [redis-tasks](
 https://github.com/djangsters/redis-tasks) queues, jobs, and workers
  in realtime as well as inspect the historical tasks timeline.
+
+You can view the [API Docs using swagger editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/djangsters/rt-dashboard/master/docs/api.yml)

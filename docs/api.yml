@@ -50,7 +50,10 @@ paths:
                           enum: [range, point]
                         content:
                           type: string
-                          description: Short info about the task
+                          description: |
+                            Info about the worker the task is running on,
+                            or the time range string, or the starting time string,
+                            depending on the state
                         title:
                           type: string
                           format: html

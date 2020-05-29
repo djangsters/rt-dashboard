@@ -3,8 +3,14 @@ const API_URL_PARAM_NAME = 'apiUrl'
 const POLL_PARAM_NAME = 'poll'
 
 const requestErrorHandler = error => {
-  console.error(error)
-  alert('Error with network request')
+  document.dispatchEvent(
+    new CustomEvent('toast', {
+      detail: {
+        title: 'Error during network request',
+        message: error,
+      },
+    }),
+  )
 }
 
 /**

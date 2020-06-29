@@ -6,7 +6,8 @@ body {
 
 .container {
     background: white;
-    margin-top: 3em;
+    margin-top: 0;
+    width: 100%;
 }
 
 #content {

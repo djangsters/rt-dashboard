@@ -7,7 +7,7 @@
 attrs==18.1.0             # via pytest
 click==7.1.1              # via pip-tools, redis-tasks
 croniter==0.3.23          # via redis-tasks
-flake8-isort==3.0.0       # via -r requirements.in
+flake8-isort==3.0.1       # via -r requirements.in
 flake8==3.8.3             # via -r requirements.in, flake8-isort
 importlib-metadata==1.6.0  # via flake8, pluggy, pytest
 isort[pyproject]==4.3.21  # via flake8-isort

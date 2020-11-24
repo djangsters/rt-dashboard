@@ -12,7 +12,7 @@ flake8==3.8.3             # via -r requirements.in, flake8-isort
 importlib-metadata==1.6.0  # via flake8, pluggy, pytest
 isort[pyproject]==4.3.21  # via flake8-isort
 jinja2==2.11.2            # via -r requirements.in
-markupsafe==1.0           # via jinja2
+markupsafe==1.1.1         # via jinja2
 mccabe==0.6.1             # via flake8
 more-itertools==4.2.0     # via pytest
 packaging==20.3           # via pytest

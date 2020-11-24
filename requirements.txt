@@ -22,7 +22,7 @@ py==1.9.0                 # via pytest
 pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
 pyparsing==2.4.6          # via packaging
-pytest-mock==3.1.1        # via -r requirements.in
+pytest-mock==3.3.1        # via -r requirements.in
 pytest==6.1.2             # via -r requirements.in, pytest-mock
 python-dateutil==2.7.3    # via croniter
 pytz==2020.1              # via -r requirements.in, redis-tasks

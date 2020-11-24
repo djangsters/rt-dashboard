@@ -10,27 +10,26 @@ croniter==0.3.23          # via redis-tasks
 flake8-isort==3.0.0       # via -r requirements.in
 flake8==3.8.3             # via -r requirements.in, flake8-isort
 importlib-metadata==1.6.0  # via flake8, pluggy, pytest
+iniconfig==1.1.1          # via pytest
 isort[pyproject]==4.3.21  # via flake8-isort
 jinja2==2.11.2            # via -r requirements.in
 markupsafe==1.1.1         # via jinja2
 mccabe==0.6.1             # via flake8
-more-itertools==4.2.0     # via pytest
 packaging==20.3           # via pytest
 pip-tools==5.4.0          # via -r requirements.in
 pluggy==0.13.1            # via pytest
-py==1.5.3                 # via pytest
+py==1.9.0                 # via pytest
 pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
 pyparsing==2.4.6          # via packaging
 pytest-mock==3.1.1        # via -r requirements.in
-pytest==5.4.3             # via -r requirements.in, pytest-mock
+pytest==6.1.2             # via -r requirements.in, pytest-mock
 python-dateutil==2.7.3    # via croniter
 pytz==2020.1              # via -r requirements.in, redis-tasks
 redis-tasks==0.0.9        # via -r requirements.in
 redis==3.5.2              # via redis-tasks
-six==1.11.0               # via more-itertools, packaging, pip-tools, python-dateutil
+six==1.11.0               # via packaging, pip-tools, python-dateutil
 testfixtures==6.14.0      # via flake8-isort
-toml==0.10.0              # via isort
-wcwidth==0.1.9            # via pytest
+toml==0.10.0              # via isort, pytest
 werkzeug==1.0.1           # via -r requirements.in
 zipp==3.1.0               # via importlib-metadata

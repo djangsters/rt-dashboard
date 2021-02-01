@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-attrs==18.1.0
+attrs==20.3.0
     # via pytest
 click==7.1.2
     # via

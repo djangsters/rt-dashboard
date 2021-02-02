@@ -69,7 +69,7 @@ six==1.15.0
     # via
     #   packaging
     #   python-dateutil
-testfixtures==6.15.0
+testfixtures==6.17.1
     # via flake8-isort
 toml==0.10.2
     # via pytest

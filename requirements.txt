@@ -35,7 +35,7 @@ mccabe==0.6.1
     # via flake8
 natsort==7.1.0
     # via croniter
-packaging==20.3
+packaging==20.9
     # via pytest
 pip-tools==5.5.0
     # via -r requirements.in
@@ -66,9 +66,7 @@ redis-tasks==0.0.10
 redis==3.5.3
     # via redis-tasks
 six==1.15.0
-    # via
-    #   packaging
-    #   python-dateutil
+    # via python-dateutil
 testfixtures==6.17.1
     # via flake8-isort
 toml==0.10.2

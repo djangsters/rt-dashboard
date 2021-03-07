@@ -10,7 +10,7 @@ click==7.1.2
     # via
     #   pip-tools
     #   redis-tasks
-croniter==0.3.36
+croniter==1.0.8
     # via redis-tasks
 flake8-isort==4.0.0
     # via -r requirements.in
@@ -18,6 +18,8 @@ flake8==3.8.4
     # via
     #   -r requirements.in
     #   flake8-isort
+future==0.18.2
+    # via croniter
 importlib-metadata==1.6.0
     # via
     #   flake8

@@ -51,7 +51,7 @@ pyparsing==2.4.7
     # via packaging
 pytest-mock==3.5.1
     # via -r requirements.in
-pytest==6.1.2
+pytest==6.2.2
     # via
     #   -r requirements.in
     #   pytest-mock

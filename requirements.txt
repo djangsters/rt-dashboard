@@ -33,7 +33,7 @@ markupsafe==1.1.1
     # via jinja2
 mccabe==0.6.1
     # via flake8
-natsort==7.1.0
+natsort==7.1.1
     # via croniter
 packaging==20.9
     # via pytest

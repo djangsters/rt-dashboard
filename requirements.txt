@@ -75,7 +75,7 @@ typing-extensions==3.7.4.3
     # via importlib-metadata
 werkzeug==1.0.1
     # via -r requirements.in
-zipp==3.4.0
+zipp==3.4.1
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:

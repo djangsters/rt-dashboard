@@ -21,6 +21,7 @@ flake8==3.9.0
 importlib-metadata==3.7.3
     # via
     #   flake8
+    #   pep517
     #   pluggy
     #   pytest
 iniconfig==1.1.1
@@ -37,7 +38,9 @@ natsort==7.1.1
     # via croniter
 packaging==20.9
     # via pytest
-pip-tools==5.5.0
+pep517==0.10.0
+    # via pip-tools
+pip-tools==6.0.1
     # via -r requirements.in
 pluggy==0.13.1
     # via pytest
@@ -70,13 +73,17 @@ six==1.15.0
 testfixtures==6.17.1
     # via flake8-isort
 toml==0.10.2
-    # via pytest
+    # via
+    #   pep517
+    #   pytest
 typing-extensions==3.7.4.3
     # via importlib-metadata
 werkzeug==1.0.1
     # via -r requirements.in
 zipp==3.4.1
-    # via importlib-metadata
+    # via
+    #   importlib-metadata
+    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

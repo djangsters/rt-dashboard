@@ -18,7 +18,7 @@ flake8==3.8.4
     # via
     #   -r requirements.in
     #   flake8-isort
-importlib-metadata==1.6.0
+importlib-metadata==3.7.3
     # via
     #   flake8
     #   pluggy
@@ -71,6 +71,8 @@ testfixtures==6.17.1
     # via flake8-isort
 toml==0.10.2
     # via pytest
+typing-extensions==3.7.4.3
+    # via importlib-metadata
 werkzeug==1.0.1
     # via -r requirements.in
 zipp==3.4.0

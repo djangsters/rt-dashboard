@@ -6,7 +6,7 @@
 #
 attrs==20.3.0
     # via pytest
-click==7.1.2
+click==8.0.0
     # via
     #   pip-tools
     #   redis-tasks

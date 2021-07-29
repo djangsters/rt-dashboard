@@ -6,7 +6,7 @@
 #
 attrs==20.3.0
     # via pytest
-click==7.1.2
+click==8.0.1
     # via
     #   pip-tools
     #   redis-tasks
@@ -20,6 +20,7 @@ flake8-isort==4.0.0
     # via -r requirements.in
 importlib-metadata==4.0.1
     # via
+    #   click
     #   flake8
     #   pep517
     #   pluggy

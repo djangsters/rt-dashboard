@@ -6,11 +6,11 @@
 #
 attrs==20.3.0
     # via pytest
-click==7.1.2
+click==8.0.1
     # via
     #   pip-tools
     #   redis-tasks
-croniter==1.0.10
+croniter==1.0.15
     # via redis-tasks
 flake8==3.9.2
     # via
@@ -20,6 +20,7 @@ flake8-isort==4.0.0
     # via -r requirements.in
 importlib-metadata==4.6.1
     # via
+    #   click
     #   flake8
     #   pep517
     #   pluggy
@@ -28,9 +29,9 @@ iniconfig==1.1.1
     # via pytest
 isort==5.9.2
     # via flake8-isort
-jinja2==2.11.3
+jinja2==3.0.1
     # via -r requirements.in
-markupsafe==1.1.1
+markupsafe==2.0.1
     # via jinja2
 mccabe==0.6.1
     # via flake8
@@ -50,13 +51,13 @@ pyflakes==2.3.1
     # via flake8
 pyparsing==2.4.7
     # via packaging
-pytest==6.2.3
+pytest==6.2.4
     # via
     #   -r requirements.in
     #   pytest-mock
 pytest-mock==3.5.1
     # via -r requirements.in
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via croniter
 pytz==2021.1
     # via

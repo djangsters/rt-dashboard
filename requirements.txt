@@ -18,7 +18,7 @@ flake8==3.9.2
     #   flake8-isort
 flake8-isort==4.0.0
     # via -r requirements.in
-importlib-metadata==4.0.1
+importlib-metadata==4.6.1
     # via
     #   flake8
     #   pep517
@@ -68,7 +68,7 @@ redis-tasks==0.0.10
     # via -r requirements.in
 six==1.15.0
     # via python-dateutil
-testfixtures==6.17.1
+testfixtures==6.18.0
     # via flake8-isort
 toml==0.10.2
     # via

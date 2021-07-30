@@ -12,6 +12,8 @@ click==7.1.2
     #   redis-tasks
 croniter==1.0.15
     # via redis-tasks
+dataclasses==0.8
+    # via werkzeug
 flake8==3.9.2
     # via
     #   -r requirements.in
@@ -76,7 +78,7 @@ toml==0.10.2
     #   pytest
 typing-extensions==3.7.4.3
     # via importlib-metadata
-werkzeug==1.0.1
+werkzeug==2.0.1
     # via -r requirements.in
 zipp==3.4.1
     # via

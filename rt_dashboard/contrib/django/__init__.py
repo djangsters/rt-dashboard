@@ -10,6 +10,7 @@ class Dashboard(AppConfig):
     name = 'rt_dashboard.contrib.django'
     label = 'rt_dashboard'
 
+
 def get_admin_view(base_path):
     if base_path[-1] == '/':
         base_path = base_path[:-1]

@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from rt_dashboard.web import app
 
@@ -9,13 +10,13 @@ class Dashboard(AppConfig):
     name = 'rt_dashboard.contrib.django'
     label = 'rt_dashboard'
 
-
 def get_admin_view(base_path):
     if base_path[-1] == '/':
         base_path = base_path[:-1]
 
     base_view = get_view(base_path + '/inner')
 
+    @csrf_exempt
     def view(request):
         if not request.path.startswith(base_path):
             return HttpResponseNotFound()

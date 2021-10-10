@@ -39,7 +39,7 @@ packaging==20.9
     # via pytest
 pep517==0.10.0
     # via pip-tools
-pip-tools==6.1.0
+pip-tools==6.3.1
     # via -r requirements.in
 pluggy==0.13.1
     # via pytest
@@ -79,6 +79,8 @@ typing-extensions==3.7.4.3
     # via importlib-metadata
 werkzeug==1.0.1
     # via -r requirements.in
+wheel==0.37.0
+    # via pip-tools
 zipp==3.4.1
     # via
     #   importlib-metadata
@@ -86,3 +88,4 @@ zipp==3.4.1
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
+# setuptools

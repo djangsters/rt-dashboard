@@ -11,6 +11,22 @@ var url_for_jobs = function(param, page) {
     return url;
 };
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 var api = {
     getQueues: function(cb) {
         $.getJSON(url_for('queues'), function(data) {
@@ -166,6 +182,7 @@ var api = {
     var $placeholderEl = $('tr[data-role=loading-placeholder]', $tbody);
     var html;
     var $el;
+    const csrftoken = getCookie('csrftoken');
 
     var reload_table = function(done) {
         $placeholderEl.show();
@@ -257,7 +274,14 @@ var api = {
         e.stopPropagation();
 
         var $this = $(this);
-        $.post($this.attr('href'), function(data) {
+        const request = new Request(
+            $this.attr('href'),
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin'  // Do not send CSRF token to another domain.
+        }).then(function(response) {
             reload_table();
         });
 
@@ -283,7 +307,14 @@ var api = {
             job_id = $row.data('job-id'),
             url = url_for('cancel_job', job_id);
 
-        $.post(url, function(data) {
+        const request = new Request(
+            url,
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin'  // Do not send CSRF token to another domain.
+        }).then(function(response) {
             $row.fadeOut('fast', function() { $row.remove(); });
         });
 

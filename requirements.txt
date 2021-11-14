@@ -29,9 +29,9 @@ iniconfig==1.1.1
     # via pytest
 isort==5.9.3
     # via flake8-isort
-jinja2==2.11.3
+jinja2==3.0.3
     # via -r requirements.in
-markupsafe==1.1.1
+markupsafe==2.0.1
     # via jinja2
 mccabe==0.6.1
     # via flake8

@@ -84,7 +84,7 @@ typing-extensions==3.7.4.3
     # via importlib-metadata
 werkzeug==1.0.1
     # via -r requirements.in
-wheel==0.37.0
+wheel==0.37.1
     # via pip-tools
 wrapt==1.13.3
     # via deprecated

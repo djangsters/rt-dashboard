@@ -80,7 +80,7 @@ toml==0.10.2
     # via
     #   pep517
     #   pytest
-typing-extensions==3.7.4.3
+typing-extensions==4.0.1
     # via importlib-metadata
 werkzeug==1.0.1
     # via -r requirements.in

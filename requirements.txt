@@ -67,7 +67,7 @@ redis==3.5.3
     # via redis-tasks
 redis-tasks==0.0.10
     # via -r requirements.in
-six==1.15.0
+six==1.16.0
     # via python-dateutil
 testfixtures==6.18.0
     # via flake8-isort

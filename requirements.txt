@@ -12,6 +12,8 @@ click==8.0.1
     #   redis-tasks
 croniter==1.0.15
     # via redis-tasks
+deprecated==1.2.13
+    # via redis
 flake8==3.9.2
     # via
     #   -r requirements.in
@@ -25,6 +27,7 @@ importlib-metadata==4.6.1
     #   pep517
     #   pluggy
     #   pytest
+    #   redis
 iniconfig==1.1.1
     # via pytest
 isort==5.9.3
@@ -36,7 +39,9 @@ markupsafe==2.0.1
 mccabe==0.6.1
     # via flake8
 packaging==20.9
-    # via pytest
+    # via
+    #   pytest
+    #   redis
 pep517==0.10.0
     # via pip-tools
 pip-tools==6.4.0
@@ -63,7 +68,7 @@ pytz==2021.1
     # via
     #   -r requirements.in
     #   redis-tasks
-redis==3.5.3
+redis==4.1.1
     # via redis-tasks
 redis-tasks==0.0.10
     # via -r requirements.in
@@ -81,6 +86,8 @@ werkzeug==1.0.1
     # via -r requirements.in
 wheel==0.37.0
     # via pip-tools
+wrapt==1.13.3
+    # via deprecated
 zipp==3.4.1
     # via
     #   importlib-metadata

@@ -42,7 +42,7 @@ packaging==20.9
     # via
     #   pytest
     #   redis
-pep517==0.10.0
+pep517==0.12.0
     # via pip-tools
 pip-tools==6.4.0
     # via -r requirements.in
@@ -77,9 +77,9 @@ six==1.16.0
 testfixtures==6.18.3
     # via flake8-isort
 toml==0.10.2
-    # via
-    #   pep517
-    #   pytest
+    # via pytest
+tomli==1.2.3
+    # via pep517
 typing-extensions==4.0.1
     # via importlib-metadata
 werkzeug==1.0.1

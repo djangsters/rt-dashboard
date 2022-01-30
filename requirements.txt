@@ -68,7 +68,7 @@ pytz==2021.3
     # via
     #   -r requirements.in
     #   redis-tasks
-redis==4.1.1
+redis==4.1.2
     # via redis-tasks
 redis-tasks==0.0.10
     # via -r requirements.in

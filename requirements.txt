@@ -14,13 +14,13 @@ croniter==1.2.0
     # via redis-tasks
 deprecated==1.2.13
     # via redis
-flake8==3.9.2
+flake8==4.0.1
     # via
     #   -r requirements.in
     #   flake8-isort
 flake8-isort==4.1.1
     # via -r requirements.in
-importlib-metadata==4.8.3
+importlib-metadata==4.2.0
     # via
     #   click
     #   flake8
@@ -50,9 +50,9 @@ pluggy==0.13.1
     # via pytest
 py==1.11.0
     # via pytest
-pycodestyle==2.7.0
+pycodestyle==2.8.0
     # via flake8
-pyflakes==2.3.1
+pyflakes==2.4.0
     # via flake8
 pyparsing==3.0.7
     # via packaging

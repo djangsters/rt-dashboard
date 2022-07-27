@@ -10,7 +10,7 @@ click==8.0.3
     # via
     #   pip-tools
     #   redis-tasks
-croniter==1.2.0
+croniter==1.3.5
     # via redis-tasks
 deprecated==1.2.13
     # via redis

@@ -86,7 +86,7 @@ werkzeug==2.0.2
     # via -r requirements.in
 wheel==0.37.1
     # via pip-tools
-wrapt==1.13.3
+wrapt==1.14.1
     # via deprecated
 zipp==3.6.0
     # via

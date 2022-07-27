@@ -80,7 +80,7 @@ tomli==1.2.3
     # via
     #   pep517
     #   pytest
-typing-extensions==4.0.1
+typing-extensions==4.3.0
     # via importlib-metadata
 werkzeug==2.0.2
     # via -r requirements.in

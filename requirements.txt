@@ -82,7 +82,7 @@ redis-tasks==0.0.11
     # via -r requirements.in
 six==1.16.0
     # via python-dateutil
-tomli==1.2.3
+tomli==2.0.1
     # via
     #   build
     #   pep517

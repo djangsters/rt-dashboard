@@ -94,7 +94,7 @@ typing-extensions==4.3.0
     #   redis
 werkzeug==2.2.2
     # via -r requirements.in
-wheel==0.37.1
+wheel==0.38.4
     # via pip-tools
 wrapt==1.14.1
     # via deprecated

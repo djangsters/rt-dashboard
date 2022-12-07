@@ -92,7 +92,7 @@ typing-extensions==4.3.0
     #   async-timeout
     #   importlib-metadata
     #   redis
-werkzeug==2.2.0
+werkzeug==2.2.2
     # via -r requirements.in
 wheel==0.37.1
     # via pip-tools

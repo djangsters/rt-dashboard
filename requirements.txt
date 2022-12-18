@@ -35,7 +35,7 @@ importlib-metadata==4.2.0
     #   redis
 iniconfig==1.1.1
     # via pytest
-isort==5.10.1
+isort==5.11.3
     # via flake8-isort
 jinja2==3.1.2
     # via -r requirements.in

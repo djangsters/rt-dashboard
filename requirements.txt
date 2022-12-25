@@ -16,7 +16,7 @@ click==8.1.3
     #   redis-tasks
 croniter==1.3.8
     # via redis-tasks
-exceptiongroup==1.0.4
+exceptiongroup==1.1.0
     # via pytest
 flake8==4.0.1
     # via

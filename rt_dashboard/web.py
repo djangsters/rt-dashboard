@@ -145,8 +145,8 @@ def pagination_window(total_items, cur_page, per_page=5, window_size=10):
 
 
 @app.route('/', defaults={'queue_name': '[running]', 'page': '1'})
-@app.route('/<queue_name>', defaults={'page': '1'})
-@app.route('/<queue_name>/<page>')
+@app.route('/<queue_name>/', defaults={'page': '1'})
+@app.route('/<queue_name>/<page>/')
 def overview(queue_name, page):
     queue = Queue(queue_name)
 
@@ -161,7 +161,7 @@ def overview(queue_name, page):
     )
 
 
-@app.route('/history')
+@app.route('/history/')
 def history():
     return app.render_template(
         'rt_dashboard/history.html',
